@@ -305,7 +305,7 @@ QScrollBar::sub-line:vertical {
               <number>0</number>
              </property>
              <item>
-              <widget class="QLineEdit" name="verbTextInput">
+              <widget class="QLineEdit" name="verbInput">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -331,7 +331,7 @@ QScrollBar::sub-line:vertical {
                 <number>11</number>
                </property>
                <property name="styleSheet">
-                <string notr="true">#verbTextInput {
+                <string notr="true">#verbInput {
 	background-color: #2b2b2b;
 	border: none;
 	border-bottom: 3px solid #6ABDDB;
@@ -557,6 +557,9 @@ QScrollBar::sub-line:vertical {
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
+             <property name="lineWrapMode">
+              <enum>QPlainTextEdit::NoWrap</enum>
+             </property>
             </widget>
            </item>
            <item>
@@ -575,6 +578,9 @@ QScrollBar::sub-line:vertical {
              </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="lineWrapMode">
+              <enum>QPlainTextEdit::NoWrap</enum>
              </property>
              <property name="placeholderText">
               <string>Request body</string>

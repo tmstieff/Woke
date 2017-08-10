@@ -6,8 +6,11 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QPlainTextEdit>
+#include <QLineEdit>
 #include <QLabel>
+#include <QJsonDocument>
 #include <QDebug>
+#include "jsonsyntaxhighlighter.h"
 #include "stdlib.h"
 
 
@@ -30,10 +33,21 @@ private slots:
 
     void on_urlTextInput_returnPressed();
 
+    void on_verbInput_textChanged(const QString &arg1);
+
+    void on_bodyInput_textChanged();
+
+    void on_headersInput_textChanged();
+
 private:
     void sendRequest();
     Ui::MainWindow *ui;
 
+    JsonSyntaxHighlighter *responseBodyHighlighter;
+    JsonSyntaxHighlighter *bodyHighlighter;
+
+    QLineEdit *verbInput;
+    QLineEdit *urlInput;
     QPlainTextEdit *responseBodyInput;
     QPlainTextEdit *headersInput;
     QPlainTextEdit *bodyInput;
@@ -43,6 +57,9 @@ private:
     QLabel *hostLabel;
 
     QString urlText;
+    QString headersText;
+    QString verbText;
+    QString bodyText;
     QNetworkAccessManager *networkManager;
 };
 
