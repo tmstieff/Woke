@@ -1,5 +1,9 @@
 # Woke
-A native multiplatform REST client with grand ambitions and limited scope
+A native multiplatform REST client with grand ambitions and limited scope.
+
+<p align="center">
+  <img width="900" alt="Woke client" src="http://i.imgur.com/u2h1gtb.png">
+</p>
 
 ## Building
 For now there are no binaries available. You will need QT 5.9 to build from source.
