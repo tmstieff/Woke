@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "url_util.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -13,7 +15,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(this->networkManager, SIGNAL(finished(QNetworkReply*)), this , SLOT(responseReceivedSlot(QNetworkReply*)));
 
     responseBodyInput = ui->responseBodyInput;
+    headersInput = ui->headersInput;
+    bodyInput = ui->bodyInput;
+
     statusCodeLabel = ui->statusCodeLabel;
+    uriLabel = ui->uriLabel;
+    timeLabel = ui->timeLabel;
+    hostLabel = ui->hostLabel;
 }
 
 MainWindow::~MainWindow()
@@ -22,26 +30,30 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::sendRequest() {
-    QUrl url = QUrl(this->urlText);
+    UrlSegments segments = UrlUtil::safeSplitUrl(this->urlText);
 
-    auto request = QNetworkRequest(url);
-    auto response = this->networkManager->get(request);
+    hostLabel->setText(segments.proto + segments.hostname);
+    uriLabel->setText(segments.uri);
+
+    auto request = QNetworkRequest(this->urlText);
+    auto response = this->networkManager->get(request)	;
 }
 
 void MainWindow::responseReceivedSlot(QNetworkReply * response) {
-    qDebug() << response->errorString();
-
     auto error = response->errorString();
-
-    responseBodyInput->setPlainText(error);
+    qDebug() << error;
 
     QVariant statusCode = response->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     int statusCodeInt = statusCode.toInt();
     QString statusCodeStr = QString::number(statusCodeInt);
 
-    qDebug() << statusCodeStr;
-
     statusCodeLabel->setText(statusCodeStr);
+
+    QByteArray bodyBytes = response->readAll();
+
+    qDebug() << bodyBytes;
+
+    responseBodyInput->setPlainText(bodyBytes);
 }
 
 void MainWindow::on_sendButton_clicked()

@@ -6,12 +6,65 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1148</width>
-    <height>691</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QScrollBar:horizontal {
+    border: 2px solid grey;
+    background: #545454;
+    height: 15px;
+    margin: 0px 20px 0 20px;
+}
+QScrollBar::handle:horizontal {
+    background: #545454;
+    min-width: 20px;
+}
+QScrollBar::add-line:horizontal {
+    border: 2px solid grey;
+    background: #545454;
+    width: 20px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+    border: 2px solid grey;
+    background: #545454;
+    width: 20px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+QScrollBar:vertical {
+    border: 2px solid grey;
+    background: #545454;
+    height: 15px;
+    margin: 0px 20px 0 20px;
+}
+QScrollBar::handle:vertical {
+    background: #545454;
+    min-width: 20px;
+}
+QScrollBar::add-line:vertical {
+    border: 2px solid grey;
+    background: #545454;
+    width: 20px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+    border: 2px solid grey;
+    background: #545454;
+    width: 20px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="styleSheet">
@@ -201,7 +254,7 @@
           <property name="styleSheet">
            <string notr="true">#reqInfoFrame {
 	background-color: #3c3f41;
-	border-right: 1px solid #212121;
+	border-right: 1px solid #555555;
 	border-top: 1px solid #555555;
 	border-bottom: 1px solid #282828;
 }</string>
@@ -412,7 +465,7 @@
           <property name="styleSheet">
            <string notr="true">#reqFrame {
 	background-color: #313335;
-	border-right: 1px solid #212121;
+	border-right: 1px solid #555555;
 }</string>
           </property>
           <property name="frameShape">
@@ -423,7 +476,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <property name="spacing">
-            <number>10</number>
+            <number>0</number>
            </property>
            <property name="leftMargin">
             <number>10</number>
@@ -438,7 +491,58 @@
             <number>10</number>
            </property>
            <item>
+            <layout class="QHBoxLayout" name="tabsLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="headersButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">#headersButton {
+	background-color: #3c3e3f;
+	border: none;
+	border-bottom: #69ac97;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	border-left: 1px solid #555555;
+	color: #69ac97;
+	padding: 5px;
+}</string>
+               </property>
+               <property name="text">
+                <string>Headers</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
             <widget class="QPlainTextEdit" name="headersInput">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="styleSheet">
               <string notr="true">#headersInput {
 	background-color: #2b2b2b;
@@ -465,10 +569,15 @@
 	border-left: 1px solid #555555;
 	border-bottom: 3px solid #6ABDDB;
 	color: #a9b7c6;
+	font-family: mono;
+	margin-top: 10px;
 }</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="placeholderText">
+              <string>Request body</string>
              </property>
             </widget>
            </item>
@@ -501,6 +610,7 @@
 	background-color: #3c3f41;
 	border-top: 1px solid #555555;
 	border-bottom: 1px solid #282828;
+	border-left: 1px solid #282828;
 }</string>
           </property>
           <property name="frameShape">
@@ -520,30 +630,86 @@
              </property>
              <property name="styleSheet">
               <string notr="true">#statusCodeLabel {
-	background-color: #88db6a;
-	color: #000000;
+	background-color: #595b5d;
+	color: #bbbbbb;
 	border: none;
 	padding: 10px;
 	border-radius: 8px;
 }</string>
              </property>
              <property name="text">
-              <string>-</string>
+              <string>Status</string>
              </property>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+            <widget class="QLabel" name="hostLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
+             <property name="styleSheet">
+              <string notr="true">#hostLabel {
+	background-color: #595b5d;
+	color: #bbbbbb;
+	border: none;
+	padding: 10px;
+	border-radius: 8px;
+}</string>
              </property>
-            </spacer>
+             <property name="text">
+              <string>Host</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="uriLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#uriLabel {
+	background-color: #595b5d;
+	color: #bbbbbb;
+	border: none;
+	padding: 10px;
+	border-radius: 8px;
+}</string>
+             </property>
+             <property name="text">
+              <string>URI</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="timeLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#timeLabel {
+	background-color: #595b5d;
+	color: #bbbbbb;
+	border: none;
+	padding: 10px;
+	border-radius: 8px;
+}</string>
+             </property>
+             <property name="text">
+              <string>- ms</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -553,6 +719,7 @@
           <property name="styleSheet">
            <string notr="true">#resFrame {
 	background-color: #313335;
+	border-left: 1px solid #282828;
 }</string>
           </property>
           <property name="frameShape">
@@ -589,6 +756,12 @@
 	color: #a9b7c6;
 	font-family: mono;
 }</string>
+             </property>
+             <property name="lineWrapMode">
+              <enum>QPlainTextEdit::NoWrap</enum>
+             </property>
+             <property name="placeholderText">
+              <string>Response body</string>
              </property>
             </widget>
            </item>

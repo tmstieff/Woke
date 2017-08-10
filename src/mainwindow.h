@@ -25,8 +25,8 @@ public:
 
 private slots:
     void on_sendButton_clicked();
-    void on_urlTextInput_textChanged(const QString &arg1);
-    void responseReceivedSlot(QNetworkReply * response);
+    void on_urlTextInput_textChanged(const QString &text);
+    void responseReceivedSlot(QNetworkReply *response);
 
     void on_urlTextInput_returnPressed();
 
@@ -35,7 +35,12 @@ private:
     Ui::MainWindow *ui;
 
     QPlainTextEdit *responseBodyInput;
+    QPlainTextEdit *headersInput;
+    QPlainTextEdit *bodyInput;
     QLabel *statusCodeLabel;
+    QLabel *uriLabel;
+    QLabel *timeLabel;
+    QLabel *hostLabel;
 
     QString urlText;
     QNetworkAccessManager *networkManager;
