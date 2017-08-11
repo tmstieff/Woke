@@ -22,11 +22,10 @@ JsonSyntaxHighlighter::JsonSyntaxHighlighter(QTextDocument *parent) : QSyntaxHig
     highlightingRules.append(rule);
 }
 
-void JsonSyntaxHighlighter::highlightBlock(const QString &text)
-{
+void JsonSyntaxHighlighter::highlightBlock(const QString &text) {
     foreach (const HighlightingRule &rule, highlightingRules) {
-        qDebug() << "Searching on " << rule.pattern;
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
+
         while (matchIterator.hasNext()) {
             QRegularExpressionMatch match = matchIterator.next();
             setFormat(match.capturedStart(), match.capturedLength(), rule.format);

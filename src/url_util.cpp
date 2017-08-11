@@ -1,11 +1,21 @@
 #include "url_util.h"
 
-UrlSegments UrlUtil::safeSplitUrl(QUrl url) {
-    return UrlUtil::safeSplitUrl(url.toString());
+UrlSegments UrlUtil::safeSplitUrl(QUrl &url) {
+    auto urlStr = url.toString();
+
+    return UrlUtil::safeSplitUrl(urlStr);
 }
 
+/**
+ * @brief UrlUtil::safeSplitUrl
+ *
+ * Split a string into its component URL segments
+ *
+ * @param url
+ * @return segments struct
+ */
 UrlSegments UrlUtil::safeSplitUrl(QString &url) {
-    UrlSegments segments = UrlSegments();
+    UrlSegments segments;
 
     if (url == nullptr) {
         segments.proto = QString("");
@@ -28,16 +38,16 @@ UrlSegments UrlUtil::safeSplitUrl(QString &url) {
     QString proto = urlClone.left(protoIndex + 3);
 
     // localhost/u/r/i
-    QString urlNoProto = QString(urlClone.mid(protoIndex + 3));
+    QString urlNoProto(urlClone.mid(protoIndex + 3));
 
     size_t startUriIndex = urlNoProto.indexOf('/');
-    QString hostname = urlNoProto.left(startUriIndex);
+    QString hostname(urlNoProto.left(startUriIndex));
 
     // /u/r/i
-    QString uri = QString(urlNoProto.mid(startUriIndex));
+    QString uri(urlNoProto.mid(startUriIndex));
 
     // http://localhost
-    QString host = QString(proto + hostname);
+    QString host(proto + hostname);
 
     segments.proto = proto;
     segments.hostname = hostname;
@@ -51,7 +61,7 @@ UrlSegments UrlUtil::safeSplitUrl(QString &url) {
  * @param verb Potentially null or mispelled verb to parse
  * @return HttpVerb enum
  */
-HttpVerb UrlUtil::safeParseVerb(QString verb) {
+HttpVerb UrlUtil::safeParseVerb(QString &verb) {
     if (verb != nullptr) {
         // Compare returns 0 for equal strings
         if (QString::compare(verb, QString("POST"), Qt::CaseInsensitive) == 0) {
@@ -79,7 +89,7 @@ HttpVerb UrlUtil::safeParseVerb(QString verb) {
  * @param rawHeaders blob header string
  * @param request to set headers on
  */
-void UrlUtil::setHeadersFromStringBlob(QString rawHeaders, QNetworkRequest &request) {
+void UrlUtil::setHeadersFromStringBlob(QString &rawHeaders, QNetworkRequest &request) {
     if (rawHeaders != nullptr) {
         auto headers = rawHeaders.split('\n');
         for (int i = 0; i < headers.length(); i++) {

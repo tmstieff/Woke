@@ -3,10 +3,7 @@
 
 #include "url_util.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
     // Build the network manager on init
@@ -43,22 +40,27 @@ MainWindow::MainWindow(QWidget *parent) :
     bodyInput->setTabStopWidth(tabSpaces * metrics.width(' '));
     responseBodyInput->setTabStopWidth(tabSpaces * metrics.width(' '));
 
+    // Ad the default syntax highlighters
     this->responseBodyHighlighter = new JsonSyntaxHighlighter(this->responseBodyInput->document());
     this->bodyHighlighter = new JsonSyntaxHighlighter(this->bodyInput->document());
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
+/**
+ * @brief MainWindow::sendRequest
+ *
+ * Send a network request over the wire
+ */
 void MainWindow::sendRequest() {
     UrlSegments segments = UrlUtil::safeSplitUrl(this->urlText);
 
     hostLabel->setText(segments.proto + segments.hostname);
     uriLabel->setText(segments.uri);
 
-    auto request = QNetworkRequest(this->urlText);
+    QNetworkRequest request(this->urlText);
     UrlUtil::setHeadersFromStringBlob(this->headersText, request);
     HttpVerb verb = UrlUtil::safeParseVerb(this->verbText);
 
@@ -92,18 +94,25 @@ void MainWindow::sendRequest() {
     }
 }
 
+/**
+ * @brief MainWindow::responseReceivedSlot
+ *
+ * Handle a response received event from the network manager instance
+ *
+ * @param response pushed from the network manager
+ */
 void MainWindow::responseReceivedSlot(QNetworkReply * response) {
     auto error = response->errorString();
     qDebug() << error;
 
-    QVariant statusCode = response->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    int statusCodeInt = statusCode.toInt();
-    QString statusCodeStr = QString::number(statusCodeInt);
+    auto statusCode = response->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    auto statusCodeInt = statusCode.toInt();
+    auto statusCodeStr = QString::number(statusCodeInt);
 
     statusCodeLabel->setText(statusCodeStr);
 
-    QString contentType = QString("");
-    QVariant contentTypeVar = response->header(QNetworkRequest::KnownHeaders::ContentTypeHeader);
+    QString contentType("");
+    auto contentTypeVar = response->header(QNetworkRequest::KnownHeaders::ContentTypeHeader);
     if (contentTypeVar.canConvert(QVariant::String)) {
         contentType = contentTypeVar.toString();
     }
@@ -119,32 +128,29 @@ void MainWindow::responseReceivedSlot(QNetworkReply * response) {
     }
 }
 
-void MainWindow::on_sendButton_clicked()
-{
+/*
+ * Event Handlers
+ */
+void MainWindow::on_sendButton_clicked() {
     this->sendRequest();
 }
 
-void MainWindow::on_urlTextInput_textChanged(const QString &arg1)
-{
+void MainWindow::on_urlTextInput_textChanged(const QString &arg1) {
    this->urlText = arg1;
 }
 
-void MainWindow::on_urlTextInput_returnPressed()
-{
+void MainWindow::on_urlTextInput_returnPressed() {
    this->sendRequest();
 }
 
-void MainWindow::on_verbInput_textChanged(const QString &arg1)
-{
+void MainWindow::on_verbInput_textChanged(const QString &arg1) {
    this->verbText = arg1;
 }
 
-void MainWindow::on_bodyInput_textChanged()
-{
+void MainWindow::on_bodyInput_textChanged() {
    this->bodyText = this->bodyInput->toPlainText();
 }
 
-void MainWindow::on_headersInput_textChanged()
-{
+void MainWindow::on_headersInput_textChanged() {
    this->headersText = this->headersInput->toPlainText();
 }
