@@ -64,6 +64,29 @@ QScrollBar::sub-line:vertical {
     width: 20px;
     subcontrol-position: left;
     subcontrol-origin: margin;
+}
+
+QPlainTextEdit {
+	background-color: #2b2b2b;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	border-left: 1px solid #555555;
+	border-bottom: 3px solid #6ABDDB;
+	color: #a9b7c6;
+	font-family: mono;
+}
+
+QLineEdit {
+	background-color: #2b2b2b;
+	border: none;
+	border-bottom: 3px solid #6ABDDB;
+	color: #a9b7c6;
+	padding-left: 2px;
+}
+
+QListView {
+	color: #a9b7c6;
+	background-color: #3c3f41;
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -187,6 +210,27 @@ QScrollBar::sub-line:vertical {
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QListView" name="recentRequestsList">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="gridSize">
+              <size>
+               <width>0</width>
+               <height>16</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
@@ -332,12 +376,7 @@ QScrollBar::sub-line:vertical {
                </property>
                <property name="styleSheet">
                 <string notr="true">#verbInput {
-	background-color: #2b2b2b;
-	border: none;
-	border-bottom: 3px solid #6ABDDB;
-	color: #a9b7c6;
 	width: 60px;
-	padding-left: 2px;
 }</string>
                </property>
                <property name="inputMask">
@@ -385,13 +424,7 @@ QScrollBar::sub-line:vertical {
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">#urlTextInput {
-	background-color: #2b2b2b;
-	border: none;
-	border-bottom: 3px solid #6ABDDB;
-	color: #a9b7c6;
-	padding-left: 2px;
-}</string>
+                <string notr="true"/>
                </property>
                <property name="placeholderText">
                 <string>https://...</string>
@@ -544,15 +577,7 @@ QScrollBar::sub-line:vertical {
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">#headersInput {
-	background-color: #2b2b2b;
-	border-top: 1px solid #555555;
-	border-right: 1px solid #555555;
-	border-left: 1px solid #555555;
-	border-bottom: 3px solid #6ABDDB;
-	color: #a9b7c6;
-	font-family: mono;
-}</string>
+              <string notr="true"/>
              </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
@@ -566,13 +591,6 @@ QScrollBar::sub-line:vertical {
             <widget class="QPlainTextEdit" name="bodyInput">
              <property name="styleSheet">
               <string notr="true">#bodyInput {
-	background-color: #2b2b2b;
-	border-top: 1px solid #555555;
-	border-right: 1px solid #555555;
-	border-left: 1px solid #555555;
-	border-bottom: 3px solid #6ABDDB;
-	color: #a9b7c6;
-	font-family: mono;
 	margin-top: 10px;
 }</string>
              </property>
@@ -645,6 +663,34 @@ QScrollBar::sub-line:vertical {
              </property>
              <property name="text">
               <string>Status</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="verbLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#verbLabel {
+	background-color: #595b5d;
+	color: #bbbbbb;
+	border: none;
+	padding: 10px;
+	border-radius: 8px;
+}</string>
+             </property>
+             <property name="text">
+              <string>-</string>
              </property>
             </widget>
            </item>
@@ -753,15 +799,13 @@ QScrollBar::sub-line:vertical {
            <item>
             <widget class="QPlainTextEdit" name="responseBodyInput">
              <property name="styleSheet">
-              <string notr="true">#responseBodyInput {
-	background-color: #2b2b2b;
-	border-top: 1px solid #555555;
-	border-right: 1px solid #555555;
-	border-left: 1px solid #555555;
-	border-bottom: 3px solid #6ABDDB;
-	color: #a9b7c6;
-	font-family: mono;
-}</string>
+              <string notr="true"/>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="lineWidth">
+              <number>0</number>
              </property>
              <property name="lineWrapMode">
               <enum>QPlainTextEdit::NoWrap</enum>

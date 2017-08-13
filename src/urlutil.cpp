@@ -1,4 +1,4 @@
-#include "url_util.h"
+#include "urlutil.h"
 
 UrlSegments UrlUtil::safeSplitUrl(QUrl &url) {
     auto urlStr = url.toString();

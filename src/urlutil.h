@@ -16,6 +16,17 @@ enum HttpVerb {
     DELETE
 };
 
+static const char * HttpVerbStrings[] = {
+    "CONNECT",
+    "HEAD",
+    "OPTIONS",
+    "GET",
+    "PUT",
+    "POST",
+    "PATCH",
+    "DELETE"
+};
+
 struct UrlSegments {
     QString proto;
     QString hostname;

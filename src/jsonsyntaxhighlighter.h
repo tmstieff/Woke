@@ -27,6 +27,7 @@ private:
     QTextCharFormat keywordFormat;
     QTextCharFormat jsonKeyFormat;
     QTextCharFormat jsonValueTextFormat;
+    QTextCharFormat jsonValueKeywordFormat;
 };
 
 #endif // JSONSYNTAXHIGHLIGHTER_H

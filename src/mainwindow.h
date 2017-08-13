@@ -10,9 +10,15 @@
 #include <QLabel>
 #include <QJsonDocument>
 #include <QDebug>
+#include <QElapsedTimer>
+#include <QSharedPointer>
+#include <QListView>
 #include "jsonsyntaxhighlighter.h"
 #include "stdlib.h"
+#include "historycontroller.h"
+#include "model/requestlistmodel.h"
 
+const QString DEFAULT_INFO_LABEL_COLOR = "#595b5d";
 
 namespace Ui {
 class MainWindow;
@@ -39,9 +45,17 @@ private slots:
 
     void on_headersInput_textChanged();
 
+    void on_verbInput_returnPressed();
+
+    void on_recentRequestsList_activated(const QModelIndex &index);
+
+    void on_recentRequestsList_pressed(const QModelIndex &index);
+
 private:
     void sendRequest();
     Ui::MainWindow *ui;
+
+    HistoryController historyController;
 
     JsonSyntaxHighlighter *responseBodyHighlighter;
     JsonSyntaxHighlighter *bodyHighlighter;
@@ -55,12 +69,24 @@ private:
     QLabel *uriLabel;
     QLabel *timeLabel;
     QLabel *hostLabel;
+    QLabel *verbLabel;
+    QListView *recentRequestsList;
 
+    QElapsedTimer responseTimer;
     QString urlText;
     QString headersText;
     QString verbText;
     QString bodyText;
     QNetworkAccessManager *networkManager;
+    QSharedPointer<QList<QSharedPointer<Request>>> recentRequests;
+    Request *currentRequest;
+    RequestListModel *recentRequestsListModel;
+
+    void setTimeLabel();
+    void setStatusCodeLabel(QNetworkReply &response);
+    void setResponseBodyEditor(QNetworkReply &response);
+    void setStylesheetProperty(QWidget &widget, const QString &property, const QString &value);
+    void setUi(QSharedPointer<Request> request);
 };
 
 #endif // MAINWINDOW_H
