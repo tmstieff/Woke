@@ -10,6 +10,7 @@ install:
   - qmake
   - make
   - sudo make install
+  - sudo ldconfig
   - cd ../
 script:
   - qmake -v
