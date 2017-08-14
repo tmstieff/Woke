@@ -6,8 +6,23 @@ A native multiplatform REST client with grand ambitions and limited scope.
 </p>
 
 ## Building
-For now there are no binaries available. You will need QT 5.9 to build from source.
+For now there are no binaries available. You will need QT 5.9 to build from source. So far only linux is supported. The QDjango (https://github.com/jlaine/qdjango) lib is required.
 
-## Usage
-The client has roughly 0 features right now, so don't even bother using it.
+```
+qmake woke-qt.pro -spec linux-g++
+make
+```
 
+## Features
+* Supports most basic HTTP request types
+* Raw header input
+* Request body input
+* Response body JSON parser
+* Simple request history
+
+## Ambitions
+* Focus on scripting (Python or Lua?)
+* Project management options
+* Local and global variable declaration
+* Parsing of Swagger, JSON Schema, and other applicable REST specifications
+* Support for various authentication protocols
