@@ -1,6 +1,7 @@
 language: C++
 before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt59-trusty -y
+  - sudo apt-get update
 install:
   - sudo apt-get install qt59base
 script:
