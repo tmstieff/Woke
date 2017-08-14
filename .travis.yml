@@ -1,0 +1,12 @@
+before_install:
+  - sudo add-apt-repository ppa:beineri/opt-qt59 -y
+install:
+  - sudo apt-get install qt59base
+script:
+  - source /opt/qt59/bin/qt59-env.sh
+  - qmake -v
+  - qmake CONFIG+=test
+  - make
+  - qmake
+  - make
+

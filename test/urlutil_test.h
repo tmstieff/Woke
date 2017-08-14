@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTest>
+#include <QNetworkRequest>
 #include "../src/urlutil.h"
 
 class UrlUtil_Test : public QObject
@@ -10,10 +11,16 @@ class UrlUtil_Test : public QObject
   Q_OBJECT
 
 private slots:
-  void testHttpSplit();
-  void testHttpsSplit();
-  void testWithUri();
-  void testNulls();
+  void test_httpSplit();
+  void test_httpsSplit();
+  void test_httpSplit_WithUri();
+  void test_httpSplit_Null();
+  void test_setHeadersFromStringBlob_Single();
+  void test_setHeadersFromStringBlob_Multi();
+  void test_setHeadersFromStringBlob_Malformed();
+  void test_safeParseVerb_Valid();
+  void test_safeParseVerb_Invalid();
+  void test_safeParseVerb_Null();
 };
 
 #endif // URLUTIL_TEST_H

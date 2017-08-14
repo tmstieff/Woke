@@ -108,12 +108,15 @@ void UrlUtil::setHeadersFromStringBlob(const QString &rawHeaders, QNetworkReques
             for (int j = 0; j < pieces.length(); j++) {
                 if (j == 0) {
                     key = pieces.at(j);
+                } else if (j >= 2) {
+                    // Make sure to add back the colon
+                    value = value.append(":").append(pieces.at(j));
                 } else {
                     value = value.append(pieces.at(j));
                 }
             }
 
-            request.setRawHeader(key.toUtf8(), value.toUtf8());
+            request.setRawHeader(key.toUtf8(), value.trimmed().toUtf8());
         }
     }
 }
