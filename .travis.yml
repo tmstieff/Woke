@@ -4,13 +4,14 @@ before_install:
   - sudo apt-get update
 install:
   - sudo apt-get install qt59base
+  - source /opt/qt59/bin/qt59-env.sh
   - git clone https://github.com/jlaine/qdjango.git
   - cd qdjango
   - qmake
   - make
   - sudo make install
+  - cd ../
 script:
-  - source /opt/qt59/bin/qt59-env.sh
   - qmake -v
   - qmake CONFIG+=test
   - make
