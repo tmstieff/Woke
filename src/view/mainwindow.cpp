@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     timeLabel = ui->timeLabel;
     hostLabel = ui->hostLabel;
     verbLabel = ui->verbLabel;
-    recentRequestsList = ui->recentRequestsList;
+    recentRequestsListWidget = ui->recentRequestsListWidget;
 
     // Set the default font for all editors
     QFont defaultMonoFont;
@@ -49,10 +49,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->responseBodyHighlighter = new JsonSyntaxHighlighter(this->responseBodyInput->document());
     this->bodyHighlighter = new JsonSyntaxHighlighter(this->bodyInput->document());
 
-    this->recentRequests = this->historyController.getLatest(10);
-
-    recentRequestsListModel = new RequestListModel(this->recentRequests, this);
-    recentRequestsList->setModel(recentRequestsListModel);
+    this->refreshRecentReqests();
 
     if (this->recentRequests.data()->length() > 0) {
       this->setUi(this->recentRequests.data()->at(0));
@@ -188,8 +185,7 @@ void MainWindow::responseReceivedSlot(QNetworkReply * response) {
     this->setResponseBodyEditor(*response);
 
     this->historyController.addEntry(*this->currentRequest);
-    this->recentRequestsListModel->requests.data()->prepend(QSharedPointer<Request>(this->currentRequest));
-    emit this->recentRequestsListModel->layoutChanged();
+    this->refreshRecentReqests();
 }
 
 /**
@@ -224,6 +220,23 @@ void MainWindow::setUi(QSharedPointer<Request> request)
     this->statusCodeLabel->setText(request.data()->getStatusCode());
 }
 
+void MainWindow::refreshRecentReqests()
+{
+    this->recentRequests = this->historyController.getLatest(10);
+    this->recentRequestsListWidget->clear();
+
+    for (int i = 0; i < this->recentRequests.data()->size(); i++) {
+        QListWidgetItem *item = new QListWidgetItem(recentRequestsListWidget);
+        item->setSizeHint(QSize(200, 80));
+
+        RequestItem *requestItem = new RequestItem(this);
+        requestItem->setInformation(this->recentRequests.data()->at(i).data()->getVerb(),
+                                    this->recentRequests.data()->at(i).data()->getUri(),
+                                    this->recentRequests.data()->at(i).data()->getHost());
+        recentRequestsListWidget->setItemWidget(item, requestItem);
+    }
+}
+
 /*
  * Event Handlers
  */
@@ -256,12 +269,12 @@ void MainWindow::on_verbInput_returnPressed()
    this->sendRequest();
 }
 
-void MainWindow::on_recentRequestsList_activated(const QModelIndex &index)
+void MainWindow::on_recentRequestsListWidget_activated(const QModelIndex &index)
 {
-   this->setUi(this->recentRequestsListModel->requests.data()->at(index.row()));
+   this->setUi(this->recentRequests.data()->at(index.row()));
 }
 
-void MainWindow::on_recentRequestsList_pressed(const QModelIndex &index)
+void MainWindow::on_recentRequestsListWidget_pressed(const QModelIndex &index)
 {
-   this->setUi(this->recentRequestsListModel->requests.data()->at(index.row()));
+   this->setUi(this->recentRequests.data()->at(index.row()));
 }

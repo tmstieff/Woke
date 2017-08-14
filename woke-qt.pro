@@ -19,7 +19,8 @@ SOURCES += src/main.cpp \
     src/model/request.cpp \
     src/model/requestlistmodel.cpp \
     src/view/mainwindow.cpp \
-    src/view/jsonsyntaxhighlighter.cpp
+    src/view/jsonsyntaxhighlighter.cpp \
+    src/view/requestitem.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -27,11 +28,13 @@ HEADERS += \
     src/model/request.h \
     src/model/requestlistmodel.h \
     src/view/mainwindow.h \
-    src/view/jsonsyntaxhighlighter.h
+    src/view/jsonsyntaxhighlighter.h \
+    src/view/requestitem.h
 
 #include(src/include.pri)
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    requestitem.ui
 
 unix|win32: LIBS += -lqdjango-db
 

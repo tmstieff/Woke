@@ -11,12 +11,14 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <QElapsedTimer>
+#include <QListWidget>
 #include <QSharedPointer>
 #include <QListView>
 #include "jsonsyntaxhighlighter.h"
 #include "stdlib.h"
 #include "../controller/historycontroller.h"
 #include "../model/requestlistmodel.h"
+#include "requestitem.h"
 
 const QString DEFAULT_INFO_LABEL_COLOR = "#595b5d";
 
@@ -47,9 +49,9 @@ private slots:
 
     void on_verbInput_returnPressed();
 
-    void on_recentRequestsList_activated(const QModelIndex &index);
+    void on_recentRequestsListWidget_activated(const QModelIndex &index);
 
-    void on_recentRequestsList_pressed(const QModelIndex &index);
+    void on_recentRequestsListWidget_pressed(const QModelIndex &index);
 
 private:
     void sendRequest();
@@ -70,7 +72,7 @@ private:
     QLabel *timeLabel;
     QLabel *hostLabel;
     QLabel *verbLabel;
-    QListView *recentRequestsList;
+    QListWidget *recentRequestsListWidget;
 
     QElapsedTimer responseTimer;
     QString urlText;
@@ -80,13 +82,13 @@ private:
     QNetworkAccessManager *networkManager;
     QSharedPointer<QList<QSharedPointer<Request>>> recentRequests;
     Request *currentRequest;
-    RequestListModel *recentRequestsListModel;
 
     void setTimeLabel();
     void setStatusCodeLabel(QNetworkReply &response);
     void setResponseBodyEditor(QNetworkReply &response);
     void setStylesheetProperty(QWidget &widget, const QString &property, const QString &value);
     void setUi(QSharedPointer<Request> request);
+    void refreshRecentReqests();
 };
 
 #endif // MAINWINDOW_H
