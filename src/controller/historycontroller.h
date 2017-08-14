@@ -5,7 +5,7 @@
 #include <qdjango/db/QDjangoQuerySet.h>
 #include <QSharedPointer>
 #include <QDebug>
-#include "model/request.h"
+#include "../model/request.h"
 
 class HistoryController
 {

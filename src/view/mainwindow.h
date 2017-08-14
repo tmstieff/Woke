@@ -15,8 +15,8 @@
 #include <QListView>
 #include "jsonsyntaxhighlighter.h"
 #include "stdlib.h"
-#include "historycontroller.h"
-#include "model/requestlistmodel.h"
+#include "../controller/historycontroller.h"
+#include "../model/requestlistmodel.h"
 
 const QString DEFAULT_INFO_LABEL_COLOR = "#595b5d";
 

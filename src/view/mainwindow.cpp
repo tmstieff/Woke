@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "urlutil.h"
+#include "../urlutil.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -124,7 +124,7 @@ void MainWindow::sendRequest() {
 
 void MainWindow::setTimeLabel()
 {
-    auto responseTime = this->responseTimer.elapsed();
+    int responseTime = this->responseTimer.elapsed();
     auto responseTimeStr = QString::number(responseTime) + " ms";
     this->timeLabel->setText(responseTimeStr);
     this->currentRequest->setTime(responseTime);
@@ -188,7 +188,7 @@ void MainWindow::responseReceivedSlot(QNetworkReply * response) {
     this->setResponseBodyEditor(*response);
 
     this->historyController.addEntry(*this->currentRequest);
-    this->recentRequestsListModel->requests.data()->preped(QSharedPointer<Request>(this->currentRequest));
+    this->recentRequestsListModel->requests.data()->prepend(QSharedPointer<Request>(this->currentRequest));
     emit this->recentRequestsListModel->layoutChanged();
 }
 
@@ -217,7 +217,7 @@ void MainWindow::setUi(QSharedPointer<Request> request)
     this->headersInput->setPlainText(request.data()->getRequestHeaders());
     this->bodyInput->setPlainText(request.data()->getRequestBody());
     this->responseBodyInput->setPlainText(request.data()->getResponseBody());
-    this->timeLabel->setText(request.data()->getTime() + " ms");
+    this->timeLabel->setText(QString::number(request.data()->getTime()) + " ms");
     this->hostLabel->setText(request.data()->getProto() + request.data()->getHost());
     this->uriLabel->setText(request.data()->getUri());
     this->verbLabel->setText(request.data()->getVerb());

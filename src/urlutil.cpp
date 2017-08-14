@@ -32,7 +32,7 @@ UrlSegments UrlUtil::safeSplitUrl(QString &url) {
     }
 
     auto urlClone = QString(url);
-    size_t protoIndex = urlClone.indexOf(':');
+    int protoIndex = urlClone.indexOf(':');
 
     // http:// or https://
     QString proto = urlClone.left(protoIndex + 3);
@@ -40,11 +40,18 @@ UrlSegments UrlUtil::safeSplitUrl(QString &url) {
     // localhost/u/r/i
     QString urlNoProto(urlClone.mid(protoIndex + 3));
 
-    size_t startUriIndex = urlNoProto.indexOf('/');
+    int startUriIndex = urlNoProto.indexOf('/');
     QString hostname(urlNoProto.left(startUriIndex));
 
     // /u/r/i
-    QString uri(urlNoProto.mid(startUriIndex));
+    QString uri;
+
+    // Check in case there was ending slash included
+    if (startUriIndex > 0) {
+        uri = QString(urlNoProto.mid(startUriIndex));
+    } else {
+        uri = "/";
+    }
 
     // http://localhost
     QString host(proto + hostname);
@@ -89,7 +96,7 @@ HttpVerb UrlUtil::safeParseVerb(QString &verb) {
  * @param rawHeaders blob header string
  * @param request to set headers on
  */
-void UrlUtil::setHeadersFromStringBlob(QString &rawHeaders, QNetworkRequest &request) {
+void UrlUtil::setHeadersFromStringBlob(const QString &rawHeaders, QNetworkRequest &request) {
     if (rawHeaders != nullptr) {
         auto headers = rawHeaders.split('\n');
         for (int i = 0; i < headers.length(); i++) {

@@ -1,6 +1,7 @@
 #ifndef REQUEST_H
 #define REQUEST_H
 
+#include <QDebug>
 #include <qdjango/db/QDjangoModel.h>
 
 class Request : public QDjangoModel
