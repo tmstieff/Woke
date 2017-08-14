@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "view/mainwindow.h"
 #include <QApplication>
 #include <QSqlDatabase>
 #include <qdjango/db/QDjango.h>

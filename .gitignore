@@ -1,2 +1,5 @@
 *.pro.user
-
+*.o
+moc_*
+*.stash
+Makefile

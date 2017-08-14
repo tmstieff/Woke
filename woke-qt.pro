@@ -33,9 +33,11 @@ HEADERS += \
 
 FORMS    += mainwindow.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lqdjango-db
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lqdjango-db
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lqdjango-db
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lqdjango-db
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lqdjango-db
+#else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lqdjango-db
+
+unix|win32: LIBS += -lqdjango-db
 
 INCLUDEPATH += /usr/local/include
 DEPENDPATH += /usr/local/include
