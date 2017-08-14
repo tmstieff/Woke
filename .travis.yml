@@ -1,10 +1,10 @@
-language: C++
+language: cpp
 before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt59-trusty -y
   - sudo apt-get update
 install:
   - sudo apt-get install qt59base
-  - git clone git@github.com:jlaine/qdjango.git
+  - git clone https://github.com/jlaine/qdjango.git
   - cd qdjango
   - qmake
   - make
