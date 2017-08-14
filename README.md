@@ -1,4 +1,6 @@
 # Woke
+<img alt="Travis CI Build" src="https://travis-ci.org/tmstieff/Woke.svg?branch=master">
+
 A native multiplatform REST client with grand ambitions and limited scope.
 
 <p align="center">
