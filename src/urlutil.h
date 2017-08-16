@@ -16,7 +16,7 @@ enum HttpVerb {
     DELETE
 };
 
-static const char * HttpVerbStrings[] = {
+static const char * const HttpVerbStrings[] = {
     "CONNECT",
     "HEAD",
     "OPTIONS",

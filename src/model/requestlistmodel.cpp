@@ -7,6 +7,9 @@ RequestListModel::RequestListModel(QSharedPointer<QList<QSharedPointer<Request>>
 }
 
 int RequestListModel::rowCount(const QModelIndex &parent) const {
+    // Supress unused
+    (void) parent;
+
     return this->requests.data()->size();
 }
 

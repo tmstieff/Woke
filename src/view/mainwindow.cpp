@@ -199,7 +199,7 @@ void MainWindow::refreshRecentReqests()
 
     for (int i = 0; i < this->recentRequests.data()->size(); i++) {
         QListWidgetItem *item = new QListWidgetItem(recentRequestsListWidget);
-        item->setSizeHint(QSize(200, 80));
+        item->setSizeHint(QSize(200, 67));
 
         RequestItem *requestItem = new RequestItem(this);
         requestItem->setInformation(this->recentRequests.data()->at(i).data()->getVerb(),
