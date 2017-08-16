@@ -63,6 +63,11 @@
    </item>
    <item>
     <widget class="QLabel" name="uriLabel">
+     <property name="styleSheet">
+      <string notr="true">#uriLabel {
+	background-color: #445F68;
+}</string>
+     </property>
      <property name="text">
       <string>URI</string>
      </property>

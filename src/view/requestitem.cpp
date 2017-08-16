@@ -22,3 +22,18 @@ void RequestItem::setInformation(QString verb, QString uri, QString url) {
     this->urlLabel->setText(url);
     this->verbLabel->setText(verb);
 }
+
+QString RequestItem::getVerb()
+{
+   return this->verbLabel->text();
+}
+
+QString RequestItem::getUri()
+{
+    return this->uriLabel->text();
+}
+
+QString RequestItem::getUrl()
+{
+   return this->urlLabel->text();
+}

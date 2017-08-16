@@ -542,6 +542,25 @@ QListView {
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="scriptButton">
+               <property name="styleSheet">
+                <string notr="true">#scriptButton {
+	background-color: #3c3e3f;
+	border: none;
+	border-bottom: #69ac97;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	border-left: 1px solid #555555;
+	color: #69ac97;
+	padding: 5px;
+}</string>
+               </property>
+               <property name="text">
+                <string>Script</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <spacer name="horizontalSpacer_4">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -702,6 +721,9 @@ QListView {
              <property name="text">
               <string>Host</string>
              </property>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+             </property>
             </widget>
            </item>
            <item>
@@ -726,6 +748,9 @@ QListView {
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
              </property>
             </widget>
            </item>

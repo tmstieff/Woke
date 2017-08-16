@@ -20,7 +20,8 @@ SOURCES += src/main.cpp \
     src/model/requestlistmodel.cpp \
     src/view/mainwindow.cpp \
     src/view/jsonsyntaxhighlighter.cpp \
-    src/view/requestitem.cpp
+    src/view/requestitem.cpp \
+    src/controller/requestscontroller.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -29,7 +30,8 @@ HEADERS += \
     src/model/requestlistmodel.h \
     src/view/mainwindow.h \
     src/view/jsonsyntaxhighlighter.h \
-    src/view/requestitem.h
+    src/view/requestitem.h \
+    src/controller/requestscontroller.h
 
 #include(src/include.pri)
 
@@ -50,11 +52,20 @@ test {
     SOURCES -= src/main.cpp
 
     HEADERS += \
-        test/urlutil_test.h
+        test/urlutil_test.h \
+        test/mainwindow_test.h \
+        test/view/requestitem_test.h \
+        test/controller/mockrequestscontroller.h \
+        test/qt/mocknetworkreply.h
 
     SOURCES += \
         test/test_main.cpp \
-        test/urlutil_test.cpp
+        test/urlutil_test.cpp \
+        test/view/requestitem_test.cpp \
+        test/mainwindow_test.cpp \
+        test/controller/mockrequestscontroller.cpp \
+        test/qt/mocknetworkreply.cpp
+
 } else  {
     message(Normal build)
 }

@@ -15,6 +15,9 @@ class RequestItem : public QWidget
 public:
     explicit RequestItem(QWidget *parent = 0);
     void setInformation(QString verb, QString uri, QString url);
+    QString getVerb();
+    QString getUri();
+    QString getUrl();
     ~RequestItem();
 
 private:

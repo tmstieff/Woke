@@ -44,13 +44,11 @@ void Request::setStatusCode(const QString &value)
 
 int Request::getTime() const
 {
-  qDebug() << "getTime" << time;
   return time;
 }
 
 void Request::setTime(int value)
 {
-  qDebug() << "setTime" << value;
   time = value;
 }
 

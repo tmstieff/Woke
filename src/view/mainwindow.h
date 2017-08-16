@@ -19,8 +19,17 @@
 #include "../controller/historycontroller.h"
 #include "../model/requestlistmodel.h"
 #include "requestitem.h"
+#include "../urlutil.h"
+#include "../controller/requestscontroller.h"
+#include <QCompleter>
 
-const QString DEFAULT_INFO_LABEL_COLOR = "#595b5d";
+
+static const QString DEFAULT_INFO_LABEL_COLOR = "#595b5d";
+static const QString BLUE_LABEL = "#445F68";
+static const QString RED_LABEL = "#68444D";
+static const QString YELLOW_LABEL = "#795C06";
+static const QString PURPLE_LABEL = "#412F79";
+static const QString GREEN_LABEL = "#3F684A";
 
 namespace Ui {
 class MainWindow;
@@ -34,30 +43,37 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private slots:
-    void on_sendButton_clicked();
-    void on_urlTextInput_textChanged(const QString &text);
+protected:
+    HistoryController historyController;
+    RequestsController requestsController;
+
+    QSharedPointer<Request> currentRequest;
+    QSharedPointer<QList<QSharedPointer<Request>>> recentRequests;
+    QString urlText;
+    QString headersText;
+    QString verbText;
+    QString bodyText;
+
+    void refreshRecentReqests();
+    void sendRequest();
+
+protected slots:
     void responseReceivedSlot(QNetworkReply *response);
 
+private slots:
+    void on_sendButton_clicked();
+
+    void on_urlTextInput_textChanged(const QString &text);
     void on_urlTextInput_returnPressed();
-
     void on_verbInput_textChanged(const QString &arg1);
-
     void on_bodyInput_textChanged();
-
     void on_headersInput_textChanged();
-
     void on_verbInput_returnPressed();
-
     void on_recentRequestsListWidget_activated(const QModelIndex &index);
-
     void on_recentRequestsListWidget_pressed(const QModelIndex &index);
 
 private:
-    void sendRequest();
     Ui::MainWindow *ui;
-
-    HistoryController historyController;
 
     JsonSyntaxHighlighter *responseBodyHighlighter;
     JsonSyntaxHighlighter *bodyHighlighter;
@@ -74,21 +90,12 @@ private:
     QLabel *verbLabel;
     QListWidget *recentRequestsListWidget;
 
-    QElapsedTimer responseTimer;
-    QString urlText;
-    QString headersText;
-    QString verbText;
-    QString bodyText;
-    QNetworkAccessManager *networkManager;
-    QSharedPointer<QList<QSharedPointer<Request>>> recentRequests;
-    Request *currentRequest;
-
-    void setTimeLabel();
-    void setStatusCodeLabel(QNetworkReply &response);
-    void setResponseBodyEditor(QNetworkReply &response);
+    void setTimeLabel(ResponseInfo responseInfo);
+    void setStatusCodeLabel(ResponseInfo responseInfo);
+    void setResponseBodyEditor(ResponseInfo responseInfo, QNetworkReply &response);
     void setStylesheetProperty(QWidget &widget, const QString &property, const QString &value);
-    void setUi(QSharedPointer<Request> request);
-    void refreshRecentReqests();
+    void setUiFields(QSharedPointer<Request> request);
+    void setStatusCodeLabel(QString statusCode);
 };
 
 #endif // MAINWINDOW_H

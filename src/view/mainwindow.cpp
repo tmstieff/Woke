@@ -1,18 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "../urlutil.h"
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     this->setWindowTitle("Woke");
 
-    // Build the network manager on init
-    this->networkManager = new QNetworkAccessManager(this);
-
-    this->responseTimer = QElapsedTimer();
-
-    QObject::connect(this->networkManager, SIGNAL(finished(QNetworkReply*)), this , SLOT(responseReceivedSlot(QNetworkReply*)));
+    QObject::connect(this->requestsController.networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(responseReceivedSlot(QNetworkReply*)));
 
     bodyInput = ui->bodyInput;
     responseBodyInput = ui->responseBodyInput;
@@ -20,6 +13,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     bodyInput = ui->bodyInput;
     verbInput = ui->verbInput;
     urlInput = ui->urlTextInput;
+
+    // Verb list auto-complete
+    QStringList verbList;
+    verbList << "GET" << "PUT" << "PATCH" << "POST" << "DELETE";
+    QCompleter *verbAutoComplete = new QCompleter(verbList, this);
+    verbAutoComplete->setCaseSensitivity(Qt::CaseInsensitive);
+    verbAutoComplete->setCompletionMode(QCompleter::CompletionMode::UnfilteredPopupCompletion);
+    verbInput->setCompleter(verbAutoComplete);
 
     statusCodeLabel = ui->statusCodeLabel;
     uriLabel = ui->uriLabel;
@@ -52,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->refreshRecentReqests();
 
     if (this->recentRequests.data()->length() > 0) {
-      this->setUi(this->recentRequests.data()->at(0));
+      this->setUiFields(this->recentRequests.data()->at(0));
     }
 }
 
@@ -66,98 +67,65 @@ MainWindow::~MainWindow() {
  * Send a network request over the wire
  */
 void MainWindow::sendRequest() {
-    this->currentRequest = new Request();
+    this->currentRequest = this->requestsController.sendRequest(this->verbText, this->urlText, this->headersText, this->bodyText);
 
-    UrlSegments segments = UrlUtil::safeSplitUrl(this->urlText);
-
-    hostLabel->setText(segments.proto + segments.hostname);
-    uriLabel->setText(segments.uri);
-    QNetworkRequest request(this->urlText);
-    UrlUtil::setHeadersFromStringBlob(this->headersText, request);
-    HttpVerb verb = UrlUtil::safeParseVerb(this->verbText);
+    this->hostLabel->setText(this->currentRequest.data()->getHost());
+    this->uriLabel->setText(this->currentRequest.data()->getUri());
 
     this->timeLabel->setText("- ms");
-    this->responseTimer.start();
-
-    this->verbLabel->setText(HttpVerbStrings[verb]);
+    this->verbLabel->setText(HttpVerbStrings[UrlUtil::safeParseVerb(this->verbText)]);
     this->setStylesheetProperty(*this->statusCodeLabel, "background-color", DEFAULT_INFO_LABEL_COLOR);
-
-    this->currentRequest->setProto(segments.proto);
-    this->currentRequest->setHost(segments.hostname);
-    this->currentRequest->setUri(segments.uri);
-    this->currentRequest->setVerb(HttpVerbStrings[verb]);
-    this->currentRequest->setRequestHeaders(this->headersText);
-    this->currentRequest->setRequestBody(this->bodyText);
-
-    switch (verb) {
-    case HttpVerb::GET:
-        this->networkManager->get(request);
-        break;
-    case HttpVerb::POST:
-        this->networkManager->post(request, this->bodyText.toUtf8());
-        break;
-    case HttpVerb::PUT:
-        this->networkManager->put(request, this->bodyText.toUtf8());
-        break;
-    case HttpVerb::PATCH:
-        this->networkManager->put(request, this->bodyText.toUtf8());
-        break;
-    case HttpVerb::DELETE:
-        this->networkManager->deleteResource(request);
-        break;
-    case HttpVerb::HEAD:
-        this->networkManager->head(request);
-        break;
-    case HttpVerb::OPTIONS:
-        this->networkManager->get(request);
-        break;
-    case HttpVerb::CONNECT:
-        this->networkManager->get(request);
-        break;
-    default:
-        break;
-    }
 }
 
-void MainWindow::setTimeLabel()
+void MainWindow::setTimeLabel(ResponseInfo responseInfo)
 {
-    int responseTime = this->responseTimer.elapsed();
-    auto responseTimeStr = QString::number(responseTime) + " ms";
+    auto responseTimeStr = QString::number(responseInfo.responseTime) + " ms";
     this->timeLabel->setText(responseTimeStr);
-    this->currentRequest->setTime(responseTime);
+    this->currentRequest->setTime(responseInfo.responseTime);
 }
 
-void MainWindow::setStatusCodeLabel(QNetworkReply &response)
+void MainWindow::setStatusCodeLabel(ResponseInfo responseInfo)
 {
-    auto statusCode = response.attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    auto statusCodeInt = statusCode.toInt();
-    auto statusCodeStr = QString::number(statusCodeInt);
+    auto statusCodeStr = QString::number(responseInfo.statusCode);
 
-    if (statusCodeInt == 0) {
+    if (responseInfo.statusCode == 0) {
         statusCodeStr = QString("-");
     }
 
-    this->statusCodeLabel->setText(statusCodeStr);
-    this->currentRequest->setStatusCode(statusCodeStr);
+    this->setStatusCodeLabel(statusCodeStr);
+}
+
+void MainWindow::setStatusCodeLabel(QString statusCode) {
+    this->statusCodeLabel->setText(statusCode);
+
+    int statusCodeInt = statusCode.toInt();
 
     if (statusCodeInt >= 200 && statusCodeInt <= 299) {
         QString property("background-color");
-        QString value("#117844");
+        QString value(GREEN_LABEL);
+        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
+    } else if (statusCodeInt >= 300 && statusCodeInt <= 399) {
+        QString property("background-color");
+        QString value(DEFAULT_INFO_LABEL_COLOR);
+        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
+    } else if (statusCodeInt >= 400 && statusCodeInt <= 499) {
+        QString property("background-color");
+        QString value(YELLOW_LABEL);
+        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
+    } else if (statusCodeInt >= 500 && statusCodeInt <= 599) {
+        QString property("background-color");
+        QString value(RED_LABEL);
+        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
+    } else {
+        QString property("background-color");
+        QString value(DEFAULT_INFO_LABEL_COLOR);
         this->setStylesheetProperty(*this->statusCodeLabel, property, value);
     }
 }
 
-void MainWindow::setResponseBodyEditor(QNetworkReply &response)
+void MainWindow::setResponseBodyEditor(ResponseInfo responseInfo, QNetworkReply &response)
 {
-    QString contentType("");
-    auto contentTypeVar = response.header(QNetworkRequest::KnownHeaders::ContentTypeHeader);
-    if (contentTypeVar.canConvert(QVariant::String)) {
-        contentType = contentTypeVar.toString();
-    }
-
-    qDebug() << contentType;
-
-    if (contentType.indexOf(QString("application/json"), 0, Qt::CaseInsensitive) >= 0) {
+    if (responseInfo.contentType.indexOf(QString("application/json"), 0, Qt::CaseInsensitive) >= 0) {
         QJsonDocument jsonDoc = QJsonDocument::fromJson(response.readAll());
         responseBodyInput->setPlainText(jsonDoc.toJson(QJsonDocument::Indented));
     } else {
@@ -176,15 +144,18 @@ void MainWindow::setResponseBodyEditor(QNetworkReply &response)
  * @param response pushed from the network manager
  */
 void MainWindow::responseReceivedSlot(QNetworkReply * response) {
-    this->setTimeLabel();
-    this->setStatusCodeLabel(*response);
+    ResponseInfo responseInfo = this->requestsController.handleResponse(*response);
+
+    this->currentRequest.data()->setStatusCode(QString::number(responseInfo.statusCode));
+    this->setTimeLabel(responseInfo);
+    this->setStatusCodeLabel(responseInfo);
 
     auto error = response->errorString();
     qDebug() << error;
 
-    this->setResponseBodyEditor(*response);
+    this->setResponseBodyEditor(responseInfo, *response);
 
-    this->historyController.addEntry(*this->currentRequest);
+    this->historyController.addEntry(*this->currentRequest.data());
     this->refreshRecentReqests();
 }
 
@@ -207,17 +178,18 @@ void MainWindow::setStylesheetProperty(QWidget &widget, const QString &property,
     widget.setStyleSheet(stylesheet);
 }
 
-void MainWindow::setUi(QSharedPointer<Request> request)
+void MainWindow::setUiFields(QSharedPointer<Request> request)
 {
     this->urlInput->setText(request.data()->getProto() + request.data()->getHost() + request.data()->getUri());
     this->headersInput->setPlainText(request.data()->getRequestHeaders());
     this->bodyInput->setPlainText(request.data()->getRequestBody());
     this->responseBodyInput->setPlainText(request.data()->getResponseBody());
     this->timeLabel->setText(QString::number(request.data()->getTime()) + " ms");
-    this->hostLabel->setText(request.data()->getProto() + request.data()->getHost());
+    this->hostLabel->setText(request.data()->getHost());
     this->uriLabel->setText(request.data()->getUri());
     this->verbLabel->setText(request.data()->getVerb());
-    this->statusCodeLabel->setText(request.data()->getStatusCode());
+    this->verbInput->setText(request.data()->getVerb());
+    this->setStatusCodeLabel(request.data()->getStatusCode());
 }
 
 void MainWindow::refreshRecentReqests()
@@ -271,10 +243,10 @@ void MainWindow::on_verbInput_returnPressed()
 
 void MainWindow::on_recentRequestsListWidget_activated(const QModelIndex &index)
 {
-   this->setUi(this->recentRequests.data()->at(index.row()));
+   this->setUiFields(this->recentRequests.data()->at(index.row()));
 }
 
 void MainWindow::on_recentRequestsListWidget_pressed(const QModelIndex &index)
 {
-   this->setUi(this->recentRequests.data()->at(index.row()));
+   this->setUiFields(this->recentRequests.data()->at(index.row()));
 }
