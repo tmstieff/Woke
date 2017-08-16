@@ -1,18 +1,17 @@
 #ifndef REQUESTITEM_H
 #define REQUESTITEM_H
 
-#include <QWidget>
 #include <QLabel>
+#include <QWidget>
 
 namespace Ui {
 class RequestItem;
 }
 
-class RequestItem : public QWidget
-{
+class RequestItem : public QWidget {
     Q_OBJECT
 
-public:
+  public:
     explicit RequestItem(QWidget *parent = 0);
     void setInformation(QString verb, QString uri, QString url);
     QString getVerb();
@@ -20,7 +19,7 @@ public:
     QString getUrl();
     ~RequestItem();
 
-private:
+  private:
     QLabel *urlLabel;
     QLabel *uriLabel;
     QLabel *verbLabel;

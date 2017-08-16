@@ -5,7 +5,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     this->setWindowTitle("Woke");
 
-    QObject::connect(this->requestsController.networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(responseReceivedSlot(QNetworkReply*)));
+    QObject::connect(this->requestsController.networkManager.data(), SIGNAL(finished(QNetworkReply *)), this,
+                     SLOT(responseReceivedSlot(QNetworkReply *)));
 
     bodyInput = ui->bodyInput;
     responseBodyInput = ui->responseBodyInput;
@@ -16,7 +17,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Verb list auto-complete
     QStringList verbList;
-    verbList << "GET" << "PUT" << "PATCH" << "POST" << "DELETE";
+    verbList << "GET"
+             << "PUT"
+             << "PATCH"
+             << "POST"
+             << "DELETE";
     QCompleter *verbAutoComplete = new QCompleter(verbList, this);
     verbAutoComplete->setCaseSensitivity(Qt::CaseInsensitive);
     verbAutoComplete->setCompletionMode(QCompleter::CompletionMode::UnfilteredPopupCompletion);
@@ -53,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->refreshRecentReqests();
 
     if (this->recentRequests.data()->length() > 0) {
-      this->setUiFields(this->recentRequests.data()->at(0));
+        this->setUiFields(this->recentRequests.data()->at(0));
     }
 }
 
@@ -67,7 +72,8 @@ MainWindow::~MainWindow() {
  * Send a network request over the wire
  */
 void MainWindow::sendRequest() {
-    this->currentRequest = this->requestsController.sendRequest(this->verbText, this->urlText, this->headersText, this->bodyText);
+    this->currentRequest =
+        this->requestsController.sendRequest(this->verbText, this->urlText, this->headersText, this->bodyText);
 
     this->hostLabel->setText(this->currentRequest.data()->getHost());
     this->uriLabel->setText(this->currentRequest.data()->getUri());
@@ -77,15 +83,13 @@ void MainWindow::sendRequest() {
     this->setStylesheetProperty(*this->statusCodeLabel, "background-color", DEFAULT_INFO_LABEL_COLOR);
 }
 
-void MainWindow::setTimeLabel(ResponseInfo responseInfo)
-{
+void MainWindow::setTimeLabel(ResponseInfo responseInfo) {
     auto responseTimeStr = QString::number(responseInfo.responseTime) + " ms";
     this->timeLabel->setText(responseTimeStr);
     this->currentRequest->setTime(responseInfo.responseTime);
 }
 
-void MainWindow::setStatusCodeLabel(ResponseInfo responseInfo)
-{
+void MainWindow::setStatusCodeLabel(ResponseInfo responseInfo) {
     auto statusCodeStr = QString::number(responseInfo.statusCode);
 
     if (responseInfo.statusCode == 0) {
@@ -123,8 +127,7 @@ void MainWindow::setStatusCodeLabel(QString statusCode) {
     }
 }
 
-void MainWindow::setResponseBodyEditor(ResponseInfo responseInfo, QNetworkReply &response)
-{
+void MainWindow::setResponseBodyEditor(ResponseInfo responseInfo, QNetworkReply &response) {
     if (responseInfo.contentType.indexOf(QString("application/json"), 0, Qt::CaseInsensitive) >= 0) {
         QJsonDocument jsonDoc = QJsonDocument::fromJson(response.readAll());
         responseBodyInput->setPlainText(jsonDoc.toJson(QJsonDocument::Indented));
@@ -143,7 +146,7 @@ void MainWindow::setResponseBodyEditor(ResponseInfo responseInfo, QNetworkReply 
  *
  * @param response pushed from the network manager
  */
-void MainWindow::responseReceivedSlot(QNetworkReply * response) {
+void MainWindow::responseReceivedSlot(QNetworkReply *response) {
     ResponseInfo responseInfo = this->requestsController.handleResponse(*response);
 
     this->currentRequest.data()->setStatusCode(QString::number(responseInfo.statusCode));
@@ -178,8 +181,7 @@ void MainWindow::setStylesheetProperty(QWidget &widget, const QString &property,
     widget.setStyleSheet(stylesheet);
 }
 
-void MainWindow::setUiFields(QSharedPointer<Request> request)
-{
+void MainWindow::setUiFields(QSharedPointer<Request> request) {
     this->urlInput->setText(request.data()->getProto() + request.data()->getHost() + request.data()->getUri());
     this->headersInput->setPlainText(request.data()->getRequestHeaders());
     this->bodyInput->setPlainText(request.data()->getRequestBody());
@@ -192,8 +194,7 @@ void MainWindow::setUiFields(QSharedPointer<Request> request)
     this->setStatusCodeLabel(request.data()->getStatusCode());
 }
 
-void MainWindow::refreshRecentReqests()
-{
+void MainWindow::refreshRecentReqests() {
     this->recentRequests = this->historyController.getLatest(10);
     this->recentRequestsListWidget->clear();
 
@@ -217,36 +218,33 @@ void MainWindow::on_sendButton_clicked() {
 }
 
 void MainWindow::on_urlTextInput_textChanged(const QString &arg1) {
-   this->urlText = arg1;
+    this->urlText = arg1;
 }
 
 void MainWindow::on_urlTextInput_returnPressed() {
-   this->sendRequest();
+    this->sendRequest();
 }
 
 void MainWindow::on_verbInput_textChanged(const QString &arg1) {
-   this->verbText = arg1;
+    this->verbText = arg1;
 }
 
 void MainWindow::on_bodyInput_textChanged() {
-   this->bodyText = this->bodyInput->toPlainText();
+    this->bodyText = this->bodyInput->toPlainText();
 }
 
 void MainWindow::on_headersInput_textChanged() {
-   this->headersText = this->headersInput->toPlainText();
+    this->headersText = this->headersInput->toPlainText();
 }
 
-void MainWindow::on_verbInput_returnPressed()
-{
-   this->sendRequest();
+void MainWindow::on_verbInput_returnPressed() {
+    this->sendRequest();
 }
 
-void MainWindow::on_recentRequestsListWidget_activated(const QModelIndex &index)
-{
-   this->setUiFields(this->recentRequests.data()->at(index.row()));
+void MainWindow::on_recentRequestsListWidget_activated(const QModelIndex &index) {
+    this->setUiFields(this->recentRequests.data()->at(index.row()));
 }
 
-void MainWindow::on_recentRequestsListWidget_pressed(const QModelIndex &index)
-{
-   this->setUiFields(this->recentRequests.data()->at(index.row()));
+void MainWindow::on_recentRequestsListWidget_pressed(const QModelIndex &index) {
+    this->setUiFields(this->recentRequests.data()->at(index.row()));
 }

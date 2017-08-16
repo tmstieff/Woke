@@ -1,11 +1,11 @@
 #ifndef REQUESTSCONTROLLER_H
 #define REQUESTSCONTROLLER_H
 
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QSharedPointer>
 #include <QElapsedTimer>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QSharedPointer>
 
 #include "../model/request.h"
 #include "../urlutil.h"
@@ -16,9 +16,8 @@ struct ResponseInfo {
     QString contentType;
 };
 
-class RequestsController
-{
-public:
+class RequestsController {
+  public:
     RequestsController();
 
     QSharedPointer<QNetworkAccessManager> networkManager;
@@ -26,7 +25,7 @@ public:
     virtual QSharedPointer<Request> sendRequest(QString &verb, QString &url, QString &headers, QString &body);
     virtual ResponseInfo handleResponse(QNetworkReply &response);
 
-private:
+  private:
     QElapsedTimer responseTimer;
 };
 

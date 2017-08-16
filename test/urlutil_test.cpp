@@ -36,8 +36,7 @@ void UrlUtil_Test::test_httpSplit_Null() {
     QCOMPARE(segments.uri, QString(""));
 }
 
-void UrlUtil_Test::test_setHeadersFromStringBlob_Single()
-{
+void UrlUtil_Test::test_setHeadersFromStringBlob_Single() {
     QString rawHeaders("Content-Type: test-application");
 
     QNetworkRequest mockRequest;
@@ -48,8 +47,7 @@ void UrlUtil_Test::test_setHeadersFromStringBlob_Single()
     QCOMPARE(QString(mockRequest.rawHeader(headerName.toUtf8())), QString("test-application"));
 }
 
-void UrlUtil_Test::test_setHeadersFromStringBlob_Multi()
-{
+void UrlUtil_Test::test_setHeadersFromStringBlob_Multi() {
     QString rawHeaders("Content-Type: test-application\nAuth: thisIs-an:auth_token");
 
     QNetworkRequest mockRequest;
@@ -61,11 +59,9 @@ void UrlUtil_Test::test_setHeadersFromStringBlob_Multi()
 
     headerName = "Auth";
     QCOMPARE(QString(mockRequest.rawHeader(headerName.toUtf8())), QString("thisIs-an:auth_token"));
-
 }
 
-void UrlUtil_Test::test_setHeadersFromStringBlob_Malformed()
-{
+void UrlUtil_Test::test_setHeadersFromStringBlob_Malformed() {
     QString rawHeaders("Content-Type: test-application\nAuth: thisIs-an:auth_token\nIncomplete-");
 
     QNetworkRequest mockRequest;
@@ -80,11 +76,9 @@ void UrlUtil_Test::test_setHeadersFromStringBlob_Malformed()
 
     headerName = "Incomplete-";
     QCOMPARE(QString(mockRequest.rawHeader(headerName.toUtf8())), QString(""));
-
 }
 
-void UrlUtil_Test::test_safeParseVerb_Valid()
-{
+void UrlUtil_Test::test_safeParseVerb_Valid() {
     QString verb("GET");
     HttpVerb resultVerb = UrlUtil::safeParseVerb(verb);
     QCOMPARE(HttpVerb::GET, resultVerb);
@@ -94,8 +88,7 @@ void UrlUtil_Test::test_safeParseVerb_Valid()
     QCOMPARE(HttpVerb::GET, resultVerb);
 }
 
-void UrlUtil_Test::test_safeParseVerb_Invalid()
-{
+void UrlUtil_Test::test_safeParseVerb_Invalid() {
     QString verb("P0ST");
     HttpVerb resultVerb = UrlUtil::safeParseVerb(verb);
     QCOMPARE(HttpVerb::GET, resultVerb);
@@ -105,10 +98,8 @@ void UrlUtil_Test::test_safeParseVerb_Invalid()
     QCOMPARE(HttpVerb::GET, resultVerb);
 }
 
-void UrlUtil_Test::test_safeParseVerb_Null()
-{
-     QString verb;
+void UrlUtil_Test::test_safeParseVerb_Null() {
+    QString verb;
     HttpVerb resultVerb = UrlUtil::safeParseVerb(verb);
     QCOMPARE(HttpVerb::GET, resultVerb);
-
 }

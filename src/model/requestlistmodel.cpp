@@ -1,6 +1,7 @@
 #include "requestlistmodel.h"
 
-RequestListModel::RequestListModel(QSharedPointer<QList<QSharedPointer<Request>>> requests, QObject *parent) : QAbstractListModel(parent) {
+RequestListModel::RequestListModel(QSharedPointer<QList<QSharedPointer<Request>>> requests, QObject *parent)
+    : QAbstractListModel(parent) {
     this->requests = requests;
 
     qDebug() << "Setting model with" << requests.data()->length();
@@ -8,7 +9,7 @@ RequestListModel::RequestListModel(QSharedPointer<QList<QSharedPointer<Request>>
 
 int RequestListModel::rowCount(const QModelIndex &parent) const {
     // Supress unused
-    (void) parent;
+    (void)parent;
 
     return this->requests.data()->size();
 }

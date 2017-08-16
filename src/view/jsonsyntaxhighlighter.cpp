@@ -6,7 +6,8 @@ JsonSyntaxHighlighter::JsonSyntaxHighlighter(QTextDocument *parent) : QSyntaxHig
     keywordFormat.setForeground(Qt::white);
 
     QStringList keywordPatterns;
-    keywordPatterns << "\"" << "\'"; //<< "\[" << "\]" << "\{" << "\}";
+    keywordPatterns << "\""
+                    << "\'"; //<< "\[" << "\]" << "\{" << "\}";
 
     foreach (const QString &pattern, keywordPatterns) {
         rule.pattern = QRegularExpression(pattern);

@@ -1,24 +1,22 @@
 #ifndef JSONSYNTAXHIGHLIGHTER_H
 #define JSONSYNTAXHIGHLIGHTER_H
 
-#include <QObject>
-#include <QSyntaxHighlighter>
-#include <QRegularExpression>
 #include <QDebug>
+#include <QObject>
+#include <QRegularExpression>
+#include <QSyntaxHighlighter>
 
-class JsonSyntaxHighlighter : public QSyntaxHighlighter
-{
+class JsonSyntaxHighlighter : public QSyntaxHighlighter {
     Q_OBJECT
 
-public:
+  public:
     JsonSyntaxHighlighter(QTextDocument *parent = 0);
 
-protected:
+  protected:
     void highlightBlock(const QString &text) override;
 
-private:
-    struct HighlightingRule
-    {
+  private:
+    struct HighlightingRule {
         QRegularExpression pattern;
         QTextCharFormat format;
     };

@@ -1,31 +1,13 @@
 #ifndef URL_UTIL_H
 #define URL_UTIL_H
 
+#include <QNetworkRequest>
 #include <QString>
 #include <QUrl>
-#include <QNetworkRequest>
 
-enum HttpVerb {
-    CONNECT,
-    HEAD,
-    OPTIONS,
-    GET,
-    PUT,
-    POST,
-    PATCH,
-    DELETE
-};
+enum HttpVerb { CONNECT, HEAD, OPTIONS, GET, PUT, POST, PATCH, DELETE };
 
-static const char * const HttpVerbStrings[] = {
-    "CONNECT",
-    "HEAD",
-    "OPTIONS",
-    "GET",
-    "PUT",
-    "POST",
-    "PATCH",
-    "DELETE"
-};
+static const char *const HttpVerbStrings[] = {"CONNECT", "HEAD", "OPTIONS", "GET", "PUT", "POST", "PATCH", "DELETE"};
 
 struct UrlSegments {
     QString proto;
@@ -33,9 +15,8 @@ struct UrlSegments {
     QString uri;
 };
 
-class UrlUtil
-{
-public:
+class UrlUtil {
+  public:
     UrlUtil();
     static UrlSegments safeSplitUrl(QUrl &url);
     static UrlSegments safeSplitUrl(QString &url);

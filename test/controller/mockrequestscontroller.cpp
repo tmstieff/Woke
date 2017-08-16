@@ -1,12 +1,11 @@
 #include "mockrequestscontroller.h"
 
-MockRequestsController::MockRequestsController()
-{
+MockRequestsController::MockRequestsController() {
     this->statusCode = 200;
 }
 
-QSharedPointer<Request> MockRequestsController::sendRequest(QString &verb, QString &url, QString &headers, QString &body)
-{
+QSharedPointer<Request> MockRequestsController::sendRequest(QString &verb, QString &url, QString &headers,
+                                                            QString &body) {
     QSharedPointer<Request> request = QSharedPointer<Request>(new Request);
 
     request.data()->setVerb(verb);
@@ -22,8 +21,7 @@ QSharedPointer<Request> MockRequestsController::sendRequest(QString &verb, QStri
     return request;
 }
 
-ResponseInfo MockRequestsController::handleResponse(QNetworkReply &response)
-{
+ResponseInfo MockRequestsController::handleResponse(QNetworkReply &response) {
     ResponseInfo responseInfo;
 
     responseInfo.contentType = "application/json";

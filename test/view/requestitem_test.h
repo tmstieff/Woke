@@ -1,17 +1,15 @@
 #ifndef REQUESTITEM_TEST_H
 #define REQUESTITEM_TEST_H
 
+#include "../../src/view/requestitem.h"
 #include <QObject>
 #include <QTest>
-#include "../../src/view/requestitem.h"
 
-
-class RequestItem_Test : public QObject
-{
+class RequestItem_Test : public QObject {
     Q_OBJECT
 
-private slots:
-   void test_setInformation_valid();
+  private slots:
+    void test_setInformation_valid();
 };
 
 #endif // REQUESTITEM_TEST_H

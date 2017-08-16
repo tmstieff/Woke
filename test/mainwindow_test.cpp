@@ -2,9 +2,7 @@
 
 #include "controller/mockrequestscontroller.h"
 
-
-void MainWindow_Test::initTestCase()
-{
+void MainWindow_Test::initTestCase() {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(":memory:");
 
@@ -22,8 +20,7 @@ void MainWindow_Test::initTestCase()
     this->requestsController = MockRequestsController();
 }
 
-void MainWindow_Test::test_sendRequest_valid()
-{
+void MainWindow_Test::test_sendRequest_valid() {
     QString verb("GET");
     QString url("https://api.github.com/users");
     QString headers("User-Agent: test-agent");
@@ -64,6 +61,8 @@ void MainWindow_Test::test_sendRequest_valid()
     QCOMPARE(this->recentRequests.data()->at(0).data()->getProto(), this->currentRequest.data()->getProto());
     QCOMPARE(this->recentRequests.data()->at(0).data()->getHost(), this->currentRequest.data()->getHost());
     QCOMPARE(this->recentRequests.data()->at(0).data()->getUri(), this->currentRequest.data()->getUri());
-    QCOMPARE(this->recentRequests.data()->at(0).data()->getRequestHeaders(), this->currentRequest.data()->getRequestHeaders());
-    QCOMPARE(this->recentRequests.data()->at(0).data()->getRequestBody(), this->currentRequest.data()->getRequestBody());
+    QCOMPARE(this->recentRequests.data()->at(0).data()->getRequestHeaders(),
+             this->currentRequest.data()->getRequestHeaders());
+    QCOMPARE(this->recentRequests.data()->at(0).data()->getRequestBody(),
+             this->currentRequest.data()->getRequestBody());
 }

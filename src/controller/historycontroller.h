@@ -1,20 +1,20 @@
 #ifndef HISTORYCONTROLLER_H
 #define HISTORYCONTROLLER_H
 
+#include "../model/request.h"
+#include <QDebug>
+#include <QSharedPointer>
 #include <qdjango/db/QDjangoModel.h>
 #include <qdjango/db/QDjangoQuerySet.h>
-#include <QSharedPointer>
-#include <QDebug>
-#include "../model/request.h"
 
-class HistoryController
-{
-public:
+class HistoryController {
+  public:
     HistoryController();
 
     void addEntry(Request &request);
     QSharedPointer<QList<QSharedPointer<Request>>> getLatest(int limit);
-private:
+
+  private:
     QDjangoQuerySet<Request> requests;
 };
 

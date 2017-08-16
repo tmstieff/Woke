@@ -1,28 +1,27 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QPlainTextEdit>
-#include <QLineEdit>
-#include <QLabel>
-#include <QJsonDocument>
+#include "../controller/historycontroller.h"
+#include "../controller/requestscontroller.h"
+#include "../model/requestlistmodel.h"
+#include "../urlutil.h"
+#include "jsonsyntaxhighlighter.h"
+#include "requestitem.h"
+#include "stdlib.h"
+#include <QCompleter>
 #include <QDebug>
 #include <QElapsedTimer>
-#include <QListWidget>
-#include <QSharedPointer>
+#include <QJsonDocument>
+#include <QLabel>
+#include <QLineEdit>
 #include <QListView>
-#include "jsonsyntaxhighlighter.h"
-#include "stdlib.h"
-#include "../controller/historycontroller.h"
-#include "../model/requestlistmodel.h"
-#include "requestitem.h"
-#include "../urlutil.h"
-#include "../controller/requestscontroller.h"
-#include <QCompleter>
-
+#include <QListWidget>
+#include <QMainWindow>
+#include <QPlainTextEdit>
+#include <QSharedPointer>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkRequest>
 
 static const QString DEFAULT_INFO_LABEL_COLOR = "#595b5d";
 static const QString BLUE_LABEL = "#445F68";
@@ -35,15 +34,14 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
-public:
+  public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-protected:
+  protected:
     HistoryController historyController;
     RequestsController requestsController;
 
@@ -57,10 +55,10 @@ protected:
     void refreshRecentReqests();
     void sendRequest();
 
-protected slots:
+  protected slots:
     void responseReceivedSlot(QNetworkReply *response);
 
-private slots:
+  private slots:
     void on_sendButton_clicked();
 
     void on_urlTextInput_textChanged(const QString &text);
@@ -72,7 +70,7 @@ private slots:
     void on_recentRequestsListWidget_activated(const QModelIndex &index);
     void on_recentRequestsListWidget_pressed(const QModelIndex &index);
 
-private:
+  private:
     Ui::MainWindow *ui;
 
     JsonSyntaxHighlighter *responseBodyHighlighter;

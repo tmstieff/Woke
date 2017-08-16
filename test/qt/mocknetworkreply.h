@@ -3,16 +3,14 @@
 
 #include <QNetworkReply>
 
-
-class MockNetworkReply : public QNetworkReply
-{
-public:
+class MockNetworkReply : public QNetworkReply {
+  public:
     MockNetworkReply();
 
-protected:
+  protected:
     qint64 readData(char *data, qint64 maxlen);
 
-public slots:
+  public slots:
     void abort();
 };
 

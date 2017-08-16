@@ -7,10 +7,9 @@
 
 #include "../src/view/mainwindow.h"
 
-class MainWindow_Test : public MainWindow
-{
+class MainWindow_Test : public MainWindow {
     Q_OBJECT
-private slots:
+  private slots:
     void initTestCase();
     void test_sendRequest_valid();
 };

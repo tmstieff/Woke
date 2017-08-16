@@ -1,7 +1,6 @@
 #include "historycontroller.h"
 
-HistoryController::HistoryController() {
-}
+HistoryController::HistoryController() {}
 
 void HistoryController::addEntry(Request &request) {
     bool saved = request.save();

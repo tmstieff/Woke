@@ -1,7 +1,6 @@
 #include "requestscontroller.h"
 
-RequestsController::RequestsController()
-{
+RequestsController::RequestsController() {
     this->networkManager = QSharedPointer<QNetworkAccessManager>(new QNetworkAccessManager);
 }
 
@@ -16,8 +15,7 @@ RequestsController::RequestsController()
  * @param body if relavant or empty string
  * @return pointer to a fat request model object
  */
-QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &url, QString &headers, QString &body)
-{
+QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &url, QString &headers, QString &body) {
     QSharedPointer<Request> currentRequest = QSharedPointer<Request>(new Request());
     UrlSegments segments = UrlUtil::safeSplitUrl(url);
 
@@ -74,8 +72,7 @@ QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &
  * @param response
  * @return response info struct
  */
-ResponseInfo RequestsController::handleResponse(QNetworkReply &response)
-{
+ResponseInfo RequestsController::handleResponse(QNetworkReply &response) {
     int responseTime = this->responseTimer.elapsed();
 
     auto statusCode = response.attribute(QNetworkRequest::HttpStatusCodeAttribute);

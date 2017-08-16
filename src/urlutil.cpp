@@ -75,15 +75,15 @@ HttpVerb UrlUtil::safeParseVerb(QString &verb) {
             return HttpVerb::POST;
         } else if (QString::compare(verb, QString("PATCH"), Qt::CaseInsensitive) == 0) {
             return HttpVerb::PATCH;
-        } else  if (QString::compare(verb, QString("PUT"), Qt::CaseInsensitive) == 0) {
+        } else if (QString::compare(verb, QString("PUT"), Qt::CaseInsensitive) == 0) {
             return HttpVerb::PUT;
-        } else  if (QString::compare(verb, QString("DELETE"), Qt::CaseInsensitive) == 0) {
+        } else if (QString::compare(verb, QString("DELETE"), Qt::CaseInsensitive) == 0) {
             return HttpVerb::DELETE;
-        } else  if (QString::compare(verb, QString("OPTIONS"), Qt::CaseInsensitive) == 0) {
+        } else if (QString::compare(verb, QString("OPTIONS"), Qt::CaseInsensitive) == 0) {
             return HttpVerb::OPTIONS;
-        } else  if (QString::compare(verb, QString("CONNECT"), Qt::CaseInsensitive) == 0) {
+        } else if (QString::compare(verb, QString("CONNECT"), Qt::CaseInsensitive) == 0) {
             return HttpVerb::CONNECT;
-        } else  if (QString::compare(verb, QString("HEAD"), Qt::CaseInsensitive) == 0) {
+        } else if (QString::compare(verb, QString("HEAD"), Qt::CaseInsensitive) == 0) {
             return HttpVerb::HEAD;
         }
     }

@@ -1,8 +1,6 @@
 #include "requestitem_test.h"
 
-
-void RequestItem_Test::test_setInformation_valid()
-{
+void RequestItem_Test::test_setInformation_valid() {
     RequestItem requestItem;
     requestItem.setInformation("GET", "/user", "http://api.github.com");
 
