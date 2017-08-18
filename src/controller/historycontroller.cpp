@@ -1,11 +1,17 @@
 #include "historycontroller.h"
 
-HistoryController::HistoryController() {}
+HistoryController::HistoryController() {
+}
 
 void HistoryController::addEntry(Request &request) {
+    if (QString::compare(request.getName(), QString("")) == 0) {
+        auto name = request.getHost() + request.getUri();
+        request.setName(name);
+    }
+
     bool saved = request.save();
 
-    qDebug() << "Save request" << request.getUri() << saved;
+    qDebug() << "Save request" << request.getName() << saved;
 }
 
 QSharedPointer<QList<QSharedPointer<Request>>> HistoryController::getLatest(int limit) {

@@ -20,10 +20,12 @@
     height: 15px;
     margin: 0px 20px 0 20px;
 }
+
 QScrollBar::handle:horizontal {
     background: #545454;
     min-width: 20px;
 }
+
 QScrollBar::add-line:horizontal {
     border: 2px solid grey;
     background: #545454;
@@ -46,10 +48,12 @@ QScrollBar:vertical {
     height: 15px;
     margin: 0px 20px 0 20px;
 }
+
 QScrollBar::handle:vertical {
     background: #545454;
     min-width: 20px;
 }
+
 QScrollBar::add-line:vertical {
     border: 2px solid grey;
     background: #545454;
@@ -317,7 +321,7 @@ QListView {
             <number>0</number>
            </property>
            <item>
-            <layout class="QHBoxLayout" name="requestFormLayout" stretch="0,0,1,0,0,0">
+            <layout class="QHBoxLayout" name="requestFormLayout" stretch="0,0,0,0,0,0">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -398,7 +402,7 @@ QListView {
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="urlTextInput">
+              <widget class="UrlPlainTextEdit" name="urlTextMultilineInput">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -411,11 +415,42 @@ QListView {
                  <height>36</height>
                 </size>
                </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>36</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>mono</family>
+                </font>
+               </property>
+               <property name="cursor" stdset="0">
+                <cursorShape>IBeamCursor</cursorShape>
+               </property>
                <property name="styleSheet">
-                <string notr="true"/>
+                <string notr="true">#urlTextMultilineInput {
+	padding-top: 3px;
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="verticalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+               </property>
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::WidgetWidth</enum>
                </property>
                <property name="placeholderText">
-                <string>https://...</string>
+                <string>https://</string>
                </property>
               </widget>
              </item>
@@ -839,23 +874,13 @@ QListView {
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>UrlPlainTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>src/view/urlplaintextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>urlTextInput</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>512</x>
-     <y>42</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>573</x>
-     <y>345</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

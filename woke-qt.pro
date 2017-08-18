@@ -20,8 +20,10 @@ SOURCES += src/main.cpp \
     src/model/requestlistmodel.cpp \
     src/view/mainwindow.cpp \
     src/view/jsonsyntaxhighlighter.cpp \
+    src/view/urlsyntaxhighlighter.cpp \
     src/view/requestitem.cpp \
-    src/controller/requestscontroller.cpp
+    src/controller/requestscontroller.cpp \
+    src/view/urlplaintextedit.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -30,8 +32,10 @@ HEADERS += \
     src/model/requestlistmodel.h \
     src/view/mainwindow.h \
     src/view/jsonsyntaxhighlighter.h \
+    src/view/urlsyntaxhighlighter.h \
     src/view/requestitem.h \
-    src/controller/requestscontroller.h
+    src/controller/requestscontroller.h \
+    src/view/urlplaintextedit.h
 
 #include(src/include.pri)
 

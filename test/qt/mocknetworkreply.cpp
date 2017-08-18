@@ -5,9 +5,17 @@ MockNetworkReply::MockNetworkReply() {
 }
 
 qint64 MockNetworkReply::readData(char *data, qint64 maxlen) {
-    qint64 r = 1;
+    qDebug() << "readData" << *data;
+
+    qint64 r = QByteArray(this->responseData.toUtf8()).toLongLong();
     return r;
 }
 
 void MockNetworkReply::abort() {
 }
+
+void MockNetworkReply::setResponseStatus(int status) {
+    this->setAttribute(QNetworkRequest::Attribute::HttpStatusCodeAttribute, QVariant(status));
+}
+
+

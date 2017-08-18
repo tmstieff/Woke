@@ -1,6 +1,7 @@
 #include "urlutil.h"
 
-UrlSegments UrlUtil::safeSplitUrl(QUrl &url) {
+
+UrlSegments UrlUtil::safeSplitUrl(const QUrl &url) {
     auto urlStr = url.toString();
 
     return UrlUtil::safeSplitUrl(urlStr);
@@ -14,10 +15,10 @@ UrlSegments UrlUtil::safeSplitUrl(QUrl &url) {
  * @param url
  * @return segments struct
  */
-UrlSegments UrlUtil::safeSplitUrl(QString &url) {
+UrlSegments UrlUtil::safeSplitUrl(const QString &url) {
     UrlSegments segments;
 
-    if (url == nullptr) {
+    if (url == QString::null) {
         segments.proto = QString("");
         segments.hostname = QString("");
         segments.uri = QString("");
@@ -68,27 +69,27 @@ UrlSegments UrlUtil::safeSplitUrl(QString &url) {
  * @param verb Potentially null or mispelled verb to parse
  * @return HttpVerb enum
  */
-HttpVerb UrlUtil::safeParseVerb(QString &verb) {
-    if (verb != nullptr) {
-        // Compare returns 0 for equal strings
-        if (QString::compare(verb, QString("POST"), Qt::CaseInsensitive) == 0) {
-            return HttpVerb::POST;
-        } else if (QString::compare(verb, QString("PATCH"), Qt::CaseInsensitive) == 0) {
-            return HttpVerb::PATCH;
-        } else if (QString::compare(verb, QString("PUT"), Qt::CaseInsensitive) == 0) {
-            return HttpVerb::PUT;
-        } else if (QString::compare(verb, QString("DELETE"), Qt::CaseInsensitive) == 0) {
-            return HttpVerb::DELETE;
-        } else if (QString::compare(verb, QString("OPTIONS"), Qt::CaseInsensitive) == 0) {
-            return HttpVerb::OPTIONS;
-        } else if (QString::compare(verb, QString("CONNECT"), Qt::CaseInsensitive) == 0) {
-            return HttpVerb::CONNECT;
-        } else if (QString::compare(verb, QString("HEAD"), Qt::CaseInsensitive) == 0) {
-            return HttpVerb::HEAD;
-        }
+HttpVerb UrlUtil::safeParseVerb(const QString &verb) {
+    auto parsedVerb = HttpVerb::GET;
+
+    // Compare returns 0 for equal strings
+    if (QString::compare(verb, QString("POST"), Qt::CaseInsensitive) == 0) {
+        parsedVerb = HttpVerb::POST;
+    } else if (QString::compare(verb, QString("PATCH"), Qt::CaseInsensitive) == 0) {
+        parsedVerb = HttpVerb::PATCH;
+    } else if (QString::compare(verb, QString("PUT"), Qt::CaseInsensitive) == 0) {
+        parsedVerb = HttpVerb::PUT;
+    } else if (QString::compare(verb, QString("DELETE"), Qt::CaseInsensitive) == 0) {
+        parsedVerb = HttpVerb::DELETE;
+    } else if (QString::compare(verb, QString("OPTIONS"), Qt::CaseInsensitive) == 0) {
+        parsedVerb = HttpVerb::OPTIONS;
+    } else if (QString::compare(verb, QString("CONNECT"), Qt::CaseInsensitive) == 0) {
+        parsedVerb = HttpVerb::CONNECT;
+    } else if (QString::compare(verb, QString("HEAD"), Qt::CaseInsensitive) == 0) {
+        parsedVerb = HttpVerb::HEAD;
     }
 
-    return HttpVerb::GET;
+    return parsedVerb;
 }
 
 /**
@@ -100,8 +101,8 @@ void UrlUtil::setHeadersFromStringBlob(const QString &rawHeaders, QNetworkReques
     if (rawHeaders != nullptr) {
         auto headers = rawHeaders.split('\n');
         for (int i = 0; i < headers.length(); i++) {
-            QString header = headers.at(i);
-            QStringList pieces = header.split(':');
+            const QString &header = headers.at(i);
+            const QStringList pieces = header.split(':');
 
             QString key("");
             QString value("");

@@ -82,3 +82,11 @@ QString Request::getResponseBody() const {
 void Request::setResponseBody(const QString &value) {
     responseBody = value;
 }
+
+QString Request::getName() const {
+    return this->name;
+}
+
+void Request::setName(const QString &name) {
+    this->name = name;
+}

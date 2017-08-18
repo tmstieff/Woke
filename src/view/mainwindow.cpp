@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     headersInput = ui->headersInput;
     bodyInput = ui->bodyInput;
     verbInput = ui->verbInput;
-    urlInput = ui->urlTextInput;
+    urlInput = ui->urlTextMultilineInput;
 
     // Verb list auto-complete
     QStringList verbList;
@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
              << "PATCH"
              << "POST"
              << "DELETE";
-    QCompleter *verbAutoComplete = new QCompleter(verbList, this);
+    auto *verbAutoComplete = new QCompleter(verbList, this);
     verbAutoComplete->setCaseSensitivity(Qt::CaseInsensitive);
     verbAutoComplete->setCompletionMode(QCompleter::CompletionMode::UnfilteredPopupCompletion);
     verbInput->setCompleter(verbAutoComplete);
@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     hostLabel = ui->hostLabel;
     verbLabel = ui->verbLabel;
     recentRequestsListWidget = ui->recentRequestsListWidget;
+    urlInput = ui->urlTextMultilineInput;
 
     // Set the default font for all editors
     QFont defaultMonoFont;
@@ -54,8 +55,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Ad the default syntax highlighters
     this->responseBodyHighlighter = new JsonSyntaxHighlighter(this->responseBodyInput->document());
     this->bodyHighlighter = new JsonSyntaxHighlighter(this->bodyInput->document());
+    this->urlHighlighter = new UrlSyntaxHighlighter(this->urlInput->document());
 
-    this->refreshRecentReqests();
+    this->refreshRecentRequests();
 
     if (this->recentRequests.data()->length() > 0) {
         this->setUiFields(this->recentRequests.data()->at(0));
@@ -74,13 +76,8 @@ MainWindow::~MainWindow() {
 void MainWindow::sendRequest() {
     this->currentRequest =
         this->requestsController.sendRequest(this->verbText, this->urlText, this->headersText, this->bodyText);
-
-    this->hostLabel->setText(this->currentRequest.data()->getHost());
-    this->uriLabel->setText(this->currentRequest.data()->getUri());
-
-    this->timeLabel->setText("- ms");
-    this->verbLabel->setText(HttpVerbStrings[UrlUtil::safeParseVerb(this->verbText)]);
-    this->setStylesheetProperty(*this->statusCodeLabel, "background-color", DEFAULT_INFO_LABEL_COLOR);
+    this->resetResponseFields(this->currentRequest.data()->getHost(), this->currentRequest.data()->getUri(),
+                              this->verbText);
 }
 
 void MainWindow::setTimeLabel(ResponseInfo responseInfo) {
@@ -127,16 +124,26 @@ void MainWindow::setStatusCodeLabel(QString statusCode) {
     }
 }
 
+/**
+ * Set the response body fields based on the content-type
+ * @param responseInfo
+ * @param response
+ */
 void MainWindow::setResponseBodyEditor(ResponseInfo responseInfo, QNetworkReply &response) {
     if (responseInfo.contentType.indexOf(QString("application/json"), 0, Qt::CaseInsensitive) >= 0) {
         QJsonDocument jsonDoc = QJsonDocument::fromJson(response.readAll());
         responseBodyInput->setPlainText(jsonDoc.toJson(QJsonDocument::Indented));
+        this->currentRequest->setResponseBody(responseBodyInput->toPlainText());
     } else {
         QByteArray bodyBytes = response.readAll();
-        responseBodyInput->setPlainText(bodyBytes);
-    }
 
-    this->currentRequest->setResponseBody(responseBodyInput->toPlainText());
+        auto body = QString::fromUtf8(bodyBytes);
+
+        qDebug() << "Response body:" << body;
+
+        responseBodyInput->setPlainText(body);
+        this->currentRequest.data()->setRequestBody(body);
+    }
 }
 
 /**
@@ -159,7 +166,7 @@ void MainWindow::responseReceivedSlot(QNetworkReply *response) {
     this->setResponseBodyEditor(responseInfo, *response);
 
     this->historyController.addEntry(*this->currentRequest.data());
-    this->refreshRecentReqests();
+    this->refreshRecentRequests();
 }
 
 /**
@@ -182,7 +189,7 @@ void MainWindow::setStylesheetProperty(QWidget &widget, const QString &property,
 }
 
 void MainWindow::setUiFields(QSharedPointer<Request> request) {
-    this->urlInput->setText(request.data()->getProto() + request.data()->getHost() + request.data()->getUri());
+    this->urlInput->setPlainText(request.data()->getProto() + request.data()->getHost() + request.data()->getUri());
     this->headersInput->setPlainText(request.data()->getRequestHeaders());
     this->bodyInput->setPlainText(request.data()->getRequestBody());
     this->responseBodyInput->setPlainText(request.data()->getResponseBody());
@@ -194,34 +201,41 @@ void MainWindow::setUiFields(QSharedPointer<Request> request) {
     this->setStatusCodeLabel(request.data()->getStatusCode());
 }
 
-void MainWindow::refreshRecentReqests() {
+void MainWindow::refreshRecentRequests() {
     this->recentRequests = this->historyController.getLatest(10);
     this->recentRequestsListWidget->clear();
 
-    for (int i = 0; i < this->recentRequests.data()->size(); i++) {
-        QListWidgetItem *item = new QListWidgetItem(recentRequestsListWidget);
+    for (const auto &i : *this->recentRequests.data()) {
+        auto *item = new QListWidgetItem(recentRequestsListWidget);
         item->setSizeHint(QSize(200, 67));
 
-        RequestItem *requestItem = new RequestItem(this);
-        requestItem->setInformation(this->recentRequests.data()->at(i).data()->getVerb(),
-                                    this->recentRequests.data()->at(i).data()->getUri(),
-                                    this->recentRequests.data()->at(i).data()->getHost());
+        auto *requestItem = new RequestItem(this);
+        requestItem->setInformation(i.data()->getVerb(), i.data()->getUri(), i.data()->getHost());
         recentRequestsListWidget->setItemWidget(item, requestItem);
     }
+}
+
+/**
+ * Reset the response fields after a new request is sent
+ * @param host
+ * @param uri
+ * @param verb
+ */
+void MainWindow::resetResponseFields(const QString &host, const QString &uri, const QString &verb) {
+    this->hostLabel->setText(host);
+    this->uriLabel->setText(uri);
+
+    this->timeLabel->setText("- ms");
+    this->statusCodeLabel->setText("-");
+    this->verbLabel->setText(HttpVerbStrings[UrlUtil::safeParseVerb(verb)]);
+    this->setStylesheetProperty(*this->statusCodeLabel, "background-color", DEFAULT_INFO_LABEL_COLOR);
+    this->responseBodyInput->setPlainText(QString(""));
 }
 
 /*
  * Event Handlers
  */
 void MainWindow::on_sendButton_clicked() {
-    this->sendRequest();
-}
-
-void MainWindow::on_urlTextInput_textChanged(const QString &arg1) {
-    this->urlText = arg1;
-}
-
-void MainWindow::on_urlTextInput_returnPressed() {
     this->sendRequest();
 }
 
@@ -247,4 +261,12 @@ void MainWindow::on_recentRequestsListWidget_activated(const QModelIndex &index)
 
 void MainWindow::on_recentRequestsListWidget_pressed(const QModelIndex &index) {
     this->setUiFields(this->recentRequests.data()->at(index.row()));
+}
+
+void MainWindow::on_urlTextMultilineInput_textChanged() {
+    this->urlText = this->urlInput->toPlainText();
+}
+
+void MainWindow::on_urlTextMultilineInput_returnPressed() {
+    this->sendRequest();
 }

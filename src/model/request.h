@@ -6,6 +6,7 @@
 
 class Request : public QDjangoModel {
     Q_OBJECT
+    Q_PROPERTY(QString name READ getName WRITE setName)
     Q_PROPERTY(QString proto READ getProto WRITE setProto)
     Q_PROPERTY(QString host READ getHost WRITE setHost)
     Q_PROPERTY(QString uri READ getUri WRITE setUri)
@@ -19,6 +20,10 @@ class Request : public QDjangoModel {
 
   public:
     Request();
+
+    QString getName() const;
+    void setName(const QString &name);
+
     QString getHost() const;
     void setHost(const QString &host);
 
@@ -50,6 +55,7 @@ class Request : public QDjangoModel {
     void setResponseBody(const QString &value);
 
   private:
+    QString name;
     QString proto;
     QString host;
     QString uri;

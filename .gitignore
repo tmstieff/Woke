@@ -3,3 +3,7 @@
 moc_*
 *.stash
 Makefile
+.idea
+build-debug
+build-test
+cmake-build-debug
