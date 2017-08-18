@@ -14,9 +14,12 @@ class Request : public QDjangoModel {
     Q_PROPERTY(int time READ getTime WRITE setTime)
     Q_PROPERTY(QString requestHeaders READ getRequestHeaders WRITE setRequestHeaders)
     Q_PROPERTY(QString requestBody READ getRequestBody WRITE setRequestBody)
+    Q_PROPERTY(QString requestScript READ getRequestScript WRITE setRequestScript)
     Q_PROPERTY(QString verb READ getVerb WRITE setVerb)
     Q_PROPERTY(QString responseHeaders READ getResponseHeaders WRITE setResponseHeaders)
+    Q_PROPERTY(QString responseContentType READ getResponseContentType WRITE setResponseContentType)
     Q_PROPERTY(QString responseBody READ getResponseBody WRITE setResponseBody)
+    Q_PROPERTY(QString responseScript READ getResponseScript WRITE setResponseScript)
 
   public:
     Request();
@@ -63,9 +66,21 @@ class Request : public QDjangoModel {
     int time;
     QString requestHeaders;
     QString requestBody;
+    QString requestScript;
+  public:
+    const QString &getRequestScript() const;
+    void setRequestScript(const QString &requestScript);
+    const QString &getResponseScript() const;
+    void setResponseScript(const QString &responseScript);
+  private:
     QString verb;
     QString responseHeaders;
     QString responseBody;
+    QString responseScript;
+    QString responseContentType;
+  public:
+    const QString &getResponseContentType() const;
+    void setResponseContentType(const QString &responseContentType);
 };
 
 #endif // REQUEST_H

@@ -90,3 +90,27 @@ QString Request::getName() const {
 void Request::setName(const QString &name) {
     this->name = name;
 }
+
+const QString &Request::getRequestScript() const {
+    return requestScript;
+}
+
+void Request::setRequestScript(const QString &requestScript) {
+    this->requestScript = requestScript;
+}
+
+const QString &Request::getResponseScript() const {
+    return responseScript;
+}
+
+void Request::setResponseScript(const QString &responseScript) {
+    this->responseScript = responseScript;
+}
+
+const QString &Request::getResponseContentType() const {
+    return responseContentType;
+}
+
+void Request::setResponseContentType(const QString &responseContentType) {
+    this->responseContentType = responseContentType;
+}

@@ -81,7 +81,7 @@ void MainWindow_Test::test_sendRequest_gui() {
     this->timeLabel->setText("2031 ms");
     this->hostLabel->setText("api.github.com");
     this->uriLabel->setText("/users");
-    this->responseBodyInput->setPlainText("Existing response data");
+    this->responseTabsInput->setPlainText("Existing response data");
 
     QString verb("GET");
     QString url("https://api.github.com/users");
@@ -101,7 +101,7 @@ void MainWindow_Test::test_sendRequest_gui() {
     QCOMPARE(this->timeLabel->text(), QString("- ms"));
     QCOMPARE(this->hostLabel->text(), QString("api.github.com"));
     QCOMPARE(this->uriLabel->text(), QString("/users"));
-    QCOMPARE(this->responseBodyInput->toPlainText(), QString(""));
+    QCOMPARE(this->responseTabsInput->toPlainText(), QString(""));
 }
 
 /**
@@ -115,7 +115,7 @@ void MainWindow_Test::test_responseReceived_gui() {
     this->timeLabel->setText("2031 ms");
     this->hostLabel->setText("api.github.com");
     this->uriLabel->setText("/users");
-    this->responseBodyInput->setPlainText("Existing response data");
+    this->responseTabsInput->setPlainText("Existing response data");
 
     QString verb("GET");
     QString url("https://api.github.com/users");

@@ -15,57 +15,55 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QScrollBar:horizontal {
-    border: 2px solid grey;
-    background: #545454;
-    height: 15px;
-    margin: 0px 20px 0 20px;
+    background: #2b2b2b;
+	border-bottom: 4px solid #2b2b2b;
+    height: 8px;
+    margin: 0 4px 0 4px;
 }
 
 QScrollBar::handle:horizontal {
+	border-radius: 5px;
     background: #545454;
-    min-width: 20px;
+    min-width: 10px;
+	padding: 3px;
 }
 
 QScrollBar::add-line:horizontal {
-    border: 2px solid grey;
-    background: #545454;
-    width: 20px;
+    background: #2b2b2b;
+    width: 10px;
     subcontrol-position: right;
     subcontrol-origin: margin;
 }
 
 QScrollBar::sub-line:horizontal {
-    border: 2px solid grey;
-    background: #545454;
-    width: 20px;
+    background: #2b2b2b;
+    width: 10px;
     subcontrol-position: left;
     subcontrol-origin: margin;
 }
 
 QScrollBar:vertical {
-    border: 2px solid grey;
-    background: #545454;
-    height: 15px;
-    margin: 0px 20px 0 20px;
+    background: #2b2b2b;
+	border-right: 4px solid #2b2b2b;
+    width: 8px;
+    margin: 4px 0 4px 0;
 }
 
 QScrollBar::handle:vertical {
     background: #545454;
-    min-width: 20px;
+    min-height: 10px;
 }
 
 QScrollBar::add-line:vertical {
-    border: 2px solid grey;
-    background: #545454;
-    width: 20px;
+    background: #2b2b2b;
+    width: 8px;
     subcontrol-position: right;
     subcontrol-origin: margin;
 }
 
 QScrollBar::sub-line:vertical {
-    border: 2px solid grey;
-    background: #545454;
-    width: 20px;
+    background: #2b2b2b;
+    width: 8px;
     subcontrol-position: left;
     subcontrol-origin: margin;
 }
@@ -432,10 +430,19 @@ QListView {
                <property name="styleSheet">
                 <string notr="true">#urlTextMultilineInput {
 	padding-top: 3px;
+	border-right: none;
+	border-top: none;
+	border-left: none;
 }</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="lineWidth">
+                <number>0</number>
                </property>
                <property name="verticalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -547,12 +554,12 @@ QListView {
             <number>10</number>
            </property>
            <item>
-            <layout class="QHBoxLayout" name="tabsLayout">
+            <layout class="QHBoxLayout" name="requestTabsLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="headersButton">
+              <widget class="QPushButton" name="requestHeadersButton">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -560,10 +567,10 @@ QListView {
                 </sizepolicy>
                </property>
                <property name="styleSheet">
-                <string notr="true">#headersButton {
+                <string notr="true">#requestHeadersButton {
 	background-color: #3c3e3f;
 	border: none;
-	border-bottom: #69ac97;
+	border-bottom: 3px solid #6ABDDB;
 	border-top: 1px solid #555555;
 	border-right: 1px solid #555555;
 	border-left: 1px solid #555555;
@@ -577,21 +584,20 @@ QListView {
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="scriptButton">
+              <widget class="QPushButton" name="requestScriptButton">
                <property name="styleSheet">
-                <string notr="true">#scriptButton {
-	background-color: #3c3e3f;
+                <string notr="true">#requestScriptButton {
+	background-color: #313335;
 	border: none;
-	border-bottom: #69ac97;
+	border-bottom: 3px solid #2C2E2F;
 	border-top: 1px solid #555555;
 	border-right: 1px solid #555555;
-	border-left: 1px solid #555555;
 	color: #69ac97;
 	padding: 5px;
 }</string>
                </property>
                <property name="text">
-                <string>Script</string>
+                <string>Pre-Script</string>
                </property>
               </widget>
              </item>
@@ -611,7 +617,7 @@ QListView {
             </layout>
            </item>
            <item>
-            <widget class="QPlainTextEdit" name="headersInput">
+            <widget class="QPlainTextEdit" name="requestTabsInput">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                <horstretch>0</horstretch>
@@ -830,7 +836,7 @@ QListView {
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <property name="spacing">
-            <number>10</number>
+            <number>0</number>
            </property>
            <property name="leftMargin">
             <number>10</number>
@@ -845,7 +851,82 @@ QListView {
             <number>10</number>
            </property>
            <item>
-            <widget class="QPlainTextEdit" name="responseBodyInput">
+            <layout class="QHBoxLayout" name="responseTabsLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="responseHeadersButton">
+               <property name="styleSheet">
+                <string notr="true">#responseHeadersButton {
+	background-color: #313335;
+	border: none;
+	border-bottom: 3px solid #2C2E2F;
+	border-left: 1px solid #555555;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	color: #69ac97;
+	padding: 5px;
+}</string>
+               </property>
+               <property name="text">
+                <string>Headers</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="responseBodyButton">
+               <property name="styleSheet">
+                <string notr="true">#responseBodyButton {
+	background-color: #3c3e3f;
+	border: none;
+	border-bottom: 3px solid #6ABDDB;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	color: #69ac97;
+	padding: 5px;
+}</string>
+               </property>
+               <property name="text">
+                <string>Body</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="responseScriptButton">
+               <property name="styleSheet">
+                <string notr="true">#responseScriptButton {
+	background-color: #313335;
+	border: none;
+	border-bottom: 3px solid #2C2E2F;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	color: #69ac97;
+	padding: 5px;
+}</string>
+               </property>
+               <property name="text">
+                <string>Post-Script</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="responseTabsInput">
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -879,6 +960,9 @@ QListView {
    <class>UrlPlainTextEdit</class>
    <extends>QPlainTextEdit</extends>
    <header>src/view/urlplaintextedit.h</header>
+   <slots>
+    <signal>returnPressed()</signal>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>

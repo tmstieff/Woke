@@ -9,11 +9,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                      SLOT(responseReceivedSlot(QNetworkReply *)));
 
     bodyInput = ui->bodyInput;
-    responseBodyInput = ui->responseBodyInput;
-    headersInput = ui->headersInput;
+    responseTabsInput = ui->responseTabsInput;
+    requestTabsInput = ui->requestTabsInput;
     bodyInput = ui->bodyInput;
     verbInput = ui->verbInput;
     urlInput = ui->urlTextMultilineInput;
+
+    // Order is important so we can just index based on the enum ordinal
+    this->requestButtons.push_back(QSharedPointer<QPushButton>(this->ui->requestHeadersButton));
+    this->requestButtons.push_back(QSharedPointer<QPushButton>(this->ui->requestScriptButton));
+
+    this->responseButtons.push_back(QSharedPointer<QPushButton>(this->ui->responseHeadersButton));
+    this->responseButtons.push_back(QSharedPointer<QPushButton>(this->ui->responseBodyButton));
+    this->responseButtons.push_back(QSharedPointer<QPushButton>(this->ui->responseScriptButton));
 
     // Verb list auto-complete
     QStringList verbList;
@@ -42,21 +50,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     defaultMonoFont.setFixedPitch(true);
     defaultMonoFont.setPointSize(10);
     bodyInput->setFont(defaultMonoFont);
-    responseBodyInput->setFont(defaultMonoFont);
-    headersInput->setFont(defaultMonoFont);
+    responseTabsInput->setFont(defaultMonoFont);
+    requestTabsInput->setFont(defaultMonoFont);
 
     const int tabSpaces = 2;
     QFontMetrics metrics(defaultMonoFont);
 
     // Set tab width to 2 spaces
     bodyInput->setTabStopWidth(tabSpaces * metrics.width(' '));
-    responseBodyInput->setTabStopWidth(tabSpaces * metrics.width(' '));
+    responseTabsInput->setTabStopWidth(tabSpaces * metrics.width(' '));
 
     // Ad the default syntax highlighters
-    this->responseBodyHighlighter = new JsonSyntaxHighlighter(this->responseBodyInput->document());
+    this->responseBodyHighlighter = new JsonSyntaxHighlighter(this->responseTabsInput->document());
     this->bodyHighlighter = new JsonSyntaxHighlighter(this->bodyInput->document());
     this->urlHighlighter = new UrlSyntaxHighlighter(this->urlInput->document());
 
+    this->currentRequest = QSharedPointer<Request>(new Request);
     this->refreshRecentRequests();
 
     if (this->recentRequests.data()->length() > 0) {
@@ -74,10 +83,14 @@ MainWindow::~MainWindow() {
  * Send a network request over the wire
  */
 void MainWindow::sendRequest() {
-    this->currentRequest =
-        this->requestsController.sendRequest(this->verbText, this->urlText, this->headersText, this->bodyText);
+    auto verb = this->verbInput->text();
+    auto url = this->urlInput->toPlainText();
+    auto headers = this->requestTabsInput->toPlainText();
+    auto body = this->bodyInput->toPlainText();
+
+    this->currentRequest = this->requestsController.sendRequest(verb, url, headers, body);
     this->resetResponseFields(this->currentRequest.data()->getHost(), this->currentRequest.data()->getUri(),
-                              this->verbText);
+                              this->verbInput->text());
 }
 
 void MainWindow::setTimeLabel(ResponseInfo responseInfo) {
@@ -129,20 +142,41 @@ void MainWindow::setStatusCodeLabel(QString statusCode) {
  * @param responseInfo
  * @param response
  */
-void MainWindow::setResponseBodyEditor(ResponseInfo responseInfo, QNetworkReply &response) {
-    if (responseInfo.contentType.indexOf(QString("application/json"), 0, Qt::CaseInsensitive) >= 0) {
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(response.readAll());
-        responseBodyInput->setPlainText(jsonDoc.toJson(QJsonDocument::Indented));
-        this->currentRequest->setResponseBody(responseBodyInput->toPlainText());
-    } else {
-        QByteArray bodyBytes = response.readAll();
+void MainWindow::setResponseTabsInput(ResponseInfo responseInfo, QNetworkReply &response) {
+    auto headerList = response.rawHeaderList();
+    QString headerStr;
+    foreach (QByteArray head, headerList) {
+        headerStr = headerStr.append(head + ": " + response.rawHeader(head)).append("\n");
+    }
 
-        auto body = QString::fromUtf8(bodyBytes);
+    this->currentRequest->setResponseHeaders(headerStr);
+    this->currentRequest->setResponseContentType(responseInfo.contentType);
+    this->currentRequest->setResponseBody(response.readAll());
 
-        qDebug() << "Response body:" << body;
+    this->setResponseTabsInput(*this->currentRequest.data());
+}
 
-        responseBodyInput->setPlainText(body);
-        this->currentRequest.data()->setRequestBody(body);
+void MainWindow::setResponseTabsInput(Request &request) {
+    if (ResponseGuiTabs::RES_HEADERS == this->currentResponseTab) {
+        this->responseTabsInput->setPlainText(request.getResponseHeaders());
+    } else if (ResponseGuiTabs::RES_SCRIPT == this->currentResponseTab) {
+        this->responseTabsInput->setPlainText(request.getResponseScript());
+    } else if (ResponseGuiTabs::RES_BODY == this->currentResponseTab) {
+        qDebug() << "Set response body" << request.getResponseContentType();
+
+        QString body;
+        if (request.getResponseContentType().indexOf(QString("application/json"), 0, Qt::CaseInsensitive) >= 0) {
+            qDebug() << "Set JSON response body";
+
+            QJsonDocument jsonDoc = QJsonDocument::fromJson(request.getResponseBody().toUtf8());
+            body = jsonDoc.toJson(QJsonDocument::Indented);
+            request.setResponseBody(body);
+        } else {
+            QByteArray bodyBytes = request.getResponseBody().toUtf8();
+            body = QString::fromUtf8(bodyBytes);
+        }
+
+        this->responseTabsInput->setPlainText(body);
     }
 }
 
@@ -160,10 +194,7 @@ void MainWindow::responseReceivedSlot(QNetworkReply *response) {
     this->setTimeLabel(responseInfo);
     this->setStatusCodeLabel(responseInfo);
 
-    auto error = response->errorString();
-    qDebug() << error;
-
-    this->setResponseBodyEditor(responseInfo, *response);
+    this->setResponseTabsInput(responseInfo, *response);
 
     this->historyController.addEntry(*this->currentRequest.data());
     this->refreshRecentRequests();
@@ -181,24 +212,23 @@ void MainWindow::responseReceivedSlot(QNetworkReply *response) {
 void MainWindow::setStylesheetProperty(QWidget &widget, const QString &property, const QString &value) {
     auto stylesheet = widget.styleSheet();
 
-    stylesheet = stylesheet.replace(QRegularExpression(QString(property + ": .+;")), property + ": " + value + ";");
+    const QString &newStylesheet =
+        stylesheet.replace(QRegularExpression(QString(property + ": .+;")), property + ": " + value + ";");
 
-    qDebug() << stylesheet;
-
-    widget.setStyleSheet(stylesheet);
+    widget.setStyleSheet(newStylesheet);
 }
 
 void MainWindow::setUiFields(QSharedPointer<Request> request) {
     this->urlInput->setPlainText(request.data()->getProto() + request.data()->getHost() + request.data()->getUri());
-    this->headersInput->setPlainText(request.data()->getRequestHeaders());
+    this->requestTabsInput->setPlainText(request.data()->getRequestHeaders());
     this->bodyInput->setPlainText(request.data()->getRequestBody());
-    this->responseBodyInput->setPlainText(request.data()->getResponseBody());
     this->timeLabel->setText(QString::number(request.data()->getTime()) + " ms");
     this->hostLabel->setText(request.data()->getHost());
     this->uriLabel->setText(request.data()->getUri());
     this->verbLabel->setText(request.data()->getVerb());
     this->verbInput->setText(request.data()->getVerb());
     this->setStatusCodeLabel(request.data()->getStatusCode());
+    this->setResponseTabsInput(*request.data());
 }
 
 void MainWindow::refreshRecentRequests() {
@@ -229,7 +259,85 @@ void MainWindow::resetResponseFields(const QString &host, const QString &uri, co
     this->statusCodeLabel->setText("-");
     this->verbLabel->setText(HttpVerbStrings[UrlUtil::safeParseVerb(verb)]);
     this->setStylesheetProperty(*this->statusCodeLabel, "background-color", DEFAULT_INFO_LABEL_COLOR);
-    this->responseBodyInput->setPlainText(QString(""));
+    this->responseTabsInput->setPlainText(QString(""));
+}
+
+void MainWindow::setRequestInput(RequestGuiTabs tab) {
+    // Save the current text, then set the new tab content
+    if (RequestGuiTabs::REQ_HEADERS == this->currentRequestTab) {
+        this->currentRequest.data()->setRequestHeaders(this->requestTabsInput->toPlainText());
+    } else if (RequestGuiTabs::REQ_SCRIPT == this->currentRequestTab) {
+        this->currentRequest.data()->setRequestScript(this->requestTabsInput->toPlainText());
+    }
+
+    // Set the input with the content for the requested tab
+    this->currentRequestTab = tab;
+    this->setActiveTab(this->requestButtons, tab);
+
+    qDebug() << "Request tab" << tab;
+
+    if (RequestGuiTabs::REQ_HEADERS == tab) {
+        this->requestTabsInput->setPlainText(this->currentRequest.data()->getRequestHeaders());
+    } else if (RequestGuiTabs::REQ_SCRIPT == tab) {
+        this->requestTabsInput->setPlainText(this->currentRequest.data()->getRequestScript());
+    }
+}
+
+void MainWindow::setResponseInput(ResponseGuiTabs tab) {
+    // Save the current text, then set the new tab content
+    if (ResponseGuiTabs::RES_HEADERS == this->currentResponseTab) {
+        this->currentRequest.data()->setRequestHeaders(this->responseTabsInput->toPlainText());
+    } else if (ResponseGuiTabs::RES_SCRIPT == this->currentResponseTab) {
+        this->currentRequest.data()->setRequestScript(this->responseTabsInput->toPlainText());
+    } else if (ResponseGuiTabs::RES_BODY == this->currentResponseTab) {
+        this->currentRequest.data()->setRequestBody(this->responseTabsInput->toPlainText());
+    }
+
+    // Set the input with the content for the requested tab
+    this->currentResponseTab = tab;
+    this->setActiveTab(this->responseButtons, tab);
+
+    if (ResponseGuiTabs::RES_HEADERS == tab) {
+        this->responseTabsInput->setPlainText(this->currentRequest.data()->getResponseHeaders());
+    } else if (ResponseGuiTabs::RES_SCRIPT == tab) {
+        this->responseTabsInput->setPlainText(this->currentRequest.data()->getResponseScript());
+    } else if (ResponseGuiTabs::RES_BODY == tab) {
+        this->responseTabsInput->setPlainText(this->currentRequest.data()->getResponseBody());
+    }
+}
+
+void MainWindow::setActiveTabStyle(QPushButton &button) {
+    QString property("border-bottom");
+    QString value("3px solid #6ABDDB");
+
+    this->setStylesheetProperty(button, property, value);
+
+    property = "background-color";
+    value = "#3c3e3f";
+
+    this->setStylesheetProperty(button, property, value);
+}
+
+void MainWindow::setInactiveTabStyle(QPushButton &button) {
+    QString property("border-bottom");
+    QString value("3px solid #2C2E2F");
+
+    this->setStylesheetProperty(button, property, value);
+
+    property = "background-color";
+    value = "#313335";
+
+    this->setStylesheetProperty(button, property, value);
+}
+
+void MainWindow::setActiveTab(QList<QSharedPointer<QPushButton>> &buttons, int tabIndex) {
+    for (int i = 0; i < buttons.length(); i++) {
+        if (tabIndex == i) {
+            this->setActiveTabStyle(*buttons.at(i).data());
+        } else {
+            this->setInactiveTabStyle(*buttons.at(i).data());
+        }
+    }
 }
 
 /*
@@ -237,18 +345,6 @@ void MainWindow::resetResponseFields(const QString &host, const QString &uri, co
  */
 void MainWindow::on_sendButton_clicked() {
     this->sendRequest();
-}
-
-void MainWindow::on_verbInput_textChanged(const QString &arg1) {
-    this->verbText = arg1;
-}
-
-void MainWindow::on_bodyInput_textChanged() {
-    this->bodyText = this->bodyInput->toPlainText();
-}
-
-void MainWindow::on_headersInput_textChanged() {
-    this->headersText = this->headersInput->toPlainText();
 }
 
 void MainWindow::on_verbInput_returnPressed() {
@@ -263,10 +359,26 @@ void MainWindow::on_recentRequestsListWidget_pressed(const QModelIndex &index) {
     this->setUiFields(this->recentRequests.data()->at(index.row()));
 }
 
-void MainWindow::on_urlTextMultilineInput_textChanged() {
-    this->urlText = this->urlInput->toPlainText();
-}
-
 void MainWindow::on_urlTextMultilineInput_returnPressed() {
     this->sendRequest();
+}
+
+void MainWindow::on_requestHeadersButton_clicked() {
+    this->setRequestInput(RequestGuiTabs::REQ_HEADERS);
+}
+
+void MainWindow::on_requestScriptButton_clicked() {
+    this->setRequestInput(RequestGuiTabs::REQ_SCRIPT);
+}
+
+void MainWindow::on_responseHeadersButton_clicked() {
+    this->setResponseInput(ResponseGuiTabs::RES_HEADERS);
+}
+
+void MainWindow::on_responseBodyButton_clicked() {
+    this->setResponseInput(ResponseGuiTabs::RES_BODY);
+}
+
+void MainWindow::on_responseScriptButton_clicked() {
+    this->setResponseInput(ResponseGuiTabs::RES_SCRIPT);
 }

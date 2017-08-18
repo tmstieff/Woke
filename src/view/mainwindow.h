@@ -19,6 +19,7 @@
 #include <QListWidget>
 #include <QMainWindow>
 #include <QPlainTextEdit>
+#include <QPushButton>
 #include <QSharedPointer>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
@@ -31,6 +32,9 @@ static const QString RED_LABEL = "#68444D";
 static const QString YELLOW_LABEL = "#795C06";
 static const QString PURPLE_LABEL = "#412F79";
 static const QString GREEN_LABEL = "#3F684A";
+
+enum RequestGuiTabs { REQ_HEADERS, REQ_SCRIPT };
+enum ResponseGuiTabs { RES_HEADERS, RES_BODY, RES_SCRIPT };
 
 namespace Ui {
 class MainWindow;
@@ -50,8 +54,8 @@ class MainWindow : public QMainWindow {
 
     QLineEdit *verbInput;
     UrlPlainTextEdit *urlInput;
-    QPlainTextEdit *responseBodyInput;
-    QPlainTextEdit *headersInput;
+    QPlainTextEdit *responseTabsInput;
+    QPlainTextEdit *requestTabsInput;
     QPlainTextEdit *bodyInput;
     QLabel *statusCodeLabel;
     QLabel *uriLabel;
@@ -62,34 +66,33 @@ class MainWindow : public QMainWindow {
 
     QSharedPointer<Request> currentRequest;
     QSharedPointer<QList<QSharedPointer<Request>>> recentRequests;
-    QString urlText;
-    QString headersText;
-    QString verbText;
-    QString bodyText;
 
     void refreshRecentRequests();
-
     void sendRequest();
 
   protected slots:
-
     void responseReceivedSlot(QNetworkReply *response);
 
   private slots:
-
     void on_sendButton_clicked();
-    void on_verbInput_textChanged(const QString &arg1);
-    void on_bodyInput_textChanged();
-    void on_headersInput_textChanged();
     void on_verbInput_returnPressed();
     void on_recentRequestsListWidget_activated(const QModelIndex &index);
     void on_recentRequestsListWidget_pressed(const QModelIndex &index);
-    void on_urlTextMultilineInput_textChanged();
-
     void on_urlTextMultilineInput_returnPressed();
+    void on_requestHeadersButton_clicked();
+    void on_requestScriptButton_clicked();
+    void on_responseHeadersButton_clicked();
+    void on_responseBodyButton_clicked();
+    void on_responseScriptButton_clicked();
 
   private:
     Ui::MainWindow *ui;
+
+    RequestGuiTabs currentRequestTab = RequestGuiTabs::REQ_HEADERS;
+    ResponseGuiTabs currentResponseTab = ResponseGuiTabs::RES_BODY;
+
+    QList<QSharedPointer<QPushButton>> requestButtons;
+    QList<QSharedPointer<QPushButton>> responseButtons;
 
     JsonSyntaxHighlighter *responseBodyHighlighter;
     JsonSyntaxHighlighter *bodyHighlighter;
@@ -97,11 +100,17 @@ class MainWindow : public QMainWindow {
 
     void setTimeLabel(ResponseInfo responseInfo);
     void setStatusCodeLabel(ResponseInfo responseInfo);
-    void setResponseBodyEditor(ResponseInfo responseInfo, QNetworkReply &response);
+    void setResponseTabsInput(ResponseInfo responseInfo, QNetworkReply &response);
     void setStylesheetProperty(QWidget &widget, const QString &property, const QString &value);
     void setUiFields(QSharedPointer<Request> request);
     void setStatusCodeLabel(QString statusCode);
     void resetResponseFields(const QString &host, const QString &uri, const QString &verb);
+    void setRequestInput(RequestGuiTabs tab);
+    void setResponseInput(ResponseGuiTabs tab);
+    void setActiveTab(QList<QSharedPointer<QPushButton>> &buttons, int tabIndex);
+    void setActiveTabStyle(QPushButton &button);
+    void setInactiveTabStyle(QPushButton &button);
+    void setResponseTabsInput(Request &request);
 };
 
 #endif // MAINWINDOW_H
