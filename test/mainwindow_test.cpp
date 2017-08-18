@@ -32,10 +32,10 @@ void MainWindow_Test::test_sendRequest_valid() {
     QString headers("User-Agent: test-agent");
     QString body("");
 
-    this->verbText = verb;
-    this->urlText = url;
-    this->headersText = headers;
-    this->bodyText = body;
+    this->verbInput->setText(verb);
+    this->urlInput->setPlainText(url);
+    this->requestTabsInput->setPlainText(headers);
+    this->bodyInput->setPlainText(body);
 
     this->sendRequest();
 
@@ -88,10 +88,10 @@ void MainWindow_Test::test_sendRequest_gui() {
     QString headers("User-Agent: test-agent");
     QString body("");
 
-    this->verbText = verb;
-    this->urlText = url;
-    this->headersText = headers;
-    this->bodyText = body;
+    this->verbInput->setText(verb);
+    this->urlInput->setPlainText(url);
+    this->requestTabsInput->setPlainText(headers);
+    this->bodyInput->setPlainText(body);
 
     this->sendRequest();
 
@@ -122,8 +122,8 @@ void MainWindow_Test::test_responseReceived_gui() {
     QString headers("User-Agent: test-agent");
     QString body("");
 
-    this->verbText = verb;
-    this->urlText = url;
+    this->verbInput->setText(verb);
+    this->urlInput->setPlainText(url);
 
     auto reply = QSharedPointer<MockNetworkReply>(new MockNetworkReply);
     QString bodyString("Test response data");
