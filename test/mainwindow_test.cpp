@@ -132,8 +132,6 @@ void MainWindow_Test::test_responseReceived_gui() {
     this->responseReceivedSlot(reply.data());
 
     QCOMPARE(this->statusCodeLabel->text(), QString("301"));
-    QCOMPARE(this->timeLabel->text(), QString("0 ms"));
-
     // TODO: Figure out how to mock the reply data
 }
 
