@@ -7,6 +7,7 @@
 #include "../urlutil.h"
 #include "jsonsyntaxhighlighter.h"
 #include "requestitem.h"
+#include "urleditor.h"
 #include "urlplaintextedit.h"
 #include "urlsyntaxhighlighter.h"
 #include <QCompleter>
@@ -63,6 +64,7 @@ class MainWindow : public QMainWindow {
     QLabel *hostLabel;
     QLabel *verbLabel;
     QListWidget *recentRequestsListWidget;
+    UrlEditor *urlEditor;
 
     QSharedPointer<Request> currentRequest;
     QSharedPointer<QList<QSharedPointer<Request>>> recentRequests;
@@ -72,11 +74,10 @@ class MainWindow : public QMainWindow {
 
   protected slots:
     void responseReceivedSlot(QNetworkReply *response);
+    void on_recentRequestsListWidget_activated(const QModelIndex &index);
 
   private slots:
     void on_sendButton_clicked();
-    void on_verbInput_returnPressed();
-    void on_recentRequestsListWidget_activated(const QModelIndex &index);
     void on_recentRequestsListWidget_pressed(const QModelIndex &index);
     void on_urlTextMultilineInput_returnPressed();
     void on_requestHeadersButton_clicked();
@@ -84,6 +85,8 @@ class MainWindow : public QMainWindow {
     void on_responseHeadersButton_clicked();
     void on_responseBodyButton_clicked();
     void on_responseScriptButton_clicked();
+    void on_urlTextMultilineInput_focusIn();
+    void on_urlTextMultilineInput_focusOut();
 
   private:
     Ui::MainWindow *ui;
@@ -102,7 +105,7 @@ class MainWindow : public QMainWindow {
     void setStatusCodeLabel(ResponseInfo responseInfo);
     void setResponseTabsInput(ResponseInfo responseInfo, QNetworkReply &response);
     void setStylesheetProperty(QWidget &widget, const QString &property, const QString &value);
-    void setUiFields(QSharedPointer<Request> request);
+    void setUiFields(QSharedPointer<Request> request, bool setCurrentRequest);
     void setStatusCodeLabel(QString statusCode);
     void resetResponseFields(const QString &host, const QString &uri, const QString &verb);
     void setRequestInput(RequestGuiTabs tab);
@@ -111,6 +114,7 @@ class MainWindow : public QMainWindow {
     void setActiveTabStyle(QPushButton &button);
     void setInactiveTabStyle(QPushButton &button);
     void setResponseTabsInput(Request &request);
+    void showUrlEditor();
 };
 
 #endif // MAINWINDOW_H

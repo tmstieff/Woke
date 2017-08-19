@@ -8,13 +8,17 @@ class UrlPlainTextEdit : public QPlainTextEdit {
     Q_OBJECT
 
   public:
-    UrlPlainTextEdit(QWidget *parent);
+    explicit UrlPlainTextEdit(QWidget *parent);
 
-    void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
+    virtual void focusInEvent(QFocusEvent *event) override;
+    virtual void focusOutEvent(QFocusEvent *event) override;
 
   public slots:
   Q_SIGNALS:
     void returnPressed();
+    void focusIn();
+    void focusOut();
 };
 
 #endif // URLPLAINTEXTEDIT_H

@@ -20,6 +20,7 @@ class MainWindow_Test : public MainWindow {
     void test_sendRequest_valid();
     void test_sendRequest_gui();
     void test_responseReceived_gui();
+    void test_recentRequestPressed_currentRequest();
     void compareRequests(Request &left, Request &right);
 };
 

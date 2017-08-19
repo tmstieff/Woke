@@ -10,3 +10,15 @@ void UrlPlainTextEdit::keyPressEvent(QKeyEvent *event) {
         QPlainTextEdit::keyPressEvent(event);
     }
 }
+
+void UrlPlainTextEdit::focusOutEvent(QFocusEvent *event) {
+    this->focusOut();
+
+    QPlainTextEdit::focusOutEvent(event);
+}
+
+void UrlPlainTextEdit::focusInEvent(QFocusEvent *event) {
+    this->focusIn();
+
+    QPlainTextEdit::focusInEvent(event);
+}

@@ -23,7 +23,8 @@ SOURCES += src/main.cpp \
     src/view/urlsyntaxhighlighter.cpp \
     src/view/requestitem.cpp \
     src/controller/requestscontroller.cpp \
-    src/view/urlplaintextedit.cpp
+    src/view/urlplaintextedit.cpp \
+    src/view/urleditor.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -35,12 +36,14 @@ HEADERS += \
     src/view/urlsyntaxhighlighter.h \
     src/view/requestitem.h \
     src/controller/requestscontroller.h \
-    src/view/urlplaintextedit.h
+    src/view/urlplaintextedit.h \
+    src/view/urleditor.h
 
 #include(src/include.pri)
 
 FORMS    += mainwindow.ui \
-    requestitem.ui
+    requestitem.ui \
+    urleditor.ui
 
 unix|win32: LIBS += -lqdjango-db
 

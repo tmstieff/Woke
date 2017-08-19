@@ -69,8 +69,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->refreshRecentRequests();
 
     if (this->recentRequests.data()->length() > 0) {
-        this->setUiFields(this->recentRequests.data()->at(0));
+        this->setUiFields(this->recentRequests.data()->at(0), true);
     }
+
+    this->urlEditor = new UrlEditor(this);
+    this->urlEditor->hide();
 }
 
 MainWindow::~MainWindow() {
@@ -218,7 +221,7 @@ void MainWindow::setStylesheetProperty(QWidget &widget, const QString &property,
     widget.setStyleSheet(newStylesheet);
 }
 
-void MainWindow::setUiFields(QSharedPointer<Request> request) {
+void MainWindow::setUiFields(QSharedPointer<Request> request, bool setCurrentRequest) {
     this->urlInput->setPlainText(request.data()->getProto() + request.data()->getHost() + request.data()->getUri());
     this->requestTabsInput->setPlainText(request.data()->getRequestHeaders());
     this->bodyInput->setPlainText(request.data()->getRequestBody());
@@ -229,6 +232,10 @@ void MainWindow::setUiFields(QSharedPointer<Request> request) {
     this->verbInput->setText(request.data()->getVerb());
     this->setStatusCodeLabel(request.data()->getStatusCode());
     this->setResponseTabsInput(*request.data());
+
+    if (setCurrentRequest) {
+        this->currentRequest = request;
+    }
 }
 
 void MainWindow::refreshRecentRequests() {
@@ -340,6 +347,21 @@ void MainWindow::setActiveTab(QList<QSharedPointer<QPushButton>> &buttons, int t
     }
 }
 
+void MainWindow::showUrlEditor() {
+    auto urlInputPos = this->urlInput->mapToGlobal(QPoint(0, 0));
+    this->urlEditor->resize(this->urlInput->width(), this->urlEditor->size().height());
+
+    qDebug() << "Url position" << urlInputPos.x() << urlInputPos.y();
+
+
+    auto editorPos = urlInputPos;
+    editorPos.setX(urlInputPos.x());
+    editorPos.setY(urlInputPos.y() + 45);
+    this->urlEditor->show();
+    auto newPos = this->urlEditor->mapFromGlobal(editorPos);
+    this->urlEditor->move(newPos);
+}
+
 /*
  * Event Handlers
  */
@@ -347,16 +369,12 @@ void MainWindow::on_sendButton_clicked() {
     this->sendRequest();
 }
 
-void MainWindow::on_verbInput_returnPressed() {
-    this->sendRequest();
-}
-
 void MainWindow::on_recentRequestsListWidget_activated(const QModelIndex &index) {
-    this->setUiFields(this->recentRequests.data()->at(index.row()));
+    this->setUiFields(this->recentRequests.data()->at(index.row()), true);
 }
 
 void MainWindow::on_recentRequestsListWidget_pressed(const QModelIndex &index) {
-    this->setUiFields(this->recentRequests.data()->at(index.row()));
+    this->setUiFields(this->recentRequests.data()->at(index.row()), true);
 }
 
 void MainWindow::on_urlTextMultilineInput_returnPressed() {
@@ -381,4 +399,12 @@ void MainWindow::on_responseBodyButton_clicked() {
 
 void MainWindow::on_responseScriptButton_clicked() {
     this->setResponseInput(ResponseGuiTabs::RES_SCRIPT);
+}
+
+void MainWindow::on_urlTextMultilineInput_focusIn() {
+    this->showUrlEditor();
+}
+
+void MainWindow::on_urlTextMultilineInput_focusOut() {
+    this->urlEditor->hide();
 }
