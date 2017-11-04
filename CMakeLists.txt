@@ -33,6 +33,10 @@ set(SOURCE_FILES
         src/view/requestitem.h
         src/view/urlplaintextedit.cpp
         src/view/urlplaintextedit.h
+        src/view/tabbededitor.cpp
+        src/view/tabbededitor.h
+        src/view/requesttabbededitor.cpp
+        src/view/requesttabbededitor.h
         src/main.cpp
         src/urlutil.cpp
         src/urlutil.h
@@ -47,7 +51,8 @@ set(SOURCE_FILES
         test/view/requestitem_test.cpp
         test/view/requestitem_test.h
         mainwindow.ui
-        requestitem.ui)
+        requestitem.ui
+        tabbededitor.ui)
 
 include_directories(build-debug/. build-test/.)
 

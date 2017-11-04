@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TabbedEditor</class>
+ <widget class="QWidget" name="TabbedEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>100</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Monospace</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>TabbedEditor</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {
+	background-color: #3c3e3f;
+	border: none;
+	border-bottom: 3px solid #6ABDDB;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	border-left: 1px solid #555555;
+	color: #69ac97;
+	padding: 5px;
+}
+
+QPlainTextEdit {
+	background-color: #2b2b2b;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	border-left: 1px solid #555555;
+	border-bottom: 3px solid #6ABDDB;
+	color: #a9b7c6;
+	font-family: mono;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="tabsLayout" stretch="0">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="editor"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

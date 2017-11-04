@@ -3,19 +3,19 @@
 
 #include <QWidget>
 
+
 namespace Ui {
 class UrlEditor;
 }
 
-class UrlEditor : public QWidget
-{
-    Q_OBJECT
+class UrlEditor : public QWidget {
+  Q_OBJECT
 
-public:
+  public:
     explicit UrlEditor(QWidget *parent = 0);
     ~UrlEditor();
 
-private:
+  private:
     Ui::UrlEditor *ui;
 };
 

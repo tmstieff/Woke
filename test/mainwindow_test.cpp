@@ -48,7 +48,7 @@ void MainWindow_Test::test_sendRequest_valid() {
     QCOMPARE(this->currentRequest.data()->getRequestBody(), QString(""));
 
     auto reply = QSharedPointer<QNetworkReply>(new MockNetworkReply());
-    this->responseReceivedSlot(reply.data());
+    this->responseReceived(reply.data());
 
     QCOMPARE(this->currentRequest.data()->getStatusCode(), QString::number(200));
     QCOMPARE(this->currentRequest.data()->getTime(), 0);
@@ -129,7 +129,7 @@ void MainWindow_Test::test_responseReceived_gui() {
     QString bodyString("Test response data");
     reply.data()->setResponseStatus(301);
 
-    this->responseReceivedSlot(reply.data());
+    this->responseReceived(reply.data());
 
     QCOMPARE(this->statusCodeLabel->text(), QString("301"));
     // TODO: Figure out how to mock the reply data

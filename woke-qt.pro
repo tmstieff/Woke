@@ -24,7 +24,10 @@ SOURCES += src/main.cpp \
     src/view/requestitem.cpp \
     src/controller/requestscontroller.cpp \
     src/view/urlplaintextedit.cpp \
-    src/view/urleditor.cpp
+    src/view/urleditor.cpp \
+    src/view/tabbededitor.cpp \
+    src/view/requesttabbededitor.cpp \
+    src/view/responsetabbededitor.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -37,13 +40,17 @@ HEADERS += \
     src/view/requestitem.h \
     src/controller/requestscontroller.h \
     src/view/urlplaintextedit.h \
-    src/view/urleditor.h
+    src/view/urleditor.h \
+    src/view/tabbededitor.h \
+    src/view/requesttabbededitor.h \
+    src/view/responsetabbededitor.h
 
 #include(src/include.pri)
 
-FORMS    += mainwindow.ui \
+FORMS += mainwindow.ui \
     requestitem.ui \
-    urleditor.ui
+    urleditor.ui \
+    tabbededitor.ui
 
 unix|win32: LIBS += -lqdjango-db
 

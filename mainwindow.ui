@@ -554,86 +554,7 @@ QListView {
             <number>10</number>
            </property>
            <item>
-            <layout class="QHBoxLayout" name="requestTabsLayout">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="requestHeadersButton">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">#requestHeadersButton {
-	background-color: #3c3e3f;
-	border: none;
-	border-bottom: 3px solid #6ABDDB;
-	border-top: 1px solid #555555;
-	border-right: 1px solid #555555;
-	border-left: 1px solid #555555;
-	color: #69ac97;
-	padding: 5px;
-}</string>
-               </property>
-               <property name="text">
-                <string>Headers</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="requestScriptButton">
-               <property name="styleSheet">
-                <string notr="true">#requestScriptButton {
-	background-color: #313335;
-	border: none;
-	border-bottom: 3px solid #2C2E2F;
-	border-top: 1px solid #555555;
-	border-right: 1px solid #555555;
-	color: #69ac97;
-	padding: 5px;
-}</string>
-               </property>
-               <property name="text">
-                <string>Pre-Script</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="requestTabsInput">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="lineWrapMode">
-              <enum>QPlainTextEdit::NoWrap</enum>
-             </property>
-            </widget>
+            <widget class="RequestTabbedEditor" name="requestEditor" native="true"/>
            </item>
            <item>
             <widget class="QPlainTextEdit" name="bodyInput">
@@ -851,98 +772,7 @@ QListView {
             <number>10</number>
            </property>
            <item>
-            <layout class="QHBoxLayout" name="responseTabsLayout">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="responseHeadersButton">
-               <property name="styleSheet">
-                <string notr="true">#responseHeadersButton {
-	background-color: #313335;
-	border: none;
-	border-bottom: 3px solid #2C2E2F;
-	border-left: 1px solid #555555;
-	border-top: 1px solid #555555;
-	border-right: 1px solid #555555;
-	color: #69ac97;
-	padding: 5px;
-}</string>
-               </property>
-               <property name="text">
-                <string>Headers</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="responseBodyButton">
-               <property name="styleSheet">
-                <string notr="true">#responseBodyButton {
-	background-color: #3c3e3f;
-	border: none;
-	border-bottom: 3px solid #6ABDDB;
-	border-top: 1px solid #555555;
-	border-right: 1px solid #555555;
-	color: #69ac97;
-	padding: 5px;
-}</string>
-               </property>
-               <property name="text">
-                <string>Body</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="responseScriptButton">
-               <property name="styleSheet">
-                <string notr="true">#responseScriptButton {
-	background-color: #313335;
-	border: none;
-	border-bottom: 3px solid #2C2E2F;
-	border-top: 1px solid #555555;
-	border-right: 1px solid #555555;
-	color: #69ac97;
-	padding: 5px;
-}</string>
-               </property>
-               <property name="text">
-                <string>Post-Script</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="responseTabsInput">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="lineWidth">
-              <number>0</number>
-             </property>
-             <property name="lineWrapMode">
-              <enum>QPlainTextEdit::NoWrap</enum>
-             </property>
-             <property name="placeholderText">
-              <string>Response body</string>
-             </property>
-            </widget>
+            <widget class="ResponseTabbedEditor" name="responseEditor" native="true"/>
            </item>
           </layout>
          </widget>
@@ -963,6 +793,18 @@ QListView {
    <slots>
     <signal>returnPressed()</signal>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>RequestTabbedEditor</class>
+   <extends>QWidget</extends>
+   <header>src/view/requesttabbededitor.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ResponseTabbedEditor</class>
+   <extends>QWidget</extends>
+   <header>src/view/responsetabbededitor.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
