@@ -151,10 +151,15 @@ QList<QSharedPointer<Ui::TabData>> TabbedEditor::getTabsData() {
 
 void TabbedEditor::setTabData(int index, QSharedPointer<QString> data) {
     this->tabs.at(index).data()->data = data;
+    this->refreshUi();
 }
 
 QSharedPointer<QString> TabbedEditor::getTabData(int index) {
     return this->tabs.at(index).data()->data;
+}
+
+void TabbedEditor::refreshUi() {
+    this->editor->setPlainText(*this->tabs.at(this->activeTabIndex).data()->data.data());
 }
 
 void TabbedEditor::on_editor_textChanged() {

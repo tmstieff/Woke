@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     if (this->recentRequests.data()->length() > 0) {
         this->setUiFields(this->recentRequests.data()->at(0), true);
+        this->requestEditor->refreshUi();
+        this->responseEditor->refreshUi();
     }
 
     this->urlEditor = new UrlEditor(this);
@@ -166,8 +168,9 @@ void MainWindow::setResponseTabsInput(Request &request) {
         body = QString::fromUtf8(bodyBytes);
     }
 
-    this->responseEditor->setHeadersData(QSharedPointer<QString>::create(this->currentRequest->getResponseHeaders()));
+    this->responseEditor->setHeadersData(QSharedPointer<QString>::create(request.getResponseHeaders()));
     this->responseEditor->setBodyData(QSharedPointer<QString>::create(body));
+    this->responseEditor->refreshUi();
     request.save();
 }
 

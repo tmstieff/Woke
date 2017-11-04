@@ -33,6 +33,7 @@ class TabbedEditor : public QWidget {
     void removeTab(const QString &name);
     void removeTab(int index);
     void resetTabData();
+    void refreshUi();
 
   protected:
     QList<QSharedPointer<Ui::TabData>> getTabsData();
