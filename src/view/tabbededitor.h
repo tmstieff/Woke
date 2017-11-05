@@ -8,6 +8,7 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QSharedPointer>
+#include <QSyntaxHighlighter>
 #include <QWidget>
 
 namespace Ui {
@@ -17,6 +18,7 @@ struct TabData {
     QString name;
     QSharedPointer<QString> data;
     QSharedPointer<QPushButton> button;
+    QSharedPointer<QSyntaxHighlighter> syntaxHighlighter;
 };
 }
 
@@ -51,6 +53,7 @@ class TabbedEditor : public QWidget {
     void setInactiveTabStyle(QPushButton &button);
     void setStylesheetProperty(QWidget &widget, const QString &property, const QString &value);
     void setActiveTab(int tabIndex);
+    void setupFont();
 
   private slots:
     void tabClicked();

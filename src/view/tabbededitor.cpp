@@ -17,6 +17,8 @@ TabbedEditor::TabbedEditor(QWidget *parent, QList<QSharedPointer<Ui::TabData>> t
 
     this->addTabs(tabs);
     this->activeTabIndex = 0;
+
+    this->setupFont();
 }
 
 TabbedEditor::TabbedEditor(QWidget *parent) : QWidget(parent), ui(new Ui::TabbedEditor) {
@@ -25,6 +27,25 @@ TabbedEditor::TabbedEditor(QWidget *parent) : QWidget(parent), ui(new Ui::Tabbed
     this->editor = ui->editor;
     this->tabsLayout = ui->tabsLayout;
     this->tabsLayout->setAlignment(Qt::AlignLeft);
+
+    this->activeTabIndex = 0;
+
+    this->setupFont();
+}
+
+void TabbedEditor::setupFont() {
+    QFont defaultMonoFont;
+    defaultMonoFont.setFamily("Courier");
+    defaultMonoFont.setStyleHint(QFont::Monospace);
+    defaultMonoFont.setFixedPitch(true);
+    defaultMonoFont.setPointSize(10);
+    this->editor->setFont(defaultMonoFont);
+
+    const int tabSpaces = 2;
+    QFontMetrics metrics(defaultMonoFont);
+
+    // Set tab width to 2 spaces
+    this->editor->setTabStopWidth(tabSpaces * metrics.width(' '));
 }
 
 TabbedEditor::~TabbedEditor() {
@@ -120,6 +141,11 @@ void TabbedEditor::setActiveTab(int tabIndex) {
         if (tabIndex == i) {
             this->setActiveTabStyle(*this->tabs.at(i).data()->button);
             this->editor->setPlainText(*this->tabs.at(i).data()->data.data());
+
+            auto syntaxHighlighter = this->tabs.at(i).data()->syntaxHighlighter;
+            if (syntaxHighlighter) {
+                syntaxHighlighter.data()->setDocument(this->editor->document());
+            }
         } else {
             this->setInactiveTabStyle(*this->tabs.at(i).data()->button);
         }

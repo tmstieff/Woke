@@ -204,6 +204,33 @@ QListView {
            <string notr="true">#recReqsFrame {
 	border-top: 1px solid #555555;
 	border-right: 1px solid #555555;
+}
+
+QScrollBar:vertical {
+    background: #3c3f41;
+	border-right: 0px solid #3c3f41;
+	border-left: 4px solid #3c3f41;
+    width: 8px;
+    margin: 0px 0 0px 0;
+}
+
+QScrollBar::handle:vertical {
+    background: #555555;
+    min-height: 10px;
+}
+
+QScrollBar::add-line:vertical {
+    background: #3c3f41;
+    width: 6px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+    background: #3c3f41;
+    width: 6px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
 }</string>
           </property>
           <property name="frameShape">
@@ -215,6 +242,9 @@ QListView {
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="QListWidget" name="recentRequestsListWidget">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>

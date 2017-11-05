@@ -59,8 +59,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     if (this->recentRequests.data()->length() > 0) {
         this->setUiFields(this->recentRequests.data()->at(0), true);
-        this->requestEditor->refreshUi();
-        this->responseEditor->refreshUi();
     }
 
     this->urlEditor = new UrlEditor(this);
@@ -139,7 +137,7 @@ void MainWindow::setStatusCodeLabel(QString statusCode) {
  * @param responseInfo
  * @param response
  */
-void MainWindow::setResponseTabsInput(ResponseInfo responseInfo, QNetworkReply &response) {
+void MainWindow::setResponseInfo(ResponseInfo responseInfo, QNetworkReply &response) {
     auto headerList = response.rawHeaderList();
     QString headerStr;
     foreach (QByteArray head, headerList) {
@@ -150,10 +148,10 @@ void MainWindow::setResponseTabsInput(ResponseInfo responseInfo, QNetworkReply &
     this->currentRequest->setResponseContentType(responseInfo.contentType);
     this->currentRequest->setResponseBody(response.readAll());
 
-    this->setResponseTabsInput(*this->currentRequest.data());
+    this->setResponseInfo(*this->currentRequest.data());
 }
 
-void MainWindow::setResponseTabsInput(Request &request) {
+void MainWindow::setResponseInfo(Request &request) {
     qDebug() << "Set response body" << request.getResponseContentType();
 
     QString body;
@@ -188,7 +186,7 @@ void MainWindow::responseReceived(QNetworkReply *response) {
     this->setTimeLabel(responseInfo);
     this->setStatusCodeLabel(responseInfo);
 
-    this->setResponseTabsInput(responseInfo, *response);
+    this->setResponseInfo(responseInfo, *response);
 
     this->historyController.addEntry(*this->currentRequest.data());
     this->refreshRecentRequests();
@@ -228,7 +226,7 @@ void MainWindow::setUiFields(QSharedPointer<Request> request, bool setCurrentReq
     this->verbLabel->setText(request.data()->getVerb());
     this->verbInput->setText(request.data()->getVerb());
     this->setStatusCodeLabel(request.data()->getStatusCode());
-    this->setResponseTabsInput(*request.data());
+    this->setResponseInfo(*request.data());
 
     if (setCurrentRequest) {
         this->currentRequest = request;
@@ -280,6 +278,17 @@ void MainWindow::showUrlEditor() {
     this->urlEditor->move(newPos);
 }
 
+void MainWindow::setCurrentRequest(QSharedPointer<Request> newRequest) {
+    // For now only update the request fields?
+    this->currentRequest.data()->setRequestHeaders(*this->requestEditor->getHeaderData().data());
+    this->currentRequest.data()->setRequestBody(this->bodyInput->toPlainText());
+    this->currentRequest.data()->setRequestScript(*this->requestEditor->getPreRequestScriptData().data());
+    this->currentRequest.data()->save();
+
+    this->currentRequest = newRequest;
+    this->setUiFields(this->currentRequest, false);
+}
+
 /*
  * Event Handlers
  */
@@ -288,11 +297,13 @@ void MainWindow::on_sendButton_clicked() {
 }
 
 void MainWindow::on_recentRequestsListWidget_activated(const QModelIndex &index) {
-    this->setUiFields(this->recentRequests.data()->at(index.row()), true);
+    auto selectedRequest = this->recentRequests.data()->at(index.row());
+    this->setCurrentRequest(selectedRequest);
 }
 
 void MainWindow::on_recentRequestsListWidget_pressed(const QModelIndex &index) {
-    this->setUiFields(this->recentRequests.data()->at(index.row()), true);
+    auto selectedRequest = this->recentRequests.data()->at(index.row());
+    this->setCurrentRequest(selectedRequest);
 }
 
 void MainWindow::on_urlTextMultilineInput_returnPressed() {
@@ -300,7 +311,7 @@ void MainWindow::on_urlTextMultilineInput_returnPressed() {
 }
 
 void MainWindow::on_urlTextMultilineInput_focusIn() {
-    this->showUrlEditor();
+    // this->showUrlEditor();
 }
 
 void MainWindow::on_urlTextMultilineInput_focusOut() {

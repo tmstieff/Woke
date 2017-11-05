@@ -1,8 +1,12 @@
 #ifndef RESPONSETABBEDEDITOR_H
 #define RESPONSETABBEDEDITOR_H
 
+#include "headersyntaxhighlighter.h"
+#include "jsonsyntaxhighlighter.h"
 #include "tabbededitor.h"
+
 #include <QObject>
+#include <QSyntaxHighlighter>
 
 class ResponseTabbedEditor : public TabbedEditor {
   public:

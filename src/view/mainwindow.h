@@ -98,15 +98,16 @@ class MainWindow : public QMainWindow {
 
     void setTimeLabel(ResponseInfo responseInfo);
     void setStatusCodeLabel(ResponseInfo responseInfo);
-    void setResponseTabsInput(ResponseInfo responseInfo, QNetworkReply &response);
+    void setResponseInfo(ResponseInfo responseInfo, QNetworkReply &response);
     void setStylesheetProperty(QWidget &widget, const QString &property, const QString &value);
     void setUiFields(QSharedPointer<Request> request, bool setCurrentRequest);
     void setStatusCodeLabel(QString statusCode);
     void resetResponseFields(const QString &host, const QString &uri, const QString &verb);
     void setActiveTabStyle(QPushButton &button);
     void setInactiveTabStyle(QPushButton &button);
-    void setResponseTabsInput(Request &request);
+    void setResponseInfo(Request &request);
     void showUrlEditor();
+    void setCurrentRequest(QSharedPointer<Request> newRequest);
 };
 
 #endif // MAINWINDOW_H

@@ -5,6 +5,7 @@ RequestTabbedEditor::RequestTabbedEditor(QWidget *parent) : TabbedEditor(parent)
     auto headersTab = QSharedPointer<Ui::TabData>(new Ui::TabData());
     headersTab.data()->name = "Headers";
     headersTab.data()->data = headersTabData;
+    headersTab.data()->syntaxHighlighter = QSharedPointer<QSyntaxHighlighter>(new HeaderSyntaxHighlighter);
 
     auto preScriptTabData = QSharedPointer<QString>(new QString(""));
     auto preScriptTab = QSharedPointer<Ui::TabData>(new Ui::TabData());

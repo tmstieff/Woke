@@ -2,7 +2,6 @@
 
 #include "controller/mockrequestscontroller.h"
 
-
 void MainWindow_Test::initTestCase() {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(":memory:");
@@ -10,8 +9,6 @@ void MainWindow_Test::initTestCase() {
     if (!db.open()) {
         qDebug() << "Error: connection with database failed";
         Q_ASSERT(false);
-    } else {
-        qDebug() << "Database: connection ok";
     }
 
     QDjango::setDatabase(db);
@@ -34,8 +31,8 @@ void MainWindow_Test::test_sendRequest_valid() {
 
     this->verbInput->setText(verb);
     this->urlInput->setPlainText(url);
-    this->requestTabsInput->setPlainText(headers);
     this->bodyInput->setPlainText(body);
+    this->requestEditor->setHeadersData(QSharedPointer<QString>::create(headers));
 
     this->sendRequest();
 
@@ -81,7 +78,7 @@ void MainWindow_Test::test_sendRequest_gui() {
     this->timeLabel->setText("2031 ms");
     this->hostLabel->setText("api.github.com");
     this->uriLabel->setText("/users");
-    this->responseTabsInput->setPlainText("Existing response data");
+    this->responseEditor->setBodyData(QSharedPointer<QString>::create(QString("Existing data")));
 
     QString verb("GET");
     QString url("https://api.github.com/users");
@@ -90,7 +87,7 @@ void MainWindow_Test::test_sendRequest_gui() {
 
     this->verbInput->setText(verb);
     this->urlInput->setPlainText(url);
-    this->requestTabsInput->setPlainText(headers);
+    this->requestEditor->setHeadersData(QSharedPointer<QString>::create(headers));
     this->bodyInput->setPlainText(body);
 
     this->sendRequest();
@@ -101,7 +98,7 @@ void MainWindow_Test::test_sendRequest_gui() {
     QCOMPARE(this->timeLabel->text(), QString("- ms"));
     QCOMPARE(this->hostLabel->text(), QString("api.github.com"));
     QCOMPARE(this->uriLabel->text(), QString("/users"));
-    QCOMPARE(this->responseTabsInput->toPlainText(), QString(""));
+    QCOMPARE(*this->responseEditor->getBodyData().data(), QString(""));
 }
 
 /**
@@ -115,7 +112,7 @@ void MainWindow_Test::test_responseReceived_gui() {
     this->timeLabel->setText("2031 ms");
     this->hostLabel->setText("api.github.com");
     this->uriLabel->setText("/users");
-    this->responseTabsInput->setPlainText("Existing response data");
+    this->responseEditor->setBodyData(QSharedPointer<QString>::create(QString("Existing data")));
 
     QString verb("GET");
     QString url("https://api.github.com/users");
@@ -159,8 +156,9 @@ void MainWindow_Test::test_recentRequestPressed_currentRequest() {
     this->timeLabel->setText("2031 ms");
     this->hostLabel->setText("api.github.com");
     this->uriLabel->setText("/users");
-    this->requestTabsInput->setPlainText("Existing request data");
-    this->responseTabsInput->setPlainText("Existing response data");
+
+    this->bodyInput->setPlainText(QString("Existing data"));
+    this->responseEditor->setBodyData(QSharedPointer<QString>::create(QString("Existing data")));
 
     auto index = this->recentRequestsListWidget->model()->index(0, 0);
     this->on_recentRequestsListWidget_activated(index);
@@ -173,5 +171,5 @@ void MainWindow_Test::test_recentRequestPressed_currentRequest() {
     QCOMPARE(this->hostLabel->text(), QString("localhost:8080"));
     QCOMPARE(this->uriLabel->text(), QString("/project"));
     QCOMPARE(this->bodyInput->toPlainText(), QString("{\"key\": \"value\"}"));
-    QCOMPARE(this->responseTabsInput->toPlainText(), QString(""));
+    QCOMPARE(*this->responseEditor->getBodyData().data(), QString(""));
 }

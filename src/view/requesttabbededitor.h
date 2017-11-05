@@ -1,8 +1,10 @@
 #ifndef REQUESTTABBEDEDITOR_H
 #define REQUESTTABBEDEDITOR_H
 
+#include "headersyntaxhighlighter.h"
 #include "tabbededitor.h"
 #include <QObject>
+#include <QSyntaxHighlighter>
 
 class RequestTabbedEditor : public TabbedEditor {
   public:

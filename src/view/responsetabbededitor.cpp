@@ -5,11 +5,14 @@ ResponseTabbedEditor::ResponseTabbedEditor(QWidget *parent) : TabbedEditor(paren
     auto headersTab = QSharedPointer<Ui::TabData>(new Ui::TabData());
     headersTab.data()->name = "Headers";
     headersTab.data()->data = headersTabData;
+    headersTab.data()->syntaxHighlighter = QSharedPointer<QSyntaxHighlighter>(new HeaderSyntaxHighlighter);
 
     auto bodyTabData = QSharedPointer<QString>(new QString());
     auto bodyTab = QSharedPointer<Ui::TabData>(new Ui::TabData());
+    auto bodySyntaxHighlighter = QSharedPointer<JsonSyntaxHighlighter>(new JsonSyntaxHighlighter);
     bodyTab.data()->name = "Body";
     bodyTab.data()->data = bodyTabData;
+    bodyTab.data()->syntaxHighlighter = bodySyntaxHighlighter;
 
     auto postScriptTabData = QSharedPointer<QString>(new QString(""));
     auto postScriptTab = QSharedPointer<Ui::TabData>(new Ui::TabData());
