@@ -10,7 +10,22 @@ A native multiplatform REST client with grand ambitions and limited scope.
 ## Building
 For now there are no binaries available. You will need QT 5.9 to build from source. So far only linux is supported. The QDjango (https://github.com/jlaine/qdjango) lib is required.
 
+### Ubuntu
+
 ```
+sudo add-apt-repository ppa:beineri/opt-qt591-trusty -y
+sudo apt-get update
+sudo apt-get install qt59base
+source /opt/qt59/bin/qt59-env.sh
+git clone https://github.com/jlaine/qdjango.git
+cd qdjango
+qmake
+make
+sudo make install
+sudo ldconfig
+cd ~/
+git clone git@github.com:tmstieff/Woke.git
+cd Woke
 qmake woke-qt.pro -spec linux-g++
 make
 ```
