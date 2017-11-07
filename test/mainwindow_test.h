@@ -8,9 +8,8 @@
 #include "../src/view/mainwindow.h"
 #include "controller/mockrequestscontroller.h"
 
-
 class MainWindow_Test : public MainWindow {
-  Q_OBJECT
+    Q_OBJECT
 
   protected:
     MockRequestsController requestsController;

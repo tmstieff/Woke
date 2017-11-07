@@ -1,7 +1,5 @@
 #include "mainwindow_test.h"
 
-#include "controller/mockrequestscontroller.h"
-
 void MainWindow_Test::initTestCase() {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(":memory:");

@@ -28,7 +28,8 @@ SOURCES += src/main.cpp \
     src/view/tabbededitor.cpp \
     src/view/requesttabbededitor.cpp \
     src/view/responsetabbededitor.cpp \
-    src/view/headersyntaxhighlighter.cpp
+    src/view/headersyntaxhighlighter.cpp \
+    test/view/tabbededitor_test.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -45,7 +46,8 @@ HEADERS += \
     src/view/tabbededitor.h \
     src/view/requesttabbededitor.h \
     src/view/responsetabbededitor.h \
-    src/view/headersyntaxhighlighter.h
+    src/view/headersyntaxhighlighter.h \
+    test/view/tabbededitor_test.h
 
 #include(src/include.pri)
 
