@@ -1,6 +1,6 @@
 #include "mockrequestscontroller.h"
 
-MockRequestsController::MockRequestsController() {
+MockRequestsController::MockRequestsController(QObject *parent) : RequestsController(parent) {
     this->statusCode = 200;
 }
 

@@ -13,7 +13,7 @@ void MainWindow_Test::initTestCase() {
     QDjango::registerModel<Request>();
     QDjango::createTables();
 
-    this->requestsController = MockRequestsController();
+    this->requestsController = new MockRequestsController(this);
 }
 
 /**
@@ -49,7 +49,7 @@ void MainWindow_Test::test_sendRequest_valid() {
     QCOMPARE(this->currentRequest.data()->getTime(), 0);
 
     // Request object should be saved in the DB
-    auto mostRecent = this->historyController.getLatest(1);
+    auto mostRecent = this->historyController->getLatest(1);
     this->compareRequests(*mostRecent.data()->at(0).data(), *this->currentRequest.data());
 
     // recentRequests should be updated

@@ -12,7 +12,7 @@ class MainWindow_Test : public MainWindow {
     Q_OBJECT
 
   protected:
-    MockRequestsController requestsController;
+    MockRequestsController *requestsController;
 
   private slots:
     void initTestCase();
