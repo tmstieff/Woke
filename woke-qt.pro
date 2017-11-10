@@ -8,7 +8,7 @@ QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = woke-qt
+TARGET = woke
 TEMPLATE = app
 
 SUBDIRS += src
@@ -61,6 +61,8 @@ FORMS += mainwindow.ui \
     tabbededitor.ui \
     saveeditor.ui
 
+DISTFILES += misc/woke.desktop
+
 unix|win32: LIBS += -lqdjango-db
 
 INCLUDEPATH += /usr/local/include
@@ -70,7 +72,7 @@ test {
     message(Test build)
 
     QT += testlib
-    TARGET = woke-qt-test
+    TARGET = woke-test
 
     SOURCES -= src/main.cpp
 
@@ -92,3 +94,19 @@ test {
 } else  {
     message(Normal build)
 }
+
+unix {
+    isEmpty(PREFIX) {
+        PREFIX = /usr/local
+    }
+
+    target.path = $$PREFIX/bin
+
+    shortcutfiles.files = misc/woke.desktop
+    shortcutfiles.path = $$PREFIX/share/applications/
+
+    INSTALLS += shortcutfiles
+}
+
+INSTALLS += target
+
