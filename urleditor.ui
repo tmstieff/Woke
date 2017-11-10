@@ -34,7 +34,7 @@
      <property name="styleSheet">
       <string notr="true">#urlEditorFrame {
 	background-color: #545454;
-	border-radius: 8px;
+	/*border-radius: 8px;*/
 }</string>
      </property>
      <property name="frameShape">

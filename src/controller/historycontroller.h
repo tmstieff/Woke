@@ -3,13 +3,16 @@
 
 #include "../model/request.h"
 #include <QDebug>
+#include <QObject>
 #include <QSharedPointer>
 #include <qdjango/db/QDjangoModel.h>
 #include <qdjango/db/QDjangoQuerySet.h>
 
-class HistoryController {
+class HistoryController : public QObject {
+    Q_OBJECT
+
   public:
-    HistoryController();
+    HistoryController(QObject *parent = 0);
 
     void addEntry(Request &request);
     QSharedPointer<QList<QSharedPointer<Request>>> getLatest(int limit);

@@ -38,13 +38,13 @@ class TabbedEditor : public QWidget {
     void refreshUi();
 
   protected:
+    Ui::TabbedEditor *ui;
     QList<QSharedPointer<Ui::TabData>> getTabsData();
     void setTabData(int index, QSharedPointer<QString> data);
     QSharedPointer<QString> getTabData(int index);
     int activeTabIndex;
 
   private:
-    Ui::TabbedEditor *ui;
     QHBoxLayout *tabsLayout;
     QPlainTextEdit *editor;
 

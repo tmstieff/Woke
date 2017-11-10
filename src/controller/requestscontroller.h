@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QObject>
 #include <QSharedPointer>
 
 #include "../model/request.h"
@@ -16,9 +17,9 @@ struct ResponseInfo {
     QString contentType;
 };
 
-class RequestsController {
+class RequestsController : public QObject {
   public:
-    RequestsController();
+    RequestsController(QObject *parent = 0);
 
     QSharedPointer<QNetworkAccessManager> networkManager;
 

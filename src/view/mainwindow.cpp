@@ -5,8 +5,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     this->setWindowTitle("Woke");
 
-    QObject::connect(this->requestsController.networkManager.data(), SIGNAL(finished(QNetworkReply *)), this,
-                     SLOT(responseReceived(QNetworkReply *)));
+    historyController = new HistoryController(this);
+    projectController = new ProjectController(this);
+    requestsController = new RequestsController(this);
+
+    connect(this->requestsController->networkManager.data(), SIGNAL(finished(QNetworkReply *)), this,
+            SLOT(responseReceived(QNetworkReply *)));
 
     bodyInput = ui->bodyInput;
     bodyInput = ui->bodyInput;
@@ -34,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     hostLabel = ui->hostLabel;
     verbLabel = ui->verbLabel;
     recentRequestsListWidget = ui->recentRequestsListWidget;
+    projectRequestsListWidget = ui->projectsRequestsList;
     urlInput = ui->urlTextMultilineInput;
 
     // Set the default font for all editors
@@ -54,7 +59,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->bodyHighlighter = new JsonSyntaxHighlighter(this->bodyInput->document());
     this->urlHighlighter = new UrlSyntaxHighlighter(this->urlInput->document());
 
-    this->currentRequest = QSharedPointer<Request>(new Request);
+    defaultProject = this->projectController->upsertDefaultProject();
+    projects = this->projectController->getProjects();
+
+    this->currentRequest = QSharedPointer<Request>(new Request(this, this->defaultProject.data()));
     this->refreshRecentRequests();
 
     if (this->recentRequests.data()->length() > 0) {
@@ -63,6 +71,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     this->urlEditor = new UrlEditor(this);
     this->urlEditor->hide();
+
+    this->saveEditor = new SaveEditor(this);
+    this->saveEditor->hide();
+
+    for (int i = 0; i < projects.data()->size(); i++) {
+        auto project = projects.data()->at(i).data();
+
+        qDebug() << "Project name" << project->getName();
+
+        this->saveEditor->projectComboBox->addItem(project->getName(), QVariant(project->pk()));
+        this->ui->projectsListComboBox->addItem(project->getName(), QVariant(project->pk()));
+    }
+
+    QObject::connect(this->saveEditor->confirmSaveButton, SIGNAL(released()), this,
+                     SLOT(on_confirmSaveButton_released()));
+    QObject::connect(this->saveEditor->cancelSaveButton, SIGNAL(released()), this,
+                     SLOT(on_cancelSaveButton_released()));
 }
 
 MainWindow::~MainWindow() {
@@ -83,9 +108,18 @@ void MainWindow::sendRequest() {
 
     auto body = this->bodyInput->toPlainText();
 
-    this->currentRequest = this->requestsController.sendRequest(verb, url, headers, body);
+    this->currentRequest = this->requestsController->sendRequest(verb, url, headers, body);
     this->resetResponseFields(this->currentRequest.data()->getHost(), this->currentRequest.data()->getUri(),
                               this->verbInput->text());
+}
+
+void MainWindow::saveCurrentRequestToProject() {
+    auto selectedProjectId = this->saveEditor->projectComboBox->currentData().toInt();
+    auto selectedProject = this->projectController->getProject(selectedProjectId);
+    this->currentRequest->setProject(selectedProject.data());
+    this->currentRequest->save();
+
+    this->refreshProjectRequests();
 }
 
 void MainWindow::setTimeLabel(ResponseInfo responseInfo) {
@@ -180,7 +214,7 @@ void MainWindow::setResponseInfo(Request &request) {
  * @param response pushed from the network manager
  */
 void MainWindow::responseReceived(QNetworkReply *response) {
-    ResponseInfo responseInfo = this->requestsController.handleResponse(*response);
+    ResponseInfo responseInfo = this->requestsController->handleResponse(*response);
 
     this->currentRequest.data()->setStatusCode(QString::number(responseInfo.statusCode));
     this->setTimeLabel(responseInfo);
@@ -188,7 +222,7 @@ void MainWindow::responseReceived(QNetworkReply *response) {
 
     this->setResponseInfo(responseInfo, *response);
 
-    this->historyController.addEntry(*this->currentRequest.data());
+    this->historyController->addEntry(*this->currentRequest.data());
     this->refreshRecentRequests();
 }
 
@@ -234,7 +268,7 @@ void MainWindow::setUiFields(QSharedPointer<Request> request, bool setCurrentReq
 }
 
 void MainWindow::refreshRecentRequests() {
-    this->recentRequests = this->historyController.getLatest(10);
+    this->recentRequests = this->historyController->getLatest(10);
     this->recentRequestsListWidget->clear();
 
     for (const auto &i : *this->recentRequests.data()) {
@@ -244,6 +278,22 @@ void MainWindow::refreshRecentRequests() {
         auto *requestItem = new RequestItem(this);
         requestItem->setInformation(i.data()->getVerb(), i.data()->getUri(), i.data()->getHost());
         recentRequestsListWidget->setItemWidget(item, requestItem);
+    }
+}
+
+void MainWindow::refreshProjectRequests() {
+    auto selectedProjectId = this->ui->projectsListComboBox->currentData().toInt();
+
+    this->projectRequests = this->projectController->getRequests(selectedProjectId);
+    this->projectRequestsListWidget->clear();
+
+    for (const auto &i : *this->projectRequests.data()) {
+        auto *item = new QListWidgetItem(this->projectRequestsListWidget);
+        item->setSizeHint(QSize(200, 67));
+
+        auto *requestItem = new RequestItem(this);
+        requestItem->setInformation(i.data()->getVerb(), i.data()->getUri(), i.data()->getHost());
+        this->projectRequestsListWidget->setItemWidget(item, requestItem);
     }
 }
 
@@ -268,14 +318,23 @@ void MainWindow::showUrlEditor() {
     auto urlInputPos = this->urlInput->mapToGlobal(QPoint(0, 0));
     this->urlEditor->resize(this->urlInput->width(), this->urlEditor->size().height());
 
-    qDebug() << "Url position" << urlInputPos.x() << urlInputPos.y();
-
     auto editorPos = urlInputPos;
     editorPos.setX(urlInputPos.x());
     editorPos.setY(urlInputPos.y() + 45);
     this->urlEditor->show();
     auto newPos = this->urlEditor->mapFromGlobal(editorPos);
     this->urlEditor->move(newPos);
+}
+
+void MainWindow::showSaveEditor() {
+    auto saveButtonPos = this->ui->saveButton->mapToGlobal(QPoint(0, 0));
+
+    auto editorPos = saveButtonPos;
+    editorPos.setX(saveButtonPos.x());
+    editorPos.setY(saveButtonPos.y() + 45);
+    this->saveEditor->show();
+    auto newPos = this->saveEditor->mapFromGlobal(editorPos);
+    this->saveEditor->move(newPos);
 }
 
 void MainWindow::setCurrentRequest(QSharedPointer<Request> newRequest) {
@@ -316,4 +375,22 @@ void MainWindow::on_urlTextMultilineInput_focusIn() {
 
 void MainWindow::on_urlTextMultilineInput_focusOut() {
     this->urlEditor->hide();
+}
+
+void MainWindow::on_saveButton_clicked() {
+    this->showSaveEditor();
+}
+
+void MainWindow::on_confirmSaveButton_released() {
+    this->saveEditor->hide();
+    this->saveCurrentRequestToProject();
+}
+
+void MainWindow::on_cancelSaveButton_released() {
+    this->saveEditor->hide();
+    this->saveEditor->clearFields();
+}
+
+void MainWindow::on_projectsListComboBox_currentIndexChanged(int index) {
+    this->refreshProjectRequests();
 }

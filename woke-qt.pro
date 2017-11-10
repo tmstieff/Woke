@@ -29,7 +29,10 @@ SOURCES += src/main.cpp \
     src/view/requesttabbededitor.cpp \
     src/view/responsetabbededitor.cpp \
     src/view/headersyntaxhighlighter.cpp \
-    test/view/tabbededitor_test.cpp
+    test/view/tabbededitor_test.cpp \
+    src/view/saveeditor.cpp \
+    src/model/project.cpp \
+    src/controller/projectcontroller.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -47,14 +50,16 @@ HEADERS += \
     src/view/requesttabbededitor.h \
     src/view/responsetabbededitor.h \
     src/view/headersyntaxhighlighter.h \
-    test/view/tabbededitor_test.h
-
-#include(src/include.pri)
+    test/view/tabbededitor_test.h \
+    src/view/saveeditor.h \
+    src/model/project.h \
+    src/controller/projectcontroller.h
 
 FORMS += mainwindow.ui \
     requestitem.ui \
     urleditor.ui \
-    tabbededitor.ui
+    tabbededitor.ui \
+    saveeditor.ui
 
 unix|win32: LIBS += -lqdjango-db
 

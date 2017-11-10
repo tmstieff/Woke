@@ -2,13 +2,16 @@
 #define MAINWINDOW_H
 
 #include "../controller/historycontroller.h"
+#include "../controller/projectcontroller.h"
 #include "../controller/requestscontroller.h"
+#include "../model/project.h"
 #include "../model/requestlistmodel.h"
 #include "../urlutil.h"
 #include "jsonsyntaxhighlighter.h"
 #include "requestitem.h"
 #include "requesttabbededitor.h"
 #include "responsetabbededitor.h"
+#include "saveeditor.h"
 #include "urleditor.h"
 #include "urlplaintextedit.h"
 #include "urlsyntaxhighlighter.h"
@@ -52,8 +55,9 @@ class MainWindow : public QMainWindow {
     ~MainWindow() override;
 
   protected:
-    HistoryController historyController;
-    RequestsController requestsController;
+    HistoryController *historyController;
+    RequestsController *requestsController;
+    ProjectController *projectController;
 
     QLineEdit *verbInput;
     UrlPlainTextEdit *urlInput;
@@ -64,15 +68,21 @@ class MainWindow : public QMainWindow {
     QLabel *hostLabel;
     QLabel *verbLabel;
     QListWidget *recentRequestsListWidget;
+    QListWidget *projectRequestsListWidget;
     UrlEditor *urlEditor;
+    SaveEditor *saveEditor;
     RequestTabbedEditor *requestEditor;
     ResponseTabbedEditor *responseEditor;
 
     QSharedPointer<Request> currentRequest;
     QSharedPointer<QList<QSharedPointer<Request>>> recentRequests;
+    QSharedPointer<QList<QSharedPointer<Request>>> projectRequests;
+    QSharedPointer<QList<QSharedPointer<Project>>> projects;
 
     void refreshRecentRequests();
+    void refreshProjectRequests();
     void sendRequest();
+    void saveCurrentRequestToProject();
 
   protected slots:
     void responseReceived(QNetworkReply *response);
@@ -85,9 +95,16 @@ class MainWindow : public QMainWindow {
     void on_urlTextMultilineInput_focusIn();
     void on_urlTextMultilineInput_focusOut();
 
+    void on_saveButton_clicked();
+    void on_confirmSaveButton_released();
+    void on_cancelSaveButton_released();
+
+    void on_projectsListComboBox_currentIndexChanged(int index);
+
   private:
     Ui::MainWindow *ui;
 
+    QSharedPointer<Project> defaultProject;
     ResponseGuiTabs currentResponseTab = ResponseGuiTabs::RES_BODY;
 
     QList<QSharedPointer<QPushButton>> responseButtons;
@@ -107,6 +124,7 @@ class MainWindow : public QMainWindow {
     void setInactiveTabStyle(QPushButton &button);
     void setResponseInfo(Request &request);
     void showUrlEditor();
+    void showSaveEditor();
     void setCurrentRequest(QSharedPointer<Request> newRequest);
 };
 

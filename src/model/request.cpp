@@ -1,6 +1,7 @@
 #include "request.h"
 
-Request::Request() {
+Request::Request(QObject *parent, Project *project) : QDjangoModel(parent) {
+    setForeignKey("project", project);
 }
 
 QString Request::getHost() const {
@@ -75,7 +76,7 @@ void Request::setResponseHeaders(const QString &value) {
     responseHeaders = value;
 }
 
-QString Request::getResponseBody() const {
+const QString Request::getResponseBody() const {
     return responseBody;
 }
 
@@ -91,7 +92,7 @@ void Request::setName(const QString &name) {
     this->name = name;
 }
 
-const QString &Request::getRequestScript() const {
+const QString Request::getRequestScript() const {
     return requestScript;
 }
 
@@ -99,7 +100,7 @@ void Request::setRequestScript(const QString &requestScript) {
     this->requestScript = requestScript;
 }
 
-const QString &Request::getResponseScript() const {
+const QString Request::getResponseScript() const {
     return responseScript;
 }
 
@@ -107,10 +108,18 @@ void Request::setResponseScript(const QString &responseScript) {
     this->responseScript = responseScript;
 }
 
-const QString &Request::getResponseContentType() const {
+const QString Request::getResponseContentType() const {
     return responseContentType;
 }
 
 void Request::setResponseContentType(const QString &responseContentType) {
     this->responseContentType = responseContentType;
+}
+
+Project *Request::getProject() const {
+    return qobject_cast<Project *>(foreignKey("project"));
+}
+
+void Request::setProject(Project *project) {
+    setForeignKey("project", project);
 }

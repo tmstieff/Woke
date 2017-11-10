@@ -1,6 +1,6 @@
 #include "requestscontroller.h"
 
-RequestsController::RequestsController() {
+RequestsController::RequestsController(QObject *parent) : QObject(parent) {
     this->networkManager = QSharedPointer<QNetworkAccessManager>(new QNetworkAccessManager);
 }
 
