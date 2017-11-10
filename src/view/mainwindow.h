@@ -101,6 +101,10 @@ class MainWindow : public QMainWindow {
 
     void on_projectsListComboBox_currentIndexChanged(int index);
 
+    void on_projectsRequestsList_clicked(const QModelIndex &index);
+
+    void on_projectsRequestsList_activated(const QModelIndex &index);
+
   private:
     Ui::MainWindow *ui;
 

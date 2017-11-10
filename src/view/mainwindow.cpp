@@ -117,6 +117,9 @@ void MainWindow::saveCurrentRequestToProject() {
     auto selectedProjectId = this->saveEditor->projectComboBox->currentData().toInt();
     auto selectedProject = this->projectController->getProject(selectedProjectId);
     this->currentRequest->setProject(selectedProject.data());
+
+    auto name = this->saveEditor->nameEdit->text();
+    this->currentRequest->setName(name);
     this->currentRequest->save();
 
     this->refreshProjectRequests();
@@ -292,7 +295,8 @@ void MainWindow::refreshProjectRequests() {
         item->setSizeHint(QSize(200, 67));
 
         auto *requestItem = new RequestItem(this);
-        requestItem->setInformation(i.data()->getVerb(), i.data()->getUri(), i.data()->getHost());
+
+        requestItem->setInformation(i.data()->getVerb(), i.data()->getUri(), i.data()->getName());
         this->projectRequestsListWidget->setItemWidget(item, requestItem);
     }
 }
@@ -393,4 +397,14 @@ void MainWindow::on_cancelSaveButton_released() {
 
 void MainWindow::on_projectsListComboBox_currentIndexChanged(int index) {
     this->refreshProjectRequests();
+}
+
+void MainWindow::on_projectsRequestsList_clicked(const QModelIndex &index) {
+   auto selectedRequest = this->projectRequests.data()->at(index.row());
+   this->setCurrentRequest(selectedRequest);
+}
+
+void MainWindow::on_projectsRequestsList_activated(const QModelIndex &index) {
+   auto selectedRequest = this->projectRequests.data()->at(index.row());
+   this->setCurrentRequest(selectedRequest);
 }
