@@ -11,9 +11,11 @@ void MainWindow_Test::initTestCase() {
 
     QDjango::setDatabase(db);
     QDjango::registerModel<Request>();
+    QDjango::registerModel<Project>();
     QDjango::createTables();
 
     this->requestsController = new MockRequestsController(this);
+    this->historyController = new HistoryController(this);
 }
 
 /**

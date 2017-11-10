@@ -7,12 +7,14 @@
 
 #include "../src/view/mainwindow.h"
 #include "controller/mockrequestscontroller.h"
+#include "../src/controller/historycontroller.h"
 
 class MainWindow_Test : public MainWindow {
     Q_OBJECT
 
   protected:
     MockRequestsController *requestsController;
+    HistoryController *historyController;
 
   private slots:
     void initTestCase();
