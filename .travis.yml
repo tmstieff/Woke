@@ -20,7 +20,7 @@ script:
   - qmake -v
   - qmake CONFIG+=test
   - make
-  - ./woke-qt-test
+  - ./woke-test
   - qmake
   - make
 
