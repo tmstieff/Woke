@@ -80,7 +80,7 @@ test {
         test/mainwindow_test.h \
         test/view/requestitem_test.h \
         test/controller/mockrequestscontroller.h \
-        test/qt/mocknetworkreply.h
+        test/qt/mocknetworkreply.h \
         test/testutils.h \
         test/view/tabbededitor_test.h \
         test/controller/historycontroller_test.h
@@ -91,7 +91,7 @@ test {
         test/view/requestitem_test.cpp \
         test/mainwindow_test.cpp \
         test/controller/mockrequestscontroller.cpp \
-        test/qt/mocknetworkreply.cpp
+        test/qt/mocknetworkreply.cpp \
         test/testutils.cpp \
         test/view/tabbededitor_test.cpp \
         test/controller/historycontroller_test.cpp
