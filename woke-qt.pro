@@ -29,12 +29,9 @@ SOURCES += src/main.cpp \
     src/view/requesttabbededitor.cpp \
     src/view/responsetabbededitor.cpp \
     src/view/headersyntaxhighlighter.cpp \
-    test/view/tabbededitor_test.cpp \
     src/view/saveeditor.cpp \
     src/model/project.cpp \
-    src/controller/projectcontroller.cpp \
-    test/testutils.cpp \
-    test/controller/historycontroller_test.cpp
+    src/controller/projectcontroller.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -52,12 +49,9 @@ HEADERS += \
     src/view/requesttabbededitor.h \
     src/view/responsetabbededitor.h \
     src/view/headersyntaxhighlighter.h \
-    test/view/tabbededitor_test.h \
     src/view/saveeditor.h \
     src/model/project.h \
-    src/controller/projectcontroller.h \
-    test/testutils.h \
-    test/controller/historycontroller_test.h
+    src/controller/projectcontroller.h
 
 FORMS += mainwindow.ui \
     requestitem.ui \
@@ -87,6 +81,9 @@ test {
         test/view/requestitem_test.h \
         test/controller/mockrequestscontroller.h \
         test/qt/mocknetworkreply.h
+        test/testutils.h \
+        test/view/tabbededitor_test.h \
+        test/controller/historycontroller_test.h
 
     SOURCES += \
         test/test_main.cpp \
@@ -95,6 +92,10 @@ test {
         test/mainwindow_test.cpp \
         test/controller/mockrequestscontroller.cpp \
         test/qt/mocknetworkreply.cpp
+        test/testutils.cpp \
+        test/view/tabbededitor_test.cpp \
+        test/controller/historycontroller_test.cpp
+
 
 } else  {
     message(Normal build)
