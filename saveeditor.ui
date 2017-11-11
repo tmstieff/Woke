@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>164</height>
+    <height>173</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,10 +51,9 @@ QPushButton {
     <widget class="QFrame" name="saveEditorFrame">
      <property name="styleSheet">
       <string notr="true">#saveEditorFrame {
-	background-color: #545454;
-	/*border-radius: 8px;*/
-	border-top: 3px solid #555555;
-	border-bottom: 3px solid #282828;
+	/*border: 3px solid #3c3f41;*/
+	border: 3px solid #313335;
+	background-color: #3c3f41;
 }</string>
      </property>
      <property name="frameShape">
@@ -64,6 +63,9 @@ QPushButton {
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>9</number>
+      </property>
       <item>
        <widget class="QLabel" name="saveLabel">
         <property name="sizePolicy">
@@ -135,8 +137,18 @@ QPushButton {
         <item>
          <widget class="QPushButton" name="cancelSaveButton">
           <property name="styleSheet">
-           <string notr="true">#cancelSaveButton {
-	background-color: #795C06;
+           <string notr="true">QPushButton {
+	color: #bbbbbb;
+	border: none;
+	padding: 10px;
+	border-radius: 6px;
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #666666, stop:1 #444444)
+}
+
+QPushButton:hover {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #555555, stop:1 #444444)
 }</string>
           </property>
           <property name="text">
@@ -147,12 +159,19 @@ QPushButton {
         <item>
          <widget class="QPushButton" name="confirmSaveButton">
           <property name="styleSheet">
-           <string notr="true">QPushButton {
-	background-color: #6ABDDB;
+           <string notr="true">#confirmSaveButton {
+	/*background-color: #6ABDDB;*/
 	color: #000000;
 	border: none;
 	padding: 10px;
 	border-radius: 8px;
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6dc7e8, stop:1 #589eb7)
+}
+
+#confirmSaveButton:hover {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6ABDDB, stop:1 #589eb7)
 }</string>
           </property>
           <property name="text">

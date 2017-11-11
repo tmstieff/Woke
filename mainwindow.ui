@@ -89,6 +89,20 @@ QLineEdit {
 QListView {
 	color: #a9b7c6;
 	background-color: #3c3f41;
+}
+
+QPushButton {
+	color: #bbbbbb;
+	border: none;
+	padding: 10px;
+	border-radius: 6px;
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #666666, stop:1 #444444)
+}
+
+QPushButton:hover {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #555555, stop:1 #444444)
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -253,43 +267,6 @@ QScrollBar::sub-line:vertical {
             <number>9</number>
            </property>
            <item>
-            <layout class="QHBoxLayout" name="buttonsLayout">
-             <property name="bottomMargin">
-              <number>4</number>
-             </property>
-             <item>
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="saveButton">
-               <property name="styleSheet">
-                <string notr="true">#saveButton {
-	border-top: 3px solid #bbbbbb;
-	background-color: #595b5d;
-	color: #bbbbbb;
-	border: none;
-	padding: 10px;
-	border-radius: 8px;
-}</string>
-               </property>
-               <property name="text">
-                <string>Save</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="styleSheet">
               <string notr="true">QTabWidget {
@@ -422,6 +399,9 @@ QComboBox::drop-down {
                       <height>32</height>
                      </size>
                     </property>
+                    <property name="editable">
+                     <bool>true</bool>
+                    </property>
                    </widget>
                   </item>
                   <item>
@@ -551,6 +531,9 @@ QComboBox::drop-down {
       </property>
       <property name="handleWidth">
        <number>0</number>
+      </property>
+      <property name="childrenCollapsible">
+       <bool>false</bool>
       </property>
       <widget class="QWidget" name="verticalLayoutWidget">
        <layout class="QVBoxLayout" name="reqLayout" stretch="0,0">
@@ -773,11 +756,18 @@ QComboBox::drop-down {
               <widget class="QPushButton" name="sendButton">
                <property name="styleSheet">
                 <string notr="true">#sendButton {
-	background-color: #6ABDDB;
+	/*background-color: #6ABDDB;*/
 	color: #000000;
 	border: none;
 	padding: 10px;
 	border-radius: 8px;
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6dc7e8, stop:1 #589eb7)
+}
+
+#sendButton:hover {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6ABDDB, stop:1 #589eb7)
 }</string>
                </property>
                <property name="text">
@@ -919,12 +909,7 @@ QComboBox::drop-down {
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">#resStatusFrame {
-	background-color: #3c3f41;
-	border-top: 1px solid #555555;
-	border-bottom: 1px solid #282828;
-	border-left: 1px solid #282828;
-}</string>
+           <string notr="true"/>
           </property>
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
@@ -933,129 +918,170 @@ QComboBox::drop-down {
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
-            <widget class="QLabel" name="statusCodeLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
+            <widget class="QWidget" name="infoFrame" native="true">
              <property name="styleSheet">
-              <string notr="true">#statusCodeLabel {
+              <string notr="true">#infoFrame {
+	background-color: #3c3f41;
+	border-top: 1px solid #555555;
+	border-bottom: 1px solid #282828;
+	border-right: 1px solid #555555;
+	border-left: 1px solid #282828;
+}
+
+QLabel {
 	background-color: #595b5d;
 	color: #bbbbbb;
 	border: none;
 	padding: 10px;
-	border-radius: 8px;
+	border-radius: 6px;
 }</string>
              </property>
-             <property name="text">
-              <string>Status</string>
-             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QLabel" name="statusCodeLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">#statusCodeLabel {
+	background-color: #595b5d;
+	color: #bbbbbb;
+}</string>
+                </property>
+                <property name="text">
+                 <string>Status</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="verbLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="hostLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>Host</string>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="uriLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>URI</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="timeLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>- ms</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="verbLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
+            <widget class="QFrame" name="buttonsFrame">
              <property name="styleSheet">
-              <string notr="true">#verbLabel {
-	background-color: #595b5d;
-	color: #bbbbbb;
-	border: none;
-	padding: 10px;
-	border-radius: 8px;
+              <string notr="true">#buttonsFrame {
+	background-color: #3c3f41;
+	border-top: 1px solid #555555;
+	border-bottom: 1px solid #282828;
+	border-left: 1px solid #282828;
 }</string>
              </property>
-             <property name="text">
-              <string>-</string>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="hostLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
              </property>
-             <property name="styleSheet">
-              <string notr="true">#hostLabel {
-	background-color: #595b5d;
-	color: #bbbbbb;
-	border: none;
-	padding: 10px;
-	border-radius: 8px;
-}</string>
-             </property>
-             <property name="text">
-              <string>Host</string>
-             </property>
-             <property name="textInteractionFlags">
-              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="uriLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">#uriLabel {
-	background-color: #595b5d;
-	color: #bbbbbb;
-	border: none;
-	padding: 10px;
-	border-radius: 8px;
-}</string>
-             </property>
-             <property name="text">
-              <string>URI</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="textInteractionFlags">
-              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="timeLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">#timeLabel {
-	background-color: #595b5d;
-	color: #bbbbbb;
-	border: none;
-	padding: 10px;
-	border-radius: 8px;
-}</string>
-             </property>
-             <property name="text">
-              <string>- ms</string>
-             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QPushButton" name="saveButton">
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>Save</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
@@ -1098,6 +1124,19 @@ QComboBox::drop-down {
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+	background-color: #3c3e3f;
+	border: none;
+	border-radius: none;
+	border-bottom: 3px solid #6ABDDB;
+	border-top: 1px solid #555555;
+	border-right: 1px solid #555555;
+	border-left: 1px solid #555555;
+	color: #69ac97;
+	padding: 5px;
+}</string>
              </property>
             </widget>
            </item>

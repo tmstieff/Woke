@@ -331,10 +331,12 @@ void MainWindow::showUrlEditor() {
 }
 
 void MainWindow::showSaveEditor() {
+    this->saveEditor->move(0, 0);
+
     auto saveButtonPos = this->ui->saveButton->mapToGlobal(QPoint(0, 0));
 
     auto editorPos = saveButtonPos;
-    editorPos.setX(saveButtonPos.x());
+    editorPos.setX(saveButtonPos.x() - this->saveEditor->width() + 50);
     editorPos.setY(saveButtonPos.y() + 45);
     this->saveEditor->show();
     auto newPos = this->saveEditor->mapFromGlobal(editorPos);
@@ -400,11 +402,11 @@ void MainWindow::on_projectsListComboBox_currentIndexChanged(int index) {
 }
 
 void MainWindow::on_projectsRequestsList_clicked(const QModelIndex &index) {
-   auto selectedRequest = this->projectRequests.data()->at(index.row());
-   this->setCurrentRequest(selectedRequest);
+    auto selectedRequest = this->projectRequests.data()->at(index.row());
+    this->setCurrentRequest(selectedRequest);
 }
 
 void MainWindow::on_projectsRequestsList_activated(const QModelIndex &index) {
-   auto selectedRequest = this->projectRequests.data()->at(index.row());
-   this->setCurrentRequest(selectedRequest);
+    auto selectedRequest = this->projectRequests.data()->at(index.row());
+    this->setCurrentRequest(selectedRequest);
 }
