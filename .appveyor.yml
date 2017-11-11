@@ -14,6 +14,7 @@ install:
   - cd ..
 build_script:
   - qmake woke-qt.pro
+  - cmd: cp C:/Qt/5.9.1/mingw53_32/lib/qdjango-db0.dll C:/projects/woke"
   - mingw32-make
 after_build:
   - windeployqt release/woke.exe
