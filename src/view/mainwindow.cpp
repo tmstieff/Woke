@@ -88,6 +88,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                      SLOT(on_confirmSaveButton_released()));
     QObject::connect(this->saveEditor->cancelSaveButton, SIGNAL(released()), this,
                      SLOT(on_cancelSaveButton_released()));
+    QObject::connect(this->saveEditor->confirmSaveAsButton, SIGNAL(released()), this,
+                     SLOT(on_confirmSaveAsButton_released()));
 }
 
 MainWindow::~MainWindow() {
@@ -344,7 +346,6 @@ void MainWindow::showSaveEditor() {
 }
 
 void MainWindow::setCurrentRequest(QSharedPointer<Request> newRequest) {
-    // For now only update the request fields?
     this->currentRequest.data()->setRequestHeaders(*this->requestEditor->getHeaderData().data());
     this->currentRequest.data()->setRequestBody(this->bodyInput->toPlainText());
     this->currentRequest.data()->setRequestScript(*this->requestEditor->getPreRequestScriptData().data());
@@ -352,6 +353,23 @@ void MainWindow::setCurrentRequest(QSharedPointer<Request> newRequest) {
 
     this->currentRequest = newRequest;
     this->setUiFields(this->currentRequest, false);
+
+    // Update the save editor with this name and project if already assigned and saved
+    if (this->currentRequest.data()->getProject() != NULL) {
+        this->saveEditor->nameEdit->setText(this->currentRequest.data()->getName());
+
+        auto index = 0;
+        for (int i = 0; i < this->saveEditor->projectComboBox->count(); i++) {
+            auto projectId = this->saveEditor->projectComboBox->itemData(i).toInt();
+
+            if (projectId == this->currentRequest.data()->getProject()->pk()) {
+                index = i;
+                break;
+            }
+        }
+
+        this->saveEditor->projectComboBox->setCurrentIndex(index);
+    }
 }
 
 /*
@@ -392,6 +410,12 @@ void MainWindow::on_confirmSaveButton_released() {
     this->saveCurrentRequestToProject();
 }
 
+void MainWindow::on_confirmSaveAsButton_released() {
+    this->saveEditor->hide();
+    this->currentRequest.data()->setPk(QVariant());
+    this->saveCurrentRequestToProject();
+}
+
 void MainWindow::on_cancelSaveButton_released() {
     this->saveEditor->hide();
     this->saveEditor->clearFields();
@@ -409,4 +433,7 @@ void MainWindow::on_projectsRequestsList_clicked(const QModelIndex &index) {
 void MainWindow::on_projectsRequestsList_activated(const QModelIndex &index) {
     auto selectedRequest = this->projectRequests.data()->at(index.row());
     this->setCurrentRequest(selectedRequest);
+}
+
+void MainWindow::on_projectsListComboBox_editTextChanged(const QString &arg1) {
 }

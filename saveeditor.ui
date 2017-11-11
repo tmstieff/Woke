@@ -122,19 +122,6 @@ QPushButton {
          <number>15</number>
         </property>
         <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <widget class="QPushButton" name="cancelSaveButton">
           <property name="styleSheet">
            <string notr="true">QPushButton {
@@ -157,6 +144,19 @@ QPushButton:hover {
          </widget>
         </item>
         <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QPushButton" name="confirmSaveButton">
           <property name="styleSheet">
            <string notr="true">#confirmSaveButton {
@@ -175,7 +175,30 @@ QPushButton:hover {
 }</string>
           </property>
           <property name="text">
-           <string>Confirm</string>
+           <string>Save</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="confirmSaveAsButton">
+          <property name="styleSheet">
+           <string notr="true">#confirmSaveAsButton {
+	/*background-color: #6ABDDB;*/
+	color: #000000;
+	border: none;
+	padding: 10px;
+	border-radius: 8px;
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6dc7e8, stop:1 #589eb7)
+}
+
+#confirmSaveAsButton:hover {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6ABDDB, stop:1 #589eb7)
+}</string>
+          </property>
+          <property name="text">
+           <string>Save As</string>
           </property>
          </widget>
         </item>

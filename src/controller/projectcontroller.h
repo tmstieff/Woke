@@ -19,6 +19,7 @@ class ProjectController : public QObject {
     QSharedPointer<QList<QSharedPointer<Request>>> getRequests(int projectId);
     QSharedPointer<Project> upsertDefaultProject();
     QSharedPointer<Project> getProject(int id);
+    QSharedPointer<Project> getProject(const QString &name);
 
   private:
     QDjangoQuerySet<Project> projects;

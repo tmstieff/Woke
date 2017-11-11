@@ -10,8 +10,8 @@ void MainWindow_Test::initTestCase() {
     }
 
     QDjango::setDatabase(db);
-    QDjango::registerModel<Request>();
     QDjango::registerModel<Project>();
+    QDjango::registerModel<Request>();
     QDjango::createTables();
 
     this->requestsController = new MockRequestsController(this);

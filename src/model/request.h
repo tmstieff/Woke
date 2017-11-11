@@ -92,7 +92,8 @@ class Request : public QDjangoModel {
     QString responseBody;
     QString responseScript;
     QString responseContentType;
-    Project *project;
 };
+
+Q_DECLARE_METATYPE(Request *)
 
 #endif // REQUEST_H

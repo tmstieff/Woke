@@ -18,9 +18,11 @@ int main(int argc, char *argv[]) {
     }
 
     QDjango::setDatabase(db);
-    QDjango::registerModel<Request>();
     QDjango::registerModel<Project>();
+    QDjango::registerModel<Request>();
     QDjango::createTables();
+
+    QDjango::setDebugEnabled(true);
 
     MainWindow w;
     w.show();

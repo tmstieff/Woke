@@ -21,7 +21,9 @@ class Project : public QDjangoModel {
     void setName(const QString &name);
 
   private:
-    QString m_name;
+    QString name;
 };
+
+Q_DECLARE_METATYPE(Project *)
 
 #endif // PROJECT_H

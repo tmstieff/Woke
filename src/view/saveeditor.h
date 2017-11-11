@@ -21,6 +21,7 @@ class SaveEditor : public QWidget {
 
     QPushButton *confirmSaveButton;
     QPushButton *cancelSaveButton;
+    QPushButton *confirmSaveAsButton;
 
     QComboBox *projectComboBox;
     QLineEdit *nameEdit;

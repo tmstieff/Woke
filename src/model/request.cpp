@@ -1,6 +1,10 @@
 #include "request.h"
 
 Request::Request(QObject *parent, Project *project) : QDjangoModel(parent) {
+    if (project == NULL) {
+        project = new Project(this);
+    }
+
     setForeignKey("project", project);
 }
 
@@ -117,7 +121,8 @@ void Request::setResponseContentType(const QString &responseContentType) {
 }
 
 Project *Request::getProject() const {
-    return qobject_cast<Project *>(foreignKey("project"));
+    auto fk = foreignKey("project");
+    return qobject_cast<Project *>(fk);
 }
 
 void Request::setProject(Project *project) {

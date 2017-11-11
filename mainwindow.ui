@@ -103,6 +103,22 @@ QPushButton {
 QPushButton:hover {
 	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
                 stop:0 #555555, stop:1 #444444)
+}
+
+QComboBox::drop-down {
+	/*border-left: 1px solid #a9b7c6;*/
+	border: none;
+	width: 25px;
+}
+
+QComboBox::down-arrow {
+	image: url(:/images/misc/down_arrow.png);
+}
+
+QComboBox QAbstractItemView {
+	background: #2b2b2b;
+    border: 2px solid #a9b7c6;
+	padding: 5px;
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -361,15 +377,11 @@ QTabBar::tab:!selected {
 }
 
 QComboBox, QLineEdit {
-	background-color: #2b2b2b;
+	background: #2b2b2b;
 	border: none;
 	border-bottom: 3px solid #6ABDDB;
 	color: #a9b7c6;
 	padding-left: 2px;
-}
-
-QComboBox::drop-down {
-    border: 0;
 }</string>
                  </property>
                  <property name="frameShape">
@@ -399,8 +411,21 @@ QComboBox::drop-down {
                       <height>32</height>
                      </size>
                     </property>
+                    <property name="styleSheet">
+                     <string notr="true">QFrame {
+	background-color: #3c3f41;
+}
+
+</string>
+                    </property>
                     <property name="editable">
                      <bool>true</bool>
+                    </property>
+                    <property name="currentIndex">
+                     <number>-1</number>
+                    </property>
+                    <property name="maxVisibleItems">
+                     <number>15</number>
                     </property>
                    </widget>
                   </item>

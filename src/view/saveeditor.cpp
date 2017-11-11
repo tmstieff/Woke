@@ -5,6 +5,7 @@ SaveEditor::SaveEditor(QWidget *parent) : QWidget(parent), ui(new Ui::SaveEditor
     ui->setupUi(this);
 
     this->confirmSaveButton = this->ui->confirmSaveButton;
+    this->confirmSaveAsButton = this->ui->confirmSaveAsButton;
     this->cancelSaveButton = this->ui->cancelSaveButton;
 
     this->projectComboBox = this->ui->projectComboBox;
