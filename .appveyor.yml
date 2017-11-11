@@ -28,6 +28,7 @@ after_build:
 artifacts:
   - path: Output\woke*.exe
   - path: release
+    name: woke-win32-portable
     type: zip
 
 deploy:
@@ -37,7 +38,7 @@ deploy:
   auth_token:
     secure: o7PYXegVzIonvDl3/zriMzikHtRTU+pKbCC5eU7sSHc0DhCqtg2zjlhutmMKyFNK
   repository: tmstieff/Woke
-  artifact: release.zip
+  artifact: woke-win32-portable.zip
   prerelease: true
   on:
     branch: master
