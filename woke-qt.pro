@@ -63,7 +63,8 @@ FORMS += mainwindow.ui \
 
 DISTFILES += misc/woke.desktop
 
-unix|win32: LIBS += -lqdjango-db
+win32: LIBS += "$$PWD/libqdjango-db0.dll"
+unix: LIBS += -lqdjango-db
 
 INCLUDEPATH += /usr/local/include
 DEPENDPATH += /usr/local/include
@@ -109,4 +110,7 @@ unix {
 }
 
 INSTALLS += target
+
+RESOURCES += \
+    static_res.qrc
 
