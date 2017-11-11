@@ -28,6 +28,7 @@ git clone git@github.com:tmstieff/Woke.git
 cd Woke
 qmake woke-qt.pro -spec linux-g++
 make
+sudo make install
 ```
 
 ## Features
