@@ -46,6 +46,7 @@ Source: "release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\qdjango.db0.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
