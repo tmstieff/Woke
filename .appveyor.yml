@@ -18,7 +18,7 @@ build_script:
 after_build:
   - windeployqt release/woke.exe
   - cmd: cp LICENSE release/LICENSE.txt"
-    cmd: cp win32/libqdjango.dll
+  - cmd: cp win32/libqdjango.dll"
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
