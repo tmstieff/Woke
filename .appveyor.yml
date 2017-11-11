@@ -19,4 +19,4 @@ after_build:
 artifacts:
   - path: Output\woke*.exe
   - path: release
-type: zip
+    type: zip
