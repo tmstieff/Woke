@@ -32,7 +32,9 @@ SOURCES += src/main.cpp \
     test/view/tabbededitor_test.cpp \
     src/view/saveeditor.cpp \
     src/model/project.cpp \
-    src/controller/projectcontroller.cpp
+    src/controller/projectcontroller.cpp \
+    test/testutils.cpp \
+    test/controller/historycontroller_test.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -53,7 +55,9 @@ HEADERS += \
     test/view/tabbededitor_test.h \
     src/view/saveeditor.h \
     src/model/project.h \
-    src/controller/projectcontroller.h
+    src/controller/projectcontroller.h \
+    test/testutils.h \
+    test/controller/historycontroller_test.h
 
 FORMS += mainwindow.ui \
     requestitem.ui \
