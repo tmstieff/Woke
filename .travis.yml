@@ -16,15 +16,15 @@ install:
   - cd ../
   
 before_script:
-  - # "export DISPLAY=:99.0"
-  - # "sh -e /etc/init.d/xvfb start"
-  - # sleep 3 # give xvfb some time to start
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
   
 script:
-  - # qmake -v
-  - # qmake CONFIG+=test
-  - # make
-  - # ./woke-test
+  - qmake -v
+  - qmake CONFIG+=test
+  - make
+  - ./woke-test
   - qmake CONFIG+=release PREFIX=/usr
   - make -j$(nproc)
   - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
