@@ -1,12 +1,12 @@
 [Desktop Entry]
-Version=0.0.1
+Version=1.0
 Comment=A REST client with grand ambitions and limited scope.
 Exec=woke
 GenericName=REST Client
-Icon=
+Icon=woke
 Name=Woke
 NoDisplay=false
 StartupNotify=true
 Terminal=false
 Type=Application
-Categories=Network;Qt;REST;Productivity
+Categories=Network;Qt;X-REST;X-Productivity;
