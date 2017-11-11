@@ -29,3 +29,15 @@ artifacts:
   - path: Output\woke*.exe
   - path: release
     type: zip
+
+deploy:
+- provider: GitHub
+  tag: continuous
+  release: Continuous build
+  auth_token:
+    secure: o7PYXegVzIonvDl3/zriMzikHtRTU+pKbCC5eU7sSHc0DhCqtg2zjlhutmMKyFNK
+  repository: tmstieff/Woke
+  artifact: release.zip
+  prerelease: true
+  on:
+    branch: master
