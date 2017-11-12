@@ -101,12 +101,8 @@ class MainWindow : public QMainWindow {
     void on_cancelSaveButton_released();
 
     void on_projectsListComboBox_currentIndexChanged(int index);
-
     void on_projectsRequestsList_clicked(const QModelIndex &index);
-
     void on_projectsRequestsList_activated(const QModelIndex &index);
-
-    void on_projectsListComboBox_editTextChanged(const QString &arg1);
 
   private:
     Ui::MainWindow *ui;

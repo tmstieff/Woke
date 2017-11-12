@@ -271,13 +271,13 @@ QScrollBar::sub-line:vertical {
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <property name="leftMargin">
-            <number>4</number>
+            <number>9</number>
            </property>
            <property name="topMargin">
             <number>9</number>
            </property>
            <property name="rightMargin">
-            <number>4</number>
+            <number>9</number>
            </property>
            <property name="bottomMargin">
             <number>9</number>
@@ -343,6 +343,9 @@ QTabBar::tab:!selected {
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
               <attribute name="title">
                <string>Projects</string>
               </attribute>
@@ -382,6 +385,10 @@ QComboBox, QLineEdit {
 	border-bottom: 3px solid #6ABDDB;
 	color: #a9b7c6;
 	padding-left: 2px;
+}
+
+#projectsTabFrame {
+	border: 1px solid #555555;
 }</string>
                  </property>
                  <property name="frameShape">
@@ -391,43 +398,57 @@ QComboBox, QLineEdit {
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_6">
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>6</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
                   <item>
-                   <widget class="QComboBox" name="projectsListComboBox">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>32</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">QFrame {
+                   <layout class="QHBoxLayout" name="projectsTabControls">
+                    <item>
+                     <widget class="QComboBox" name="projectsListComboBox">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>32</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QFrame {
 	background-color: #3c3f41;
 }
 
 </string>
-                    </property>
-                    <property name="editable">
-                     <bool>true</bool>
-                    </property>
-                    <property name="currentIndex">
-                     <number>-1</number>
-                    </property>
-                    <property name="maxVisibleItems">
-                     <number>15</number>
-                    </property>
-                   </widget>
+                      </property>
+                      <property name="editable">
+                       <bool>false</bool>
+                      </property>
+                      <property name="currentIndex">
+                       <number>-1</number>
+                      </property>
+                      <property name="maxVisibleItems">
+                       <number>15</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="pushButton">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="text">
+                       <string>+</string>
+                      </property>
+                      <property name="flat">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QListWidget" name="projectsRequestsList">
@@ -479,6 +500,10 @@ QComboBox, QLineEdit {
                   <string notr="true">QFrame {
 	background-color: #3c3f41;
 	border: none;
+}
+
+#recentRequestsTabFrame {
+	border: 1px solid #555555;
 }</string>
                  </property>
                  <property name="frameShape">

@@ -394,11 +394,14 @@ void MainWindow::on_urlTextMultilineInput_returnPressed() {
 }
 
 void MainWindow::on_urlTextMultilineInput_focusIn() {
-    // this->showUrlEditor();
+    // this->hideUrlEditor();
 }
 
 void MainWindow::on_urlTextMultilineInput_focusOut() {
     this->urlEditor->hide();
+    auto urlEditGeometry = this->urlInput->geometry();
+    urlEditGeometry.setHeight(36);
+    this->urlInput->setGeometry(urlEditGeometry);
 }
 
 void MainWindow::on_saveButton_clicked() {
@@ -422,6 +425,9 @@ void MainWindow::on_cancelSaveButton_released() {
 }
 
 void MainWindow::on_projectsListComboBox_currentIndexChanged(int index) {
+    // Unused param
+    (void)index;
+
     this->refreshProjectRequests();
 }
 
@@ -433,7 +439,4 @@ void MainWindow::on_projectsRequestsList_clicked(const QModelIndex &index) {
 void MainWindow::on_projectsRequestsList_activated(const QModelIndex &index) {
     auto selectedRequest = this->projectRequests.data()->at(index.row());
     this->setCurrentRequest(selectedRequest);
-}
-
-void MainWindow::on_projectsListComboBox_editTextChanged(const QString &arg1) {
 }

@@ -83,7 +83,8 @@ test {
         test/qt/mocknetworkreply.h \
         test/testutils.h \
         test/view/tabbededitor_test.h \
-        test/controller/historycontroller_test.h
+        test/controller/historycontroller_test.h \
+        test/controller/projectcontroller_test.h
 
     SOURCES += \
         test/test_main.cpp \
@@ -94,7 +95,8 @@ test {
         test/qt/mocknetworkreply.cpp \
         test/testutils.cpp \
         test/view/tabbededitor_test.cpp \
-        test/controller/historycontroller_test.cpp
+        test/controller/historycontroller_test.cpp \
+        test/controller/projectcontroller_test.cpp
 
 
 } else  {

@@ -52,7 +52,8 @@ QPushButton {
      <property name="styleSheet">
       <string notr="true">#saveEditorFrame {
 	/*border: 3px solid #3c3f41;*/
-	border: 3px solid #313335;
+	/*border: 3px solid #313335;*/
+	border: 1px solid #555555;
 	background-color: #3c3f41;
 }</string>
      </property>
