@@ -7,7 +7,7 @@
 A native multiplatform REST client with grand ambitions and limited scope.
 
 <p align="center">
-  <img width="900" alt="Woke client" src="https://i.imgur.com/O156Jq9.png?1">
+  <img width="900" alt="Woke client" src="https://i.imgur.com/qBwiKJ4.png">
 </p>
 
 ## Binaries
