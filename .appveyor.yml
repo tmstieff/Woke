@@ -5,12 +5,21 @@ branches:
 install:
   - set QTDIR=C:\Qt\5.9.2\mingw53_32
   - choco install -y InnoSetup
+  - choco install -y python
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
   - qmake qdjango.pro
   - mingw32-make
   - mingw32-make install
+  - cd ..
+  - git clone https://github.com/pybind/pybind11.git
+  - cd pybind11
+  - mkdir build
+  - cd build
+  - pip install pytest
+  - ming32-cmake ..
+  - make install
   - cd ..
 build_script:
   - qmake woke-qt.pro
