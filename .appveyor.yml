@@ -3,11 +3,9 @@ branches:
     - master
 
 install:
-  - set QTDIR=C:\Qt\5.9.1\mingw53_32
+  - set QTDIR=C:\Qt\5.9.2\mingw53_32
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
-  - cd /Qt/5.9.1
-  - dir
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
   - qmake qdjango.pro
@@ -16,13 +14,13 @@ install:
   - cd ..
 build_script:
   - qmake woke-qt.pro
-  - cmd: cp C:/Qt/5.9.1/mingw53_32/lib/qdjango-db0.dll C:/projects/woke"
+  - cmd: cp C:/Qt/5.9.2/mingw53_32/lib/qdjango-db0.dll C:/projects/woke"
   - mingw32-make
 after_build:
   - windeployqt release/woke.exe
   - cmd: cp LICENSE release/LICENSE.txt"
-  - cmd: cp C:/Qt/5.9.1/mingw53_32/lib/libqdjango-db0.a C:/projects/woke"
-  - cmd: cp C:/Qt/5.9.1/mingw53_32/lib/qdjango-db0.dll C:/projects/woke/release"
+  - cmd: cp C:/Qt/5.9.2/mingw53_32/lib/libqdjango-db0.a C:/projects/woke"
+  - cmd: cp C:/Qt/5.9.2/mingw53_32/lib/qdjango-db0.dll C:/projects/woke/release"
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
