@@ -17,7 +17,7 @@ class MainWindow_Test : public MainWindow {
     MockRequestsController *requestsController;
     HistoryController *historyController;
 
-  private slots:
+  private Q_SLOTS:
     void initTestCase();
     void test_sendRequest_valid();
     void test_sendRequest_gui();

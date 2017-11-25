@@ -13,7 +13,7 @@ class ProjectController_Test : public QObject {
   private:
     ProjectController *projectController;
 
-  private slots:
+  private Q_SLOTS:
     void initTestCase();
     void test_upsertDefaultProject();
 };

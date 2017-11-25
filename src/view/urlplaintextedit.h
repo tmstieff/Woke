@@ -14,7 +14,7 @@ class UrlPlainTextEdit : public QPlainTextEdit {
     virtual void focusInEvent(QFocusEvent *event) override;
     virtual void focusOutEvent(QFocusEvent *event) override;
 
-  public slots:
+  public Q_SLOTS:
   Q_SIGNALS:
     void returnPressed();
     void focusIn();

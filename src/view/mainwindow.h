@@ -1,8 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "../controller/currentdatacontroller.h"
 #include "../controller/historycontroller.h"
 #include "../controller/projectcontroller.h"
+#include "../controller/pythonscriptcontroller.h"
 #include "../controller/requestscontroller.h"
 #include "../model/project.h"
 #include "../model/requestlistmodel.h"
@@ -39,9 +41,6 @@ static const QString YELLOW_LABEL = "#795C06";
 static const QString PURPLE_LABEL = "#412F79";
 static const QString GREEN_LABEL = "#3F684A";
 
-enum RequestGuiTabs { REQ_HEADERS, REQ_SCRIPT };
-enum ResponseGuiTabs { RES_HEADERS, RES_BODY, RES_SCRIPT };
-
 namespace Ui {
 class MainWindow;
 }
@@ -58,6 +57,7 @@ class MainWindow : public QMainWindow {
     HistoryController *historyController;
     RequestsController *requestsController;
     ProjectController *projectController;
+    PythonScriptController &pythonScriptController = PythonScriptControllerFactory::getInstance();
 
     QLineEdit *verbInput;
     UrlPlainTextEdit *urlInput;
@@ -83,12 +83,13 @@ class MainWindow : public QMainWindow {
     void refreshProjectRequests();
     void sendRequest();
     void saveCurrentRequestToProject();
+    void updateCurrentRequestFromFields();
 
-  protected slots:
+  protected Q_SLOTS:
     void responseReceived(QNetworkReply *response);
     void on_recentRequestsListWidget_activated(const QModelIndex &index);
 
-  private slots:
+  private Q_SLOTS:
     void on_sendButton_clicked();
     void on_recentRequestsListWidget_pressed(const QModelIndex &index);
     void on_urlTextMultilineInput_returnPressed();
@@ -108,13 +109,14 @@ class MainWindow : public QMainWindow {
     Ui::MainWindow *ui;
 
     QSharedPointer<Project> defaultProject;
-    ResponseGuiTabs currentResponseTab = ResponseGuiTabs::RES_BODY;
-
     QList<QSharedPointer<QPushButton>> responseButtons;
 
     JsonSyntaxHighlighter *responseBodyHighlighter;
     JsonSyntaxHighlighter *bodyHighlighter;
     UrlSyntaxHighlighter *urlHighlighter;
+
+    static int currentRequestId;
+    static int currentProjectId;
 
     void setTimeLabel(ResponseInfo responseInfo);
     void setStatusCodeLabel(ResponseInfo responseInfo);
@@ -123,8 +125,6 @@ class MainWindow : public QMainWindow {
     void setUiFields(QSharedPointer<Request> request, bool setCurrentRequest);
     void setStatusCodeLabel(QString statusCode);
     void resetResponseFields(const QString &host, const QString &uri, const QString &verb);
-    void setActiveTabStyle(QPushButton &button);
-    void setInactiveTabStyle(QPushButton &button);
     void setResponseInfo(Request &request);
     void showUrlEditor();
     void showSaveEditor();

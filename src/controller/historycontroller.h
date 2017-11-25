@@ -12,10 +12,11 @@ class HistoryController : public QObject {
     Q_OBJECT
 
   public:
-    HistoryController(QObject *parent = 0);
+    HistoryController(QObject *parent = nullptr);
 
     void addEntry(Request &request);
     QSharedPointer<QList<QSharedPointer<Request>>> getLatest(int limit);
+    QSharedPointer<Request> get(int id);
 
   private:
     QDjangoQuerySet<Request> requests;

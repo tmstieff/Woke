@@ -37,11 +37,12 @@ You will need QT 5.9 and the QDjango (https://github.com/jlaine/qdjango) library
 ### Ubuntu
 
 ```
+sudo apt-get install libpython3.6-dev
 sudo add-apt-repository ppa:beineri/opt-qt591-trusty -y
 sudo apt-get update
 sudo apt-get install qt59base
 source /opt/qt59/bin/qt59-env.sh
-git clone https://github.com/jlaine/qdjango.git
+git clone https://github.com/tmstieff/qdjango.git
 cd qdjango
 qmake
 make

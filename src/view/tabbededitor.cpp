@@ -9,28 +9,29 @@
  */
 TabbedEditor::TabbedEditor(QWidget *parent, QList<QSharedPointer<Ui::TabData>> tabs)
     : QWidget(parent), ui(new Ui::TabbedEditor) {
-    ui->setupUi(this);
-
-    this->editor = ui->editor;
-    this->tabsLayout = ui->tabsLayout;
-    this->tabsLayout->setAlignment(Qt::AlignLeft);
-
-    this->addTabs(tabs);
-    this->activeTabIndex = 0;
+    this->setupEditor(tabs);
 
     this->setupFont();
 }
 
+
 TabbedEditor::TabbedEditor(QWidget *parent) : QWidget(parent), ui(new Ui::TabbedEditor) {
+    this->setupEditor(QList<QSharedPointer<Ui::TabData>>());
+    this->setupFont();
+}
+
+void TabbedEditor::setupEditor(const QList<QSharedPointer<Ui::TabData>> &tabs) {
     ui->setupUi(this);
 
-    this->editor = ui->editor;
-    this->tabsLayout = ui->tabsLayout;
-    this->tabsLayout->setAlignment(Qt::AlignLeft);
+    editor = ui->editor;
+    tabsLayout = ui->tabsLayout;
+    tabsLayout->setAlignment(Qt::AlignLeft);
 
-    this->activeTabIndex = 0;
+    addTabs(tabs);
+    activeTabIndex = 0;
 
-    this->setupFont();
+    autoCompleter = new QCompleter(this);
+    autoCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
 }
 
 void TabbedEditor::setupFont() {
@@ -77,24 +78,6 @@ void TabbedEditor::addTab(int index, QSharedPointer<Ui::TabData> tabData) {
     if (index == 0) {
         this->setActiveTab(0);
     }
-}
-
-void TabbedEditor::removeTab(const QString &name) {
-    /*auto index = 0;
-    for (int i = 0; i < this->tabs.length(); i++) {
-        if (this->tabs.at(i).data()->text() == name) {
-            index = i;
-
-            break;
-        }
-    }
-
-    this->removeTab(index);*/
-}
-
-void TabbedEditor::removeTab(int index) {
-    // this->tabsLayout->removeWidget(this->tabs.at(index).data());
-    // this->tabs.removeAt(index);
 }
 
 void TabbedEditor::setStylesheetProperty(QWidget &widget, const QString &property, const QString &value) {
@@ -146,6 +129,11 @@ void TabbedEditor::setActiveTab(int tabIndex) {
             if (syntaxHighlighter) {
                 syntaxHighlighter.data()->setDocument(this->editor->document());
             }
+
+            auto autoCompletions = this->tabs.at(i).data()->autoCompletions;
+            if (autoCompletions) {
+                this->autoCompleter->setModel(autoCompletions);
+            }
         } else {
             this->setInactiveTabStyle(*this->tabs.at(i).data()->button);
         }
@@ -189,5 +177,6 @@ void TabbedEditor::refreshUi() {
 }
 
 void TabbedEditor::on_editor_textChanged() {
-    this->tabs.at(this->activeTabIndex).data()->data = QSharedPointer<QString>::create(this->editor->toPlainText());
+    auto str = this->editor->toPlainText();
+    this->tabs.at(this->activeTabIndex).data()->data = QSharedPointer<QString>(new QString(str.data()));
 }

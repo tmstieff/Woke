@@ -9,7 +9,7 @@ JsonSyntaxHighlighter::JsonSyntaxHighlighter(QTextDocument *parent) : QSyntaxHig
     keywordPatterns << "\""
                     << "\'"; //<< "\[" << "\]" << "\{" << "\}";
 
-    foreach (const QString &pattern, keywordPatterns) {
+    Q_FOREACH (const QString &pattern, keywordPatterns) {
         rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules.append(rule);
@@ -30,7 +30,7 @@ JsonSyntaxHighlighter::JsonSyntaxHighlighter(QTextDocument *parent) : QSyntaxHig
 }
 
 void JsonSyntaxHighlighter::highlightBlock(const QString &text) {
-    foreach (const HighlightingRule &rule, highlightingRules) {
+    Q_FOREACH (const HighlightingRule &rule, highlightingRules) {
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
 
         while (matchIterator.hasNext()) {

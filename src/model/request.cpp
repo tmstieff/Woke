@@ -1,11 +1,7 @@
 #include "request.h"
 
-Request::Request(QObject *parent, Project *project) : QDjangoModel(parent) {
-    if (project == NULL) {
-        project = new Project(this);
-    }
-
-    setForeignKey("project", project);
+Request::Request(QObject *parent) : QDjangoModel(parent) {
+    setForeignKey("project", new Project(this));
 }
 
 QString Request::getHost() const {
@@ -120,11 +116,33 @@ void Request::setResponseContentType(const QString &responseContentType) {
     this->responseContentType = responseContentType;
 }
 
-Project *Request::getProject() const {
-    auto fk = foreignKey("project");
-    return qobject_cast<Project *>(fk);
+Project *Request::project() const {
+    return qobject_cast<Project *>(foreignKey("project"));
 }
 
 void Request::setProject(Project *project) {
     setForeignKey("project", project);
 }
+
+QSharedPointer<Request> Request::clone() {
+    QSharedPointer<Request> clone = QSharedPointer<Request>(new Request);
+
+    clone.data()->setName(QString(this->getName().toUtf8()));
+    clone.data()->setProto(QString(this->getProto().toUtf8()));
+    clone.data()->setUri(QString(this->getUri().toUtf8()));
+    clone.data()->setVerb(QString(this->getVerb().toUtf8()));
+    clone.data()->setHost(QString(this->getHost().toUtf8()));
+    clone.data()->setRequestBody(QString(this->getRequestBody().toUtf8()));
+    clone.data()->setRequestHeaders(QString(this->getRequestHeaders().toUtf8()));
+    clone.data()->setRequestScript(QString(this->getRequestScript().toUtf8()));
+    clone.data()->setResponseScript(QString(this->getResponseScript().toUtf8()));
+    clone.data()->setResponseBody(QString(this->getResponseBody().toUtf8()));
+    clone.data()->setResponseHeaders(QString(this->getResponseHeaders().toUtf8()));
+    clone.data()->setStatusCode(QString(this->getStatusCode().toUtf8()));
+    clone.data()->setTime(this->getTime());
+    clone.data()->setProperty("project_id", QVariant());
+
+    return clone;
+}
+
+Q_DECLARE_METATYPE(Request *)

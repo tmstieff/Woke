@@ -1,9 +1,9 @@
 #include "model/project.h"
 #include "model/request.h"
+#include "model/variable.h"
 #include "view/mainwindow.h"
 #include <QApplication>
-#include <QSqlDatabase>
-#include <qdjango/db/QDjango.h>
+
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
@@ -20,6 +20,7 @@ int main(int argc, char *argv[]) {
     QDjango::setDatabase(db);
     QDjango::registerModel<Project>();
     QDjango::registerModel<Request>();
+    QDjango::registerModel<Variable>();
     QDjango::createTables();
 
     QDjango::setDebugEnabled(true);

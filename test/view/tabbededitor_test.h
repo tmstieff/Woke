@@ -15,7 +15,7 @@ class TabbedEditor_Test : public QObject {
   private:
     TabbedEditor editor;
 
-  private slots:
+  private Q_SLOTS:
     void test_setupTabs();
 };
 

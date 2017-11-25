@@ -1,6 +1,7 @@
 #ifndef SAVEEDITOR_H
 #define SAVEEDITOR_H
 
+#include "../model/request.h"
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
@@ -14,10 +15,11 @@ class SaveEditor : public QWidget {
     Q_OBJECT
 
   public:
-    explicit SaveEditor(QWidget *parent = 0);
-    ~SaveEditor();
+    explicit SaveEditor(QWidget *parent = nullptr);
+    ~SaveEditor() override;
 
     void clearFields();
+    void updateFields(Request &request);
 
     QPushButton *confirmSaveButton;
     QPushButton *cancelSaveButton;

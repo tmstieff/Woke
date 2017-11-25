@@ -15,7 +15,7 @@ class HistoryController_Test : public QObject {
   private:
     HistoryController *historyController;
 
-  private slots:
+  private Q_SLOTS:
     void initTestCase();
     void test_addEntry_defaultName();
     void test_getLatest();

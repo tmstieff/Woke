@@ -3,6 +3,7 @@
 
 #include "headersyntaxhighlighter.h"
 #include "jsonsyntaxhighlighter.h"
+#include "kickpythonsyntaxhighlighter.h"
 #include "tabbededitor.h"
 
 #include <QObject>
@@ -11,6 +12,8 @@
 class ResponseTabbedEditor : public TabbedEditor {
   public:
     explicit ResponseTabbedEditor(QWidget *parent);
+
+    virtual void resetTabData();
 
     void setHeadersData(QSharedPointer<QString> data);
     QSharedPointer<QString> getHeaderData();

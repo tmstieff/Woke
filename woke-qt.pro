@@ -8,6 +8,8 @@ QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+CONFIG += no_keywords
+
 TARGET = woke
 TEMPLATE = app
 
@@ -31,7 +33,13 @@ SOURCES += src/main.cpp \
     src/view/headersyntaxhighlighter.cpp \
     src/view/saveeditor.cpp \
     src/model/project.cpp \
-    src/controller/projectcontroller.cpp
+    src/controller/projectcontroller.cpp \
+    src/model/variable.cpp \
+    src/controller/variablecontroller.cpp \
+    src/controller/pythonscriptcontroller.cpp \
+    src/view/pythonsyntaxhighlighter.cpp \
+    src/controller/currentdatacontroller.cpp \
+    src/view/kickpythonsyntaxhighlighter.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -51,7 +59,14 @@ HEADERS += \
     src/view/headersyntaxhighlighter.h \
     src/view/saveeditor.h \
     src/model/project.h \
-    src/controller/projectcontroller.h
+    src/controller/projectcontroller.h \
+    src/model/variable.h \
+    src/controller/variablecontroller.h \
+    src/controller/pythonscriptcontroller.h \
+    src/view/pythonsyntaxhighlighter.h \
+    src/extension/pybind/qstring_typecaster.h \
+    src/controller/currentdatacontroller.h \
+    src/view/kickpythonsyntaxhighlighter.h
 
 FORMS += mainwindow.ui \
     requestitem.ui \
@@ -62,9 +77,10 @@ FORMS += mainwindow.ui \
 DISTFILES += misc/woke.desktop
 
 win32: LIBS += "$$PWD/qdjango-db0.dll"
-unix: LIBS += -lqdjango-db
+unix: LIBS += -lqdjango-db -lpython3.5m
 
 INCLUDEPATH += /usr/local/include
+INCLUDEPATH += /usr/include/python3.5m/
 DEPENDPATH += /usr/local/include
 
 test {
@@ -84,7 +100,9 @@ test {
         test/testutils.h \
         test/view/tabbededitor_test.h \
         test/controller/historycontroller_test.h \
-        test/controller/projectcontroller_test.h
+        test/controller/projectcontroller_test.h \
+        test/controller/pythonscriptcontroller_test.h \
+        test/controller/variablecontroller_test.h
 
     SOURCES += \
         test/test_main.cpp \
@@ -96,8 +114,9 @@ test {
         test/testutils.cpp \
         test/view/tabbededitor_test.cpp \
         test/controller/historycontroller_test.cpp \
-        test/controller/projectcontroller_test.cpp
-
+        test/controller/projectcontroller_test.cpp \
+        test/controller/pythonscriptcontroller_test.cpp \
+        test/controller/variablecontroller_test.cpp
 
 } else  {
     message(Normal build)

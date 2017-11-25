@@ -10,7 +10,7 @@ UrlSyntaxHighlighter::UrlSyntaxHighlighter(QTextDocument *parent) : QSyntaxHighl
                     << "https"
                     << "/";
 
-    foreach (const QString &pattern, keywordPatterns) {
+    Q_FOREACH (const QString &pattern, keywordPatterns) {
         rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules.append(rule);
@@ -25,7 +25,7 @@ UrlSyntaxHighlighter::UrlSyntaxHighlighter(QTextDocument *parent) : QSyntaxHighl
 }
 
 void UrlSyntaxHighlighter::highlightBlock(const QString &text) {
-    foreach (const HighlightingRule &rule, highlightingRules) {
+    Q_FOREACH (const HighlightingRule &rule, highlightingRules) {
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
 
         while (matchIterator.hasNext()) {

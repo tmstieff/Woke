@@ -18,6 +18,7 @@ ResponseTabbedEditor::ResponseTabbedEditor(QWidget *parent) : TabbedEditor(paren
     auto postScriptTab = QSharedPointer<Ui::TabData>(new Ui::TabData());
     postScriptTab.data()->name = "Post-Response Script";
     postScriptTab.data()->data = postScriptTabData;
+    postScriptTab.data()->syntaxHighlighter = QSharedPointer<QSyntaxHighlighter>(new KickPythonSyntaxHighlighter);
 
     auto requestTabs = QList<QSharedPointer<Ui::TabData>>();
     requestTabs.append(headersTab);
@@ -25,6 +26,13 @@ ResponseTabbedEditor::ResponseTabbedEditor(QWidget *parent) : TabbedEditor(paren
     requestTabs.append(postScriptTab);
 
     this->addTabs(requestTabs);
+}
+
+void ResponseTabbedEditor::resetTabData() {
+    // Don't reset the last tab (script tab)
+    for (int i = 0; i < this->tabs.length() - 1; i++) {
+        this->tabs.at(i).data()->data = QSharedPointer<QString>(new QString(""));
+    }
 }
 
 void ResponseTabbedEditor::setHeadersData(QSharedPointer<QString> data) {

@@ -8,7 +8,7 @@
 class RequestItem_Test : public QObject {
     Q_OBJECT
 
-  private slots:
+  private Q_SLOTS:
     void test_setInformation_valid();
 };
 

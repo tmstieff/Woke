@@ -10,3 +10,5 @@ QString Project::getName() const {
 void Project::setName(const QString &name) {
     this->name = name;
 }
+
+Q_DECLARE_METATYPE(Project *)

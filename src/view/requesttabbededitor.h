@@ -2,9 +2,12 @@
 #define REQUESTTABBEDEDITOR_H
 
 #include "headersyntaxhighlighter.h"
+#include "kickpythonsyntaxhighlighter.h"
 #include "tabbededitor.h"
+#include <QCompleter>
 #include <QObject>
 #include <QSyntaxHighlighter>
+#include <QStringListModel>
 
 class RequestTabbedEditor : public TabbedEditor {
   public:

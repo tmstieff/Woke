@@ -15,7 +15,7 @@ class Project : public QDjangoModel {
     Q_CLASSINFO("name", "null=false")
 
   public:
-    Project(QObject *parent = 0);
+    explicit Project(QObject *parent = nullptr);
 
     QString getName() const;
     void setName(const QString &name);
@@ -24,6 +24,5 @@ class Project : public QDjangoModel {
     QString name;
 };
 
-Q_DECLARE_METATYPE(Project *)
 
 #endif // PROJECT_H

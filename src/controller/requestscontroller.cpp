@@ -2,6 +2,7 @@
 
 RequestsController::RequestsController(QObject *parent) : QObject(parent) {
     this->networkManager = QSharedPointer<QNetworkAccessManager>(new QNetworkAccessManager);
+    this->variableController = QSharedPointer<VariableController>(new VariableController);
 }
 
 /**
@@ -15,12 +16,20 @@ RequestsController::RequestsController(QObject *parent) : QObject(parent) {
  * @param body if relavant or empty string
  * @return pointer to a fat request model object
  */
-QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &url, QString &headers, QString &body) {
-    QSharedPointer<Request> currentRequest = QSharedPointer<Request>(new Request());
+QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &url, QString &headers, QString &body,
+                                                        QString &prerequestScript, bool saveCurrentRequest,
+                                                        QSharedPointer<Project> defaultProject, QString &responseScript,
+                                                        QSharedPointer<Request> existingRequest) {
+    QSharedPointer<Request> currentRequest;
+    if (existingRequest.data() != NULL) {
+        currentRequest = existingRequest;
+    } else {
+        currentRequest = QSharedPointer<Request>(new Request());
+    }
+
     UrlSegments segments = UrlUtil::safeSplitUrl(url);
 
     QNetworkRequest request(url);
-    UrlUtil::setHeadersFromStringBlob(headers, request);
     HttpVerb verbEnum = UrlUtil::safeParseVerb(verb);
 
     currentRequest.data()->setProto(segments.proto);
@@ -29,6 +38,27 @@ QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &
     currentRequest.data()->setVerb(HttpVerbStrings[verbEnum]);
     currentRequest.data()->setRequestHeaders(headers);
     currentRequest.data()->setRequestBody(body);
+    currentRequest.data()->setRequestScript(prerequestScript);
+    currentRequest.data()->setResponseScript(responseScript);
+
+    currentRequest.data()->save();
+
+    if (currentRequest.data()->project() != NULL) {
+        CurrentDataController::setCurrentProjectId(currentRequest.data()->project()->pk().toInt());
+    }
+    CurrentDataController::setCurrentRequestId(currentRequest.data()->pk().toInt());
+
+    this->pythonScriptController.executeScript(prerequestScript, currentRequest);
+
+    QString bodyCopy = QString(body.data());
+    this->variableController.data()->replaceVariables(bodyCopy, CurrentDataController::getCurrentProjectId(),
+                                                      CurrentDataController::getCurrentRequestId());
+
+    QString headersCopy = QString(headers.data());
+    this->variableController.data()->replaceVariables(headersCopy, CurrentDataController::getCurrentProjectId(),
+                                                      CurrentDataController::getCurrentRequestId());
+
+    UrlUtil::setHeadersFromStringBlob(headersCopy, request);
 
     this->responseTimer.start();
 
@@ -37,13 +67,13 @@ QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &
         this->networkManager.data()->get(request);
         break;
     case HttpVerb::POST:
-        this->networkManager.data()->post(request, body.toUtf8());
+        this->networkManager.data()->post(request, bodyCopy.toUtf8());
         break;
     case HttpVerb::PUT:
-        this->networkManager.data()->put(request, body.toUtf8());
+        this->networkManager.data()->put(request, bodyCopy.toUtf8());
         break;
     case HttpVerb::PATCH:
-        this->networkManager.data()->put(request, body.toUtf8());
+        this->networkManager.data()->put(request, bodyCopy.toUtf8());
         break;
     case HttpVerb::DELETE:
         this->networkManager.data()->deleteResource(request);

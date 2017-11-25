@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     defaultProject = this->projectController->upsertDefaultProject();
     projects = this->projectController->getProjects();
 
-    this->currentRequest = QSharedPointer<Request>(new Request(this, this->defaultProject.data()));
+    this->currentRequest = QSharedPointer<Request>(new Request(this));
     this->refreshRecentRequests();
 
     if (this->recentRequests.data()->length() > 0) {
@@ -83,6 +83,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         this->saveEditor->projectComboBox->addItem(project->getName(), QVariant(project->pk()));
         this->ui->projectsListComboBox->addItem(project->getName(), QVariant(project->pk()));
     }
+
+    this->saveEditor->updateFields(*this->currentRequest.data());
 
     QObject::connect(this->saveEditor->confirmSaveButton, SIGNAL(released()), this,
                      SLOT(on_confirmSaveButton_released()));
@@ -105,26 +107,51 @@ void MainWindow::sendRequest() {
     auto verb = this->verbInput->text();
     auto url = this->urlInput->toPlainText();
     auto headers = *this->requestEditor->getHeaderData().data();
-
-    qDebug() << "Request headers" << headers;
+    auto preReqScript = *this->requestEditor->getPreRequestScriptData().data();
+    auto postResScript = *this->responseEditor->getPostResponseScriptData().data();
 
     auto body = this->bodyInput->toPlainText();
 
-    this->currentRequest = this->requestsController->sendRequest(verb, url, headers, body);
+    auto sentRequest = this->requestsController->sendRequest(verb, url, headers, body, preReqScript, true,
+                                                             this->defaultProject, postResScript, this->currentRequest);
     this->resetResponseFields(this->currentRequest.data()->getHost(), this->currentRequest.data()->getUri(),
                               this->verbInput->text());
 }
 
+/**
+ * @brief MainWindow::saveCurrentRequestToProject
+ *
+ * Save the MainWindow::currentRequest to the project currently selected
+ * in the save editor
+ */
 void MainWindow::saveCurrentRequestToProject() {
+    this->updateCurrentRequestFromFields();
+
     auto selectedProjectId = this->saveEditor->projectComboBox->currentData().toInt();
     auto selectedProject = this->projectController->getProject(selectedProjectId);
-    this->currentRequest->setProject(selectedProject.data());
+
+    qDebug() << "Selected project" << selectedProject.data()->getName();
+    qDebug() << "Selected project" << selectedProject.data()->pk();
+
+    // QDjango bug work around, setting to the same project causes a seg fault
+    //if (this->currentRequest.data()->project() != NULL &&
+        //this->currentRequest.data()->project()->pk() != selectedProject.data()->pk()) {
+        this->currentRequest->setProject(selectedProject.data());
+    //}
 
     auto name = this->saveEditor->nameEdit->text();
     this->currentRequest->setName(name);
     this->currentRequest->save();
 
     this->refreshProjectRequests();
+}
+
+void MainWindow::updateCurrentRequestFromFields() {
+    auto urlSegments = UrlUtil::safeSplitUrl(this->urlInput->toPlainText());
+
+    this->currentRequest.data()->setProto(urlSegments.proto);
+    this->currentRequest.data()->setHost(urlSegments.hostname);
+    this->currentRequest.data()->setUri(urlSegments.uri);
 }
 
 void MainWindow::setTimeLabel(ResponseInfo responseInfo) {
@@ -179,7 +206,7 @@ void MainWindow::setStatusCodeLabel(QString statusCode) {
 void MainWindow::setResponseInfo(ResponseInfo responseInfo, QNetworkReply &response) {
     auto headerList = response.rawHeaderList();
     QString headerStr;
-    foreach (QByteArray head, headerList) {
+    Q_FOREACH (QByteArray head, headerList) {
         headerStr = headerStr.append(head + ": " + response.rawHeader(head)).append("\n");
     }
 
@@ -227,6 +254,10 @@ void MainWindow::responseReceived(QNetworkReply *response) {
 
     this->setResponseInfo(responseInfo, *response);
 
+    auto script = this->responseEditor->getPostResponseScriptData().data();
+    auto scriptCopy = QString(script->data());
+    this->pythonScriptController.executeScript(scriptCopy, this->currentRequest);
+
     this->historyController->addEntry(*this->currentRequest.data());
     this->refreshRecentRequests();
 }
@@ -257,6 +288,15 @@ void MainWindow::setUiFields(QSharedPointer<Request> request, bool setCurrentReq
 
     const auto requestScript = request.data()->getRequestScript();
     this->requestEditor->setPreRequestScriptData(QSharedPointer<QString>::create(requestScript));
+
+    const auto responseHeaders = request.data()->getResponseHeaders();
+    this->responseEditor->setHeadersData(QSharedPointer<QString>::create(responseHeaders));
+
+    const auto responseBody = request.data()->getResponseBody();
+    this->responseEditor->setBodyData(QSharedPointer<QString>::create(responseBody));
+
+    const auto responseScript = request.data()->getResponseScript();
+    this->responseEditor->setPostResponseScriptData(QSharedPointer<QString>::create(responseScript));
 
     this->bodyInput->setPlainText(request.data()->getRequestBody());
     this->timeLabel->setText(QString::number(request.data()->getTime()) + " ms");
@@ -321,6 +361,8 @@ void MainWindow::resetResponseFields(const QString &host, const QString &uri, co
 }
 
 void MainWindow::showUrlEditor() {
+    this->urlEditor->move(0, 0);
+
     auto urlInputPos = this->urlInput->mapToGlobal(QPoint(0, 0));
     this->urlEditor->resize(this->urlInput->width(), this->urlEditor->size().height());
 
@@ -349,27 +391,23 @@ void MainWindow::setCurrentRequest(QSharedPointer<Request> newRequest) {
     this->currentRequest.data()->setRequestHeaders(*this->requestEditor->getHeaderData().data());
     this->currentRequest.data()->setRequestBody(this->bodyInput->toPlainText());
     this->currentRequest.data()->setRequestScript(*this->requestEditor->getPreRequestScriptData().data());
+    this->currentRequest.data()->setResponseBody(*this->responseEditor->getBodyData().data());
+    this->currentRequest.data()->setResponseHeaders(*this->responseEditor->getHeaderData().data());
+    this->currentRequest.data()->setResponseScript(*this->responseEditor->getPostResponseScriptData().data());
     this->currentRequest.data()->save();
 
     this->currentRequest = newRequest;
     this->setUiFields(this->currentRequest, false);
 
-    // Update the save editor with this name and project if already assigned and saved
-    if (this->currentRequest.data()->getProject() != NULL) {
-        this->saveEditor->nameEdit->setText(this->currentRequest.data()->getName());
+    CurrentDataController::setCurrentRequestId(newRequest.data()->pk().toInt());
 
-        auto index = 0;
-        for (int i = 0; i < this->saveEditor->projectComboBox->count(); i++) {
-            auto projectId = this->saveEditor->projectComboBox->itemData(i).toInt();
-
-            if (projectId == this->currentRequest.data()->getProject()->pk()) {
-                index = i;
-                break;
-            }
-        }
-
-        this->saveEditor->projectComboBox->setCurrentIndex(index);
+    if (this->currentRequest.data()->project() == nullptr) {
+        CurrentDataController::setCurrentProjectId(this->defaultProject.data()->pk().toInt());
+    } else {
+        CurrentDataController::setCurrentProjectId(this->currentRequest.data()->project()->pk().toInt());
     }
+
+    this->saveEditor->updateFields(*this->currentRequest.data());
 }
 
 /*
@@ -433,10 +471,16 @@ void MainWindow::on_projectsListComboBox_currentIndexChanged(int index) {
 
 void MainWindow::on_projectsRequestsList_clicked(const QModelIndex &index) {
     auto selectedRequest = this->projectRequests.data()->at(index.row());
+    selectedRequest = this->historyController->get(selectedRequest.data()->pk().toInt());
+
+    qDebug() << "Selected request project" << selectedRequest.data()->property("project_id");
+    qDebug() << "Selected request project name" << selectedRequest.data()->project();
+
     this->setCurrentRequest(selectedRequest);
 }
 
 void MainWindow::on_projectsRequestsList_activated(const QModelIndex &index) {
     auto selectedRequest = this->projectRequests.data()->at(index.row());
+    selectedRequest = this->historyController->get(selectedRequest.data()->pk().toInt());
     this->setCurrentRequest(selectedRequest);
 }

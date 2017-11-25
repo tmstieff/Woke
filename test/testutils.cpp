@@ -12,6 +12,7 @@ void initDatabase() {
     QDjango::setDatabase(db);
     QDjango::registerModel<Project>();
     QDjango::registerModel<Request>();
+    QDjango::registerModel<Variable>();
     QDjango::createTables();
 }
 

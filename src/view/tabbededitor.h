@@ -2,6 +2,7 @@
 #define WOKE_QT_TABBEDEDITOR_H
 
 #include <QAction>
+#include <QCompleter>
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QList>
@@ -10,6 +11,7 @@
 #include <QSharedPointer>
 #include <QSyntaxHighlighter>
 #include <QWidget>
+#include <QStringListModel>
 
 namespace Ui {
 class TabbedEditor;
@@ -19,6 +21,7 @@ struct TabData {
     QSharedPointer<QString> data;
     QSharedPointer<QPushButton> button;
     QSharedPointer<QSyntaxHighlighter> syntaxHighlighter;
+    QStringListModel *autoCompletions;
 };
 }
 
@@ -32,14 +35,13 @@ class TabbedEditor : public QWidget {
 
     void addTab(int index, QSharedPointer<Ui::TabData> data);
     void addTabs(const QList<QSharedPointer<Ui::TabData>> &tabs);
-    void removeTab(const QString &name);
-    void removeTab(int index);
-    void resetTabData();
+    virtual void resetTabData();
     void refreshUi();
 
   protected:
     Ui::TabbedEditor *ui;
     QList<QSharedPointer<Ui::TabData>> getTabsData();
+    QList<QSharedPointer<Ui::TabData>> tabs;
     void setTabData(int index, QSharedPointer<QString> data);
     QSharedPointer<QString> getTabData(int index);
     int activeTabIndex;
@@ -47,17 +49,18 @@ class TabbedEditor : public QWidget {
   private:
     QHBoxLayout *tabsLayout;
     QPlainTextEdit *editor;
+    QCompleter *autoCompleter;
 
-    QList<QSharedPointer<Ui::TabData>> tabs;
     void setActiveTabStyle(QPushButton &button);
     void setInactiveTabStyle(QPushButton &button);
     void setStylesheetProperty(QWidget &widget, const QString &property, const QString &value);
     void setActiveTab(int tabIndex);
     void setupFont();
 
-  private slots:
+  private Q_SLOTS:
     void tabClicked();
     void on_editor_textChanged();
+    void setupEditor(const QList<QSharedPointer<Ui::TabData>> &tabs);
 };
 
 #endif // WOKE_QT_TABBEDEDITOR_H

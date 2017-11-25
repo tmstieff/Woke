@@ -1,8 +1,8 @@
 #ifndef MOCKNETWORKREPLY_H
 #define MOCKNETWORKREPLY_H
 
-#include <QNetworkReply>
 #include <QByteArray>
+#include <QNetworkReply>
 
 class MockNetworkReply : public QNetworkReply {
   public:
@@ -13,7 +13,7 @@ class MockNetworkReply : public QNetworkReply {
   protected:
     qint64 readData(char *data, qint64 maxlen) override;
 
-  public slots:
+  public Q_SLOTS:
     void abort() override;
 };
 

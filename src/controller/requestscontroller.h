@@ -8,6 +8,9 @@
 #include <QObject>
 #include <QSharedPointer>
 
+#include "../controller/projectcontroller.h"
+#include "../controller/pythonscriptcontroller.h"
+#include "../controller/variablecontroller.h"
 #include "../model/request.h"
 #include "../urlutil.h"
 
@@ -22,11 +25,16 @@ class RequestsController : public QObject {
     RequestsController(QObject *parent = 0);
 
     QSharedPointer<QNetworkAccessManager> networkManager;
+    QSharedPointer<VariableController> variableController;
 
-    virtual QSharedPointer<Request> sendRequest(QString &verb, QString &url, QString &headers, QString &body);
+    virtual QSharedPointer<Request> sendRequest(QString &verb, QString &url, QString &headers, QString &body,
+                                                QString &prerequestScript, bool saveCurrentRequest,
+                                                QSharedPointer<Project> defaultProject, QString &responseScript,
+                                                QSharedPointer<Request> existingRequest);
     virtual ResponseInfo handleResponse(QNetworkReply &response);
 
   private:
+    PythonScriptController &pythonScriptController = PythonScriptControllerFactory::getInstance();
     QElapsedTimer responseTimer;
 };
 

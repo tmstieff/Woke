@@ -1,12 +1,11 @@
 #include "historycontroller_test.h"
 
 HistoryController_Test::HistoryController_Test() : QObject() {
+    this->historyController = new HistoryController(0);
 }
 
 void HistoryController_Test::initTestCase() {
     initDatabase();
-
-    this->historyController = new HistoryController(0);
 }
 
 /**

@@ -11,6 +11,17 @@ RequestTabbedEditor::RequestTabbedEditor(QWidget *parent) : TabbedEditor(parent)
     auto preScriptTab = QSharedPointer<Ui::TabData>(new Ui::TabData());
     preScriptTab.data()->name = "Pre-Request Script";
     preScriptTab.data()->data = preScriptTabData;
+    preScriptTab.data()->syntaxHighlighter = QSharedPointer<QSyntaxHighlighter>(new KickPythonSyntaxHighlighter);
+
+    QStringList pythonPhrases;
+    pythonPhrases.append("setLocalVar");
+    pythonPhrases.append("setProjectVar");
+    pythonPhrases.append("setGlobalVar");
+    pythonPhrases.append("getVar");
+    pythonPhrases.append("request");
+
+    auto pythonPhrasesModel = new QStringListModel(pythonPhrases, this);
+    preScriptTab.data()->autoCompletions = pythonPhrasesModel;
 
     auto requestTabs = QList<QSharedPointer<Ui::TabData>>();
     requestTabs.append(headersTab);

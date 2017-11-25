@@ -1,5 +1,6 @@
-#include "src/view/saveeditor.h"
 #include "ui_saveeditor.h"
+#include "saveeditor.h"
+
 
 SaveEditor::SaveEditor(QWidget *parent) : QWidget(parent), ui(new Ui::SaveEditor) {
     ui->setupUi(this);
@@ -17,6 +18,25 @@ SaveEditor::~SaveEditor() {
 }
 
 void SaveEditor::clearFields() {
-    this->projectComboBox->setCurrentIndex(-1);
+    this->projectComboBox->setCurrentIndex(0);
     this->nameEdit->setText("");
+}
+
+void SaveEditor::updateFields(Request &request) {
+    // Update the save editor with this name and project if already assigned and saved
+    if (request.project() != nullptr) {
+        this->nameEdit->setText(request.getName());
+
+        auto index = 0;
+        for (int i = 0; i < this->projectComboBox->count(); i++) {
+            auto projectId = this->projectComboBox->itemData(i).toInt();
+
+            if (projectId == request.project()->pk()) {
+                index = i;
+                break;
+            }
+        }
+
+        this->projectComboBox->setCurrentIndex(index);
+    }
 }

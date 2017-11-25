@@ -3,6 +3,7 @@
 
 #include "../src/model/project.h"
 #include "../src/model/request.h"
+#include "../src/model/variable.h"
 #include <QDebug>
 #include <qdjango/db/QDjango.h>
 

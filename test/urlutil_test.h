@@ -9,7 +9,7 @@
 class UrlUtil_Test : public QObject {
     Q_OBJECT
 
-  private slots:
+  private Q_SLOTS:
     void test_httpSplit();
     void test_httpsSplit();
     void test_httpSplit_WithUri();

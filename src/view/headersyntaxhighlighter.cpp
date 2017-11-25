@@ -12,7 +12,7 @@ HeaderSyntaxHighlighter::HeaderSyntaxHighlighter(QTextDocument *parent) : QSynta
 }
 
 void HeaderSyntaxHighlighter::highlightBlock(const QString &text) {
-    foreach (const HighlightingRule &rule, highlightingRules) {
+    Q_FOREACH (const HighlightingRule &rule, highlightingRules) {
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
 
         while (matchIterator.hasNext()) {

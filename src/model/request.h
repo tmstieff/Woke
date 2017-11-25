@@ -4,9 +4,8 @@
 #include "project.h"
 #include <QDebug>
 #include <QObject>
+#include <QVariant>
 #include <qdjango/db/QDjangoModel.h>
-
-class Project;
 
 class Request : public QDjangoModel {
     Q_OBJECT
@@ -25,12 +24,12 @@ class Request : public QDjangoModel {
     Q_PROPERTY(QString responseContentType READ getResponseContentType WRITE setResponseContentType)
     Q_PROPERTY(QString responseBody READ getResponseBody WRITE setResponseBody)
     Q_PROPERTY(QString responseScript READ getResponseScript WRITE setResponseScript)
-    Q_PROPERTY(Project *project READ getProject WRITE setProject)
+    Q_PROPERTY(Project *project READ project WRITE setProject)
 
     Q_CLASSINFO("project", "null=true")
 
   public:
-    Request(QObject *parent = 0, Project *project = NULL);
+    explicit Request(QObject *parent = nullptr);
 
     QString getName() const;
     void setName(const QString &name);
@@ -74,8 +73,10 @@ class Request : public QDjangoModel {
     const QString getResponseContentType() const;
     void setResponseContentType(const QString &responseContentType);
 
-    Project *getProject() const;
+    Project *project() const;
     void setProject(Project *project);
+
+    QSharedPointer<Request> clone();
 
   private:
     QString name;
@@ -94,6 +95,5 @@ class Request : public QDjangoModel {
     QString responseContentType;
 };
 
-Q_DECLARE_METATYPE(Request *)
 
 #endif // REQUEST_H
