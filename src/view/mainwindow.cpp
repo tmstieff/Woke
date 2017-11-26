@@ -102,8 +102,6 @@ MainWindow::~MainWindow() {
  * Send a network request over the wire
  */
 void MainWindow::sendRequest() {
-    assert(this->currentRequest.data()->project());
-
     auto verb = this->verbInput->text();
     auto url = this->urlInput->toPlainText();
     auto headers = *this->requestEditor->getHeaderData().data();

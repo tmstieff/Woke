@@ -71,6 +71,8 @@ set(SOURCE_FILES
         test/controller/mockrequestscontroller.h
         test/controller/pythonscriptcontroller_test.cpp
         test/controller/pythonscriptcontroller_test.h
+        test/controller/projectcontroller_test.cpp
+        test/controller/projectcontroller_test.h
         test/qt/mocknetworkreply.cpp
         test/qt/mocknetworkreply.h
         test/view/requestitem_test.cpp
