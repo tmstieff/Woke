@@ -50,6 +50,14 @@ QSharedPointer<Project> ProjectController::getProject(int id) {
     return QSharedPointer<Project>(result);
 }
 
+Project *ProjectController::getProjectPointer(int id, QObject *parent = 0) {
+    auto result = this->projects.get(QDjangoWhere("id", QDjangoWhere::Equals, id));
+
+    result->setParent(parent);
+
+    return result;
+}
+
 QSharedPointer<Project> ProjectController::getProject(const QString &name) {
     auto result = this->projects.get(QDjangoWhere("name", QDjangoWhere::Equals, name));
     return QSharedPointer<Project>(result);

@@ -104,6 +104,8 @@ MainWindow::~MainWindow() {
  * Send a network request over the wire
  */
 void MainWindow::sendRequest() {
+    assert(this->currentRequest.data()->project());
+
     auto verb = this->verbInput->text();
     auto url = this->urlInput->toPlainText();
     auto headers = *this->requestEditor->getHeaderData().data();
@@ -128,16 +130,12 @@ void MainWindow::saveCurrentRequestToProject() {
     this->updateCurrentRequestFromFields();
 
     auto selectedProjectId = this->saveEditor->projectComboBox->currentData().toInt();
-    auto selectedProject = this->projectController->getProject(selectedProjectId);
+    auto selectedProject = this->projectController->getProjectPointer(selectedProjectId, this->currentRequest.data());
 
-    qDebug() << "Selected project" << selectedProject.data()->getName();
-    qDebug() << "Selected project" << selectedProject.data()->pk();
+    qDebug() << "Selected project" << selectedProject->getName();
+    qDebug() << "Selected project" << selectedProject->pk();
 
-    // QDjango bug work around, setting to the same project causes a seg fault
-    //if (this->currentRequest.data()->project() != NULL &&
-        //this->currentRequest.data()->project()->pk() != selectedProject.data()->pk()) {
-        this->currentRequest->setProject(selectedProject.data());
-    //}
+    this->currentRequest->setProject(selectedProject);
 
     auto name = this->saveEditor->nameEdit->text();
     this->currentRequest->setName(name);

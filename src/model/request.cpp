@@ -125,7 +125,7 @@ void Request::setProject(Project *project) {
 }
 
 QSharedPointer<Request> Request::clone() {
-    QSharedPointer<Request> clone = QSharedPointer<Request>(new Request);
+    QSharedPointer<Request> clone = QSharedPointer<Request>(new Request(this));
 
     clone.data()->setName(QString(this->getName().toUtf8()));
     clone.data()->setProto(QString(this->getProto().toUtf8()));

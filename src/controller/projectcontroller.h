@@ -18,6 +18,7 @@ class ProjectController : public QObject {
     QSharedPointer<QList<QSharedPointer<Project>>> getProjects();
     QSharedPointer<QList<QSharedPointer<Request>>> getRequests(int projectId);
     QSharedPointer<Project> upsertDefaultProject();
+    Project *getProjectPointer(int id, QObject *parent);
     QSharedPointer<Project> getProject(int id);
     QSharedPointer<Project> getProject(const QString &name);
 
