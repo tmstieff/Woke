@@ -41,7 +41,7 @@ void PythonScriptController_Test::test_executeScript_basic() {
     auto request = this->createRequest();
     request.data()->setRequestScript(script);
 
-    CurrentDataController::setCurrentProjectId(request.data()->getProject()->pk().toInt());
+    CurrentDataController::setCurrentProjectId(request.data()->project()->pk().toInt());
     CurrentDataController::setCurrentRequestId(request.data()->pk().toInt());
 
     auto result = this->pythonScriptController.executeScript(script, request);
@@ -65,7 +65,7 @@ void PythonScriptController_Test::test_executeScript_withSetVariables() {
     auto request = this->createRequest();
     request.data()->setRequestScript(script);
 
-    CurrentDataController::setCurrentProjectId(request.data()->getProject()->pk().toInt());
+    CurrentDataController::setCurrentProjectId(request.data()->project()->pk().toInt());
     CurrentDataController::setCurrentRequestId(request.data()->pk().toInt());
 
     auto result = this->pythonScriptController.executeScript(script, request);
@@ -100,7 +100,7 @@ void PythonScriptController_Test::test_executeScript_withGetVariables() {
     auto request = this->createRequest();
     request.data()->setRequestScript(script);
 
-    CurrentDataController::setCurrentProjectId(request.data()->getProject()->pk().toInt());
+    CurrentDataController::setCurrentProjectId(request.data()->project()->pk().toInt());
     CurrentDataController::setCurrentRequestId(request.data()->pk().toInt());
 
     auto result = this->pythonScriptController.executeScript(script, request);
@@ -129,7 +129,7 @@ QSharedPointer<Variable> PythonScriptController_Test::createVariable(QString &va
 void PythonScriptController_Test::test_executeScript_withGetVariablesOrderedByScope() {
     auto request = this->createRequest();
 
-    CurrentDataController::setCurrentProjectId(request.data()->getProject()->pk().toInt());
+    CurrentDataController::setCurrentProjectId(request.data()->project()->pk().toInt());
     CurrentDataController::setCurrentRequestId(request.data()->pk().toInt());
 
     auto varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
@@ -140,7 +140,7 @@ void PythonScriptController_Test::test_executeScript_withGetVariablesOrderedBySc
     auto global = QString("global");
     auto globalVar = createVariable(varName, global, globalVarVal);
     auto project = QString("project");
-    auto projectVar = createVariable(varName, project, projectVarVal, request.data()->getProject()->pk().toInt());
+    auto projectVar = createVariable(varName, project, projectVarVal, request.data()->project()->pk().toInt());
     auto local = QString("local");
     auto localVar = createVariable(varName, local, localVarVal, request.data()->pk().toInt());
 

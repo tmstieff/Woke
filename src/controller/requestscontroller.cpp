@@ -43,7 +43,7 @@ QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &
 
     currentRequest.data()->save();
 
-    if (currentRequest.data()->project() != NULL) {
+    if (currentRequest.data()->project() != nullptr) {
         CurrentDataController::setCurrentProjectId(currentRequest.data()->project()->pk().toInt());
     }
     CurrentDataController::setCurrentRequestId(currentRequest.data()->pk().toInt());
