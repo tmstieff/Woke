@@ -19,7 +19,7 @@ install:
   - cd build
   - pip install pytest
   - cmake ..
-  - make install
+  - mingw32-make install
   - cd ..
 build_script:
   - qmake woke-qt.pro
