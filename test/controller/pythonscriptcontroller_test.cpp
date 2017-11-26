@@ -6,7 +6,7 @@ PythonScriptController_Test::PythonScriptController_Test(QObject *parent) : QObj
 }
 
 QSharedPointer<Request> PythonScriptController_Test::createRequest() {
-    Request *request = new Request();
+    auto *request = new Request();
     request->setName("Test Request");
     request->setHost("api.github.com");
     request->setProto("https://");
@@ -15,7 +15,7 @@ QSharedPointer<Request> PythonScriptController_Test::createRequest() {
 
     request->save();
 
-    Project *project = new Project(0);
+    auto *project = new Project(nullptr);
     project->setName("Test Project");
     project->save();
 
@@ -55,7 +55,7 @@ void PythonScriptController_Test::test_executeScript_basic() {
  * Then: The new variable is set in the database
  */
 void PythonScriptController_Test::test_executeScript_withSetVariables() {
-    auto varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString &varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
 
     auto script = QString();
     script.append("setGlobalVar('");
@@ -81,8 +81,8 @@ void PythonScriptController_Test::test_executeScript_withSetVariables() {
 }
 
 void PythonScriptController_Test::test_executeScript_withGetVariables() {
-    auto varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
-    auto varValue = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString &varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString  &varValue = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
     auto var = QSharedPointer<Variable>(new Variable());
     var.data()->setName(varName);
     var.data()->setValue(varValue);
@@ -126,16 +126,21 @@ QSharedPointer<Variable> PythonScriptController_Test::createVariable(QString &va
     return var;
 }
 
+/**
+ * Given: Multiple variables of different scopes with the same name
+ * When: The Python getVar function is called for the variable
+ * Then: The most specifically scoped variable value is chosen
+ */
 void PythonScriptController_Test::test_executeScript_withGetVariablesOrderedByScope() {
     auto request = this->createRequest();
 
     CurrentDataController::setCurrentProjectId(request.data()->project()->pk().toInt());
     CurrentDataController::setCurrentRequestId(request.data()->pk().toInt());
 
-    auto varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
-    auto globalVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
-    auto projectVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
-    auto localVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString &varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString &globalVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString &projectVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString &localVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
 
     auto global = QString("global");
     auto globalVar = createVariable(varName, global, globalVarVal);

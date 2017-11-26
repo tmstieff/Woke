@@ -63,12 +63,14 @@ set(SOURCE_FILES
         src/main.cpp
         src/urlutil.cpp
         src/urlutil.h
-        test/mainwindow_test.cpp
-        test/mainwindow_test.h
+        test/view/mainwindow_test.cpp
+        test/view/mainwindow_test.h
         test/urlutil_test.cpp
         test/urlutil_test.h
         test/controller/mockrequestscontroller.cpp
         test/controller/mockrequestscontroller.h
+        test/controller/pythonscriptcontroller_test.cpp
+        test/controller/pythonscriptcontroller_test.h
         test/qt/mocknetworkreply.cpp
         test/qt/mocknetworkreply.h
         test/view/requestitem_test.cpp

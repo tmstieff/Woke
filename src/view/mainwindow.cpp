@@ -78,8 +78,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     for (int i = 0; i < projects.data()->size(); i++) {
         auto project = projects.data()->at(i).data();
 
-        qDebug() << "Project name" << project->getName();
-
         this->saveEditor->projectComboBox->addItem(project->getName(), QVariant(project->pk()));
         this->ui->projectsListComboBox->addItem(project->getName(), QVariant(project->pk()));
     }
@@ -131,9 +129,6 @@ void MainWindow::saveCurrentRequestToProject() {
 
     auto selectedProjectId = this->saveEditor->projectComboBox->currentData().toInt();
     auto selectedProject = this->projectController->getProjectPointer(selectedProjectId, this->currentRequest.data());
-
-    qDebug() << "Selected project" << selectedProject->getName();
-    qDebug() << "Selected project" << selectedProject->pk();
 
     this->currentRequest->setProject(selectedProject);
 
@@ -216,12 +211,8 @@ void MainWindow::setResponseInfo(ResponseInfo responseInfo, QNetworkReply &respo
 }
 
 void MainWindow::setResponseInfo(Request &request) {
-    qDebug() << "Set response body" << request.getResponseContentType();
-
     QString body;
     if (request.getResponseContentType().indexOf(QString("application/json"), 0, Qt::CaseInsensitive) >= 0) {
-        qDebug() << "Set JSON response body";
-
         QJsonDocument jsonDoc = QJsonDocument::fromJson(request.getResponseBody().toUtf8());
         body = jsonDoc.toJson(QJsonDocument::Indented);
         request.setResponseBody(body);
@@ -470,10 +461,6 @@ void MainWindow::on_projectsListComboBox_currentIndexChanged(int index) {
 void MainWindow::on_projectsRequestsList_clicked(const QModelIndex &index) {
     auto selectedRequest = this->projectRequests.data()->at(index.row());
     selectedRequest = this->historyController->get(selectedRequest.data()->pk().toInt());
-
-    qDebug() << "Selected request project" << selectedRequest.data()->property("project_id");
-    qDebug() << "Selected request project name" << selectedRequest.data()->project();
-
     this->setCurrentRequest(selectedRequest);
 }
 

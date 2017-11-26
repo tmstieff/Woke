@@ -93,7 +93,7 @@ test {
 
     HEADERS += \
         test/urlutil_test.h \
-        test/mainwindow_test.h \
+        test/view/mainwindow_test.h \
         test/view/requestitem_test.h \
         test/controller/mockrequestscontroller.h \
         test/qt/mocknetworkreply.h \
@@ -108,7 +108,7 @@ test {
         test/test_main.cpp \
         test/urlutil_test.cpp \
         test/view/requestitem_test.cpp \
-        test/mainwindow_test.cpp \
+        test/view/mainwindow_test.cpp \
         test/controller/mockrequestscontroller.cpp \
         test/qt/mocknetworkreply.cpp \
         test/testutils.cpp \

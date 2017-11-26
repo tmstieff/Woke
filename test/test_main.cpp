@@ -2,7 +2,7 @@
 #include "controller/projectcontroller_test.h"
 #include "controller/pythonscriptcontroller_test.h"
 #include "controller/variablecontroller_test.h"
-#include "mainwindow_test.h"
+#include "view/mainwindow_test.h"
 #include "urlutil_test.h"
 #include "view/requestitem_test.h"
 

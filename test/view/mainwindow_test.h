@@ -5,10 +5,10 @@
 #include <QTest>
 #include <qdjango/db/QDjango.h>
 
-#include "../src/controller/historycontroller.h"
-#include "../src/view/mainwindow.h"
-#include "controller/mockrequestscontroller.h"
-#include "testutils.h"
+#include "../../src/controller/historycontroller.h"
+#include "../../src/view/mainwindow.h"
+#include "../controller/mockrequestscontroller.h"
+#include "../testutils.h"
 
 class MainWindow_Test : public MainWindow {
     Q_OBJECT
