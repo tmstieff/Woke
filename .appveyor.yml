@@ -18,7 +18,7 @@ install:
   - cd pybind11
   - mkdir build
   - cd build
-  - C:\Python36\bin\pip install pytest
+  - C:\Python36\pip install pytest
   - cmake ..
   - mingw32-make
   - cd ..
