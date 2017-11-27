@@ -5,6 +5,11 @@ void MainWindow_Test::initTestCase() {
 
     this->requestsController = new MockRequestsController(this);
     this->historyController = new HistoryController(this);
+
+    auto projectsController = new ProjectController();
+    projectsController->upsertDefaultProject();
+
+    delete projectsController;
 }
 
 /**
