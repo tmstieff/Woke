@@ -17,6 +17,7 @@ Releases are currently provided for Linux as AppImages and for Windows as a port
 
 ## Features
 * Supports most basic HTTP request types
+* Focus on Python scripting
 * Raw header input
 * Request body input
 * Response body JSON parser
@@ -24,10 +25,8 @@ Releases are currently provided for Linux as AppImages and for Windows as a port
 * Simple request saving
 
 ## Ambitions
-* Focus on scripting (Python)
 * NeoVim editor built in
 * Project management options
-* Local and global variable declaration
 * Parsing of Swagger, JSON Schema, and other applicable REST specifications
 * Support for various authentication protocols
 
