@@ -13,14 +13,16 @@ install:
   - qmake qdjango.pro
   - mingw32-make
   - mingw32-make install
+  - C:\Python36\Scripts\pip install pytest
   - cd ..
   - git clone https://github.com/pybind/pybind11.git
   - cd pybind11
   - mkdir build
   - cd build
-  - C:\Python36\Scripts\pip install pytest
+  - dir
   - cmake ..
-  - mingw32-make
+  - dir
+  - mingw32-make install
   - cd ..
 build_script:
   - qmake woke-qt.pro
