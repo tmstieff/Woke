@@ -21,7 +21,7 @@ install:
   - cd build
   - cmake ..
   - dir
-  - cmake --build . --target install --DBUILD_TYPE=Release
+  - cmake --build . --target install
   - cd ../../
 build_script:
   - qmake woke-qt.pro
