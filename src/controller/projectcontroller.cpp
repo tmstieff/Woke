@@ -53,7 +53,9 @@ QSharedPointer<Project> ProjectController::getProject(int id) {
 Project *ProjectController::getProjectPointer(int id, QObject *parent = 0) {
     auto result = this->projects.get(QDjangoWhere("id", QDjangoWhere::Equals, id));
 
-    result->setParent(parent);
+    if (result != nullptr) {
+        result->setParent(parent);
+    }
 
     return result;
 }

@@ -362,6 +362,9 @@ void MainWindow::showUrlEditor() {
 }
 
 void MainWindow::showSaveEditor() {
+
+    qDebug() << "Move save editor";
+
     this->saveEditor->move(0, 0);
 
     auto saveButtonPos = this->ui->saveButton->mapToGlobal(QPoint(0, 0));

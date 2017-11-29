@@ -55,7 +55,7 @@ void PythonScriptController_Test::test_executeScript_basic() {
  * Then: The new variable is set in the database
  */
 void PythonScriptController_Test::test_executeScript_withSetVariables() {
-    QString &varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString varName = QUuid::createUuid().toString();
 
     auto script = QString();
     script.append("setGlobalVar('");
@@ -81,8 +81,8 @@ void PythonScriptController_Test::test_executeScript_withSetVariables() {
 }
 
 void PythonScriptController_Test::test_executeScript_withGetVariables() {
-    QString &varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
-    QString  &varValue = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString varName = QUuid::createUuid().toString();
+    QString varValue = QUuid::createUuid().toString();
     auto var = QSharedPointer<Variable>(new Variable());
     var.data()->setName(varName);
     var.data()->setValue(varValue);
@@ -137,10 +137,10 @@ void PythonScriptController_Test::test_executeScript_withGetVariablesOrderedBySc
     CurrentDataController::setCurrentProjectId(request.data()->project()->pk().toInt());
     CurrentDataController::setCurrentRequestId(request.data()->pk().toInt());
 
-    QString &varName = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
-    QString &globalVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
-    QString &projectVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
-    QString &localVarVal = QUuid::createUuid().toString().replace(QRegExp("[{|}]"), "");
+    QString varName = QUuid::createUuid().toString();
+    QString globalVarVal = QUuid::createUuid().toString();
+    QString projectVarVal = QUuid::createUuid().toString();
+    QString localVarVal = QUuid::createUuid().toString();
 
     auto global = QString("global");
     auto globalVar = createVariable(varName, global, globalVarVal);

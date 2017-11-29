@@ -9,6 +9,7 @@
 #include "../../src/view/mainwindow.h"
 #include "../controller/mockrequestscontroller.h"
 #include "../testutils.h"
+#include "../../src/controller/currentdatacontroller.h"
 
 class MainWindow_Test : public MainWindow {
     Q_OBJECT

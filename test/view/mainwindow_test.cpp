@@ -7,9 +7,11 @@ void MainWindow_Test::initTestCase() {
     this->historyController = new HistoryController(this);
 
     auto projectsController = new ProjectController();
-    projectsController->upsertDefaultProject();
+    auto defaultProject = projectsController->upsertDefaultProject();
 
-    delete projectsController;
+    CurrentDataController::setCurrentProjectId(1);
+    this->saveEditor->projectComboBox->addItem(defaultProject.data()->getName(), QVariant(defaultProject.data()->pk()));
+    this->saveEditor->projectComboBox->setCurrentIndex(0);
 }
 
 /**
