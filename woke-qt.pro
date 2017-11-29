@@ -77,10 +77,14 @@ FORMS += mainwindow.ui \
 DISTFILES += misc/woke.desktop
 
 win32: LIBS += "$$PWD/qdjango-db0.dll"
+win32: LIBS += "$$PWD/python.dll"
 unix: LIBS += -lqdjango-db -lpython3.5m
 
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += /usr/include/python3.5m/
+
+win32: INCLUDEPATH += "C:/Program Files (x86)/pybind11/include/"
+
 DEPENDPATH += /usr/local/include
 
 test {
