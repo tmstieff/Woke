@@ -26,9 +26,10 @@ QSharedPointer<Project> ProjectController::upsertDefaultProject() {
     Project *defaultProject = new Project(this);
     defaultProject->setName("Default");
 
-    defaultProject->save();
+    bool saved = defaultProject->save();
+    qDebug() << "Default project saved?" << saved;
 
-    return QSharedPointer<Project>::create(defaultProject);
+    return QSharedPointer<Project>(defaultProject);
 }
 
 QSharedPointer<QList<QSharedPointer<Request>>> ProjectController::getRequests(int projectId) {

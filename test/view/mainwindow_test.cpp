@@ -10,6 +10,9 @@ void MainWindow_Test::initTestCase() {
     auto defaultProject = projectsController->upsertDefaultProject();
 
     CurrentDataController::setCurrentProjectId(1);
+
+    qDebug() << "Default project ID" << defaultProject.data()->pk().toInt();
+
     this->saveEditor->projectComboBox->addItem(defaultProject.data()->getName(), QVariant(defaultProject.data()->pk()));
     this->saveEditor->projectComboBox->setCurrentIndex(0);
 }
@@ -195,6 +198,7 @@ void MainWindow_Test::test_saveCurrentRequestToProject() {
 
     auto savedRequest = this->historyController->get(request.data()->pk().toInt());
 
+    qDebug() << "Selected project" << this->saveEditor->projectComboBox->currentData().toInt();
     QCOMPARE(savedRequest.data()->property("project_id").toInt(), 1);
     QCOMPARE(savedRequest.data()->project()->getName(), QString("Default"));
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTest>
 #include <qdjango/db/QDjango.h>
+#include <QDebug>
 
 #include "../../src/controller/historycontroller.h"
 #include "../../src/view/mainwindow.h"
