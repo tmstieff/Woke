@@ -84,6 +84,7 @@ INCLUDEPATH += /usr/local/include
 INCLUDEPATH += /usr/include/python3.5m/
 
 win32: INCLUDEPATH += "C:/Program Files (x86)/pybind11/include/"
+win32: INCLUDEPATH += "C:/Python36/Include/"
 
 DEPENDPATH += /usr/local/include
 
