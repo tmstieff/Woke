@@ -44,7 +44,6 @@ void MainWindow_Test::test_sendRequest_valid() {
     this->responseReceived(reply.data());
 
     QCOMPARE(this->currentRequest.data()->getStatusCode(), QString::number(200));
-    QCOMPARE(this->currentRequest.data()->getTime(), 0);
 
     // Request object should be saved in the DB
     auto mostRecent = this->historyController->getLatest(1);
