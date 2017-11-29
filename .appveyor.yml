@@ -19,10 +19,9 @@ install:
   - cd pybind11
   - mkdir build
   - cd build
-  - dir
   - cmake ..
   - dir
-  - mingw32-make install
+  - cmake --build . --target install
   - cd ..
 build_script:
   - qmake woke-qt.pro
