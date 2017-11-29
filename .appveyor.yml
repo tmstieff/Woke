@@ -21,8 +21,8 @@ install:
   - cd build
   - cmake ..
   - dir
-  - cmake --build . --target install
-  - cd ..
+  - cmake --build . --target install -DBUILD_TYPE=Release
+  - cd ../../
 build_script:
   - qmake woke-qt.pro
   - cmd: cp C:/Qt/5.9.2/mingw53_32/lib/qdjango-db0.dll C:/projects/woke"
