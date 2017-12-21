@@ -20,6 +20,8 @@ install:
   - cd pybind11
   - mkdir build
   - cd build
+  - python --version
+  - python3 --version
   - pyenv global 3.5.4
   - /opt/pyenv/shims/python3.5 -m pip install pytest
   - cmake ..
