@@ -22,8 +22,8 @@ install:
   - cd build
   - python --version
   - python3 --version
-  - pyenv global 3.5.4
-  - /opt/pyenv/shims/python3.5 -m pip install pytest
+  - sudo update-alternatives --install /usr/bin/python3 python3 /opt/pyenv/shims/python3.5 10
+  - python3 -m pip install pytest
   - cmake ..
   - sudo make install
   - sudo ldconfig
