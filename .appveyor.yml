@@ -12,11 +12,17 @@ install:
   - choco install -y cmake
   - rmdir C:\Python27 /s /q
   - set PATH=%QTDIR%\bin;%QTDIR%\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";C:\Python36;"C:\Program Files\CMake";"C:\Program Files\CMake\bin""
+  - dir
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
   - qmake -makefile qdjango.pro
   - nmake release
   - dir
+  - cd C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.12.25827\bin\HostX64\x64\
+  - dir
+  - cd release
+  - dir
+  - cd C:\
   - C:\Python36\Scripts\pip install pytest
   - cd ..
   - git clone https://github.com/pybind/pybind11.git
