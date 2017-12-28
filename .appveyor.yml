@@ -31,6 +31,7 @@ install:
 build_script:
   - qmake woke-qt.pro
   - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.dll C:/projects/woke"
+  - dir
   - nmake release
 after_build:
   - windeployqt release/woke.exe
