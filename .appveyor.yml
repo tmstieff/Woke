@@ -1,3 +1,6 @@
+image:
+- Visual Studio 2017
+
 branches:
   only:
     - master
@@ -11,8 +14,8 @@ install:
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
   - qmake qdjango.pro
-  - mingw32-make
-  - mingw32-make install
+  - cmake
+  - cmake install
   - C:\Python36\Scripts\pip install pytest
   - cd ..
   - git clone https://github.com/pybind/pybind11.git
