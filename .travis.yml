@@ -25,7 +25,7 @@ install:
   - cd build
   - python --version
   - python3 --version
-  - /usr/bin/python3.6 -m pip install pytest
+  - python3 -m pip install pytest
   - cmake ..
   - sudo make install
   - sudo ldconfig
