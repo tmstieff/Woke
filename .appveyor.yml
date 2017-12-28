@@ -18,11 +18,10 @@ install:
   - qmake -makefile qdjango.pro
   - nmake release
   - dir
-  - cd C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.12.25827\bin\HostX64\x64\
+  - cd C:\projects\woke\qdjango\src\db
   - dir
   - cd release
   - dir
-  - cd C:\
   - C:\Python36\Scripts\pip install pytest
   - cd ..
   - git clone https://github.com/pybind/pybind11.git
