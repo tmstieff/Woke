@@ -6,6 +6,7 @@ branches:
     - master
 
 install:
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 17.0\VC\vcvarsall.bat" amd64
   - set QTDIR=C:\Qt\5.9.2\mingw53_32
   - choco install -y InnoSetup
   - choco install -y cmake
