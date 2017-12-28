@@ -81,7 +81,7 @@ win32: LIBS += "$$PWD/python.dll"
 unix: LIBS += -lqdjango-db -lpython3.5m
 
 INCLUDEPATH += /usr/local/include
-INCLUDEPATH += /usr/include/python3.5m/
+INCLUDEPATH += /usr/include/python3.6/
 
 win32: INCLUDEPATH += "C:/Program Files (x86)/pybind11/include/"
 win32: INCLUDEPATH += "C:/Python36/Include/"
