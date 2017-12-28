@@ -17,11 +17,6 @@ install:
   - cd qdjango
   - qmake -makefile qdjango.pro
   - nmake release
-  - dir
-  - cd C:\projects\woke\qdjango\src\db
-  - dir
-  - cd release
-  - dir
   - C:\Python36\Scripts\pip install pytest
   - cd ..
   - git clone https://github.com/pybind/pybind11.git
@@ -34,13 +29,13 @@ install:
   - cd ../../
 build_script:
   - qmake woke-qt.pro
-  - cmd: cp %QTDIR%/lib/qdjango-db0.dll C:/projects/woke"
-  - mingw32-make
+  - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.dll C:/projects/woke"
+  - nmake release
 after_build:
   - windeployqt release/woke.exe
   - cmd: cp LICENSE release/LICENSE.txt"
-  - cmd: cp %QTDIR%/lib/libqdjango-db0.a C:/projects/woke"
-  - cmd: cp %QTDIR%/lib/qdjango-db0.dll C:/projects/woke/release"
+  - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.lib C:/projects/woke"
+  - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.dll C:/projects/woke/release"
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
