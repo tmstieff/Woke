@@ -7,11 +7,11 @@ branches:
 
 install:
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-  - set QTDIR=C:\Qt\5.9.2\mingw53_32
+  - set QTDIR=C:\Qt\5.9.2\msvc2017_64
   - choco install -y InnoSetup
   - choco install -y cmake
   - rmdir C:\Python27 /s /q
-  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";C:\Python36;"C:\Program Files\CMake";"C:\Program Files\CMake\bin""
+  - set PATH=%QTDIR%\bin;%QTDIR%\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";C:\Python36;"C:\Program Files\CMake";"C:\Program Files\CMake\bin""
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
   - qmake -makefile qdjango.pro
@@ -28,13 +28,13 @@ install:
   - cd ../../
 build_script:
   - qmake woke-qt.pro
-  - cmd: cp C:/Qt/5.9.2/mingw53_32/lib/qdjango-db0.dll C:/projects/woke"
+  - cmd: cp %QTDIR%/lib/qdjango-db0.dll C:/projects/woke"
   - mingw32-make
 after_build:
   - windeployqt release/woke.exe
   - cmd: cp LICENSE release/LICENSE.txt"
-  - cmd: cp C:/Qt/5.9.2/mingw53_32/lib/libqdjango-db0.a C:/projects/woke"
-  - cmd: cp C:/Qt/5.9.2/mingw53_32/lib/qdjango-db0.dll C:/projects/woke/release"
+  - cmd: cp %QTDIR%/lib/libqdjango-db0.a C:/projects/woke"
+  - cmd: cp %QTDIR%/lib/qdjango-db0.dll C:/projects/woke/release"
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
