@@ -78,7 +78,9 @@ DISTFILES += misc/woke.desktop
 
 win32: LIBS += "$$PWD/qdjango-db0.dll"
 win32: LIBS += "$$PWD/python.dll"
-unix: LIBS += -lqdjango-db -lpython3.6
+
+unix: LIBS += -L/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu
+unix: LIBS += -lqdjango-db -lpython3.6 -L/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu
 
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += /usr/include/python3.6/
