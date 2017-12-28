@@ -14,7 +14,7 @@ install:
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
   - qmake -makefile qdjango.pro
-  - cmake --build . --target install
+  - nmake release
   - C:\Python36\Scripts\pip install pytest
   - cd ..
   - git clone https://github.com/pybind/pybind11.git
