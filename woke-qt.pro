@@ -76,7 +76,7 @@ FORMS += mainwindow.ui \
 
 DISTFILES += misc/woke.desktop
 
-win32: LIBS += "$$PWD/qdjango-db0.dll"
+win32: LIBS += "$$PWD/qdjango-db0.lib"
 win32: LIBS += "$$PWD/python.dll"
 
 unix: LIBS += -L/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu
