@@ -31,6 +31,8 @@ install:
 build_script:
   - qmake woke-qt.pro
   - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.lib C:/projects/woke"
+  - cmd: cp C:\Python36\libs\Python3.lib C:/projects/woke"
+  - cmd: cp C:\Python36\libs\Python36.lib C:/projects/woke"
   - dir
   - nmake release
 after_build:
