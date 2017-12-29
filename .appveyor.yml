@@ -11,14 +11,14 @@ install:
   - choco install -y InnoSetup
   - choco install -y cmake
   - rmdir C:\Python27 /s /q
-  - set PATH=%QTDIR%\bin;%QTDIR%\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";C:\Python36;"C:\Program Files\CMake";"C:\Program Files\CMake\bin""
+  - set PATH=%QTDIR%\bin;%QTDIR%\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";C:\Python36-x64;"C:\Program Files\CMake";"C:\Program Files\CMake\bin""
   - dir
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
   - qmake qdjango.pro
   - nmake release
   - nmake install
-  - C:\Python36\Scripts\pip install pytest
+  - C:\Python36-x64\Scripts\pip install pytest
   - cd ..
   - git clone https://github.com/pybind/pybind11.git
   - cd pybind11
@@ -31,14 +31,16 @@ install:
 build_script:
   - qmake woke-qt.pro
   - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.lib C:/projects/woke"
-  - cmd: cp C:\Python36\libs\Python3.lib C:/projects/woke"
-  - cmd: cp C:\Python36\libs\Python36.lib C:/projects/woke"
+  - cmd: cp C:\Python36-x64\libs\Python3.lib C:/projects/woke"
+  - cmd: cp C:\Python36-x64\libs\Python36.lib C:/projects/woke"
   - dir
   - nmake release
 after_build:
   - windeployqt release/woke.exe
   - cmd: cp LICENSE release/LICENSE.txt"
   - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.dll C:/projects/woke/release"
+  - cmd: cp C:\Python36-x64\python3.dll C:\projects\woke\release"
+  - cmd: cp C:\Python36-x64\python36.dll C:\projects\woke\release"
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
