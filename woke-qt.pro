@@ -39,7 +39,8 @@ SOURCES += src/main.cpp \
     src/controller/pythonscriptcontroller.cpp \
     src/view/pythonsyntaxhighlighter.cpp \
     src/controller/currentdatacontroller.cpp \
-    src/view/kickpythonsyntaxhighlighter.cpp
+    src/view/kickpythonsyntaxhighlighter.cpp \
+    src/view/projecteditor.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -66,13 +67,15 @@ HEADERS += \
     src/view/pythonsyntaxhighlighter.h \
     src/extension/pybind/qstring_typecaster.h \
     src/controller/currentdatacontroller.h \
-    src/view/kickpythonsyntaxhighlighter.h
+    src/view/kickpythonsyntaxhighlighter.h \
+    src/view/projecteditor.h
 
 FORMS += mainwindow.ui \
     requestitem.ui \
     urleditor.ui \
     tabbededitor.ui \
-    saveeditor.ui
+    saveeditor.ui \
+    projecteditor.ui
 
 DISTFILES += misc/woke.desktop
 

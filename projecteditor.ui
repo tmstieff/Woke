@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProjectEditor</class>
+ <widget class="QWidget" name="ProjectEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>422</width>
+    <height>169</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QComboBox, QLineEdit {
+	background-color: #2b2b2b;
+	border: none;
+	border-bottom: 3px solid #6ABDDB;
+	color: #a9b7c6;
+	padding-left: 2px;
+}
+
+QComboBox::drop-down {
+    border: 0;
+}
+
+QPushButton {
+	background-color: #6ABDDB;
+	color: #000000;
+	border: none;
+	padding: 10px;
+	border-radius: 8px;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="projectEditorFrame">
+     <property name="styleSheet">
+      <string notr="true">#projectEditorFrame {
+	/*border: 3px solid #3c3f41;*/
+	/*border: 3px solid #313335;*/
+	border: 1px solid #555555;
+	background-color: #3c3f41;
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>9</number>
+      </property>
+      <property name="leftMargin">
+       <number>9</number>
+      </property>
+      <property name="topMargin">
+       <number>9</number>
+      </property>
+      <property name="rightMargin">
+       <number>9</number>
+      </property>
+      <property name="bottomMargin">
+       <number>9</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="projectsLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">#saveLabel {
+	color: #bbbbbb;
+}</string>
+        </property>
+        <property name="text">
+         <string>Projects</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QListView" name="projectsListView"/>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="nameEdit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>15</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="cancelSaveButton">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: #bbbbbb;
+	border: none;
+	padding: 10px;
+	border-radius: 6px;
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #666666, stop:1 #444444)
+}
+
+QPushButton:hover {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #555555, stop:1 #444444)
+}</string>
+          </property>
+          <property name="text">
+           <string>Cancel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="confirmSaveButton">
+          <property name="styleSheet">
+           <string notr="true">#confirmSaveButton {
+	/*background-color: #6ABDDB;*/
+	color: #000000;
+	border: none;
+	padding: 10px;
+	border-radius: 8px;
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6dc7e8, stop:1 #589eb7)
+}
+
+#confirmSaveButton:hover {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6ABDDB, stop:1 #589eb7)
+}</string>
+          </property>
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="confirmSaveAsButton">
+          <property name="styleSheet">
+           <string notr="true">#confirmSaveAsButton {
+	/*background-color: #6ABDDB;*/
+	color: #000000;
+	border: none;
+	padding: 10px;
+	border-radius: 8px;
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6dc7e8, stop:1 #589eb7)
+}
+
+#confirmSaveAsButton:hover {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
+                stop:0 #6ABDDB, stop:1 #589eb7)
+}</string>
+          </property>
+          <property name="text">
+           <string>Save As</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
