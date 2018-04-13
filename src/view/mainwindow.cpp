@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Set tab width to 2 spaces
     bodyInput->setTabStopWidth(tabSpaces * metrics.width(' '));
 
-    // Ad the default syntax highlighters
+    // Add the default syntax highlighters
     this->bodyHighlighter = new JsonSyntaxHighlighter(this->bodyInput->document());
     this->urlHighlighter = new UrlSyntaxHighlighter(this->urlInput->document());
 
@@ -158,7 +158,7 @@ void MainWindow::setStatusCodeLabel(ResponseInfo responseInfo) {
         statusCodeStr = QString("-");
     }
 
-    this->setStatusCodeLabel(statusCodeStr);
+    LabelUtil::setStatusCodeLabel(statusCodeStr, *this->statusCodeLabel);
 }
 
 void MainWindow::setStatusCodeLabel(QString statusCode) {
@@ -248,16 +248,6 @@ void MainWindow::responseReceived(QNetworkReply *response) {
     this->historyController->addEntry(*this->currentRequest.data());
     this->refreshRecentRequests();
 }
-
-/**
- * @brief MainWindow::setStylesheetProperty
- *
- * Set or replace a specific stylesheet property on a widget
- *
- * @param widget
- * @param property
- * @param value
- */
 void MainWindow::setStylesheetProperty(QWidget &widget, const QString &property, const QString &value) {
     auto stylesheet = widget.styleSheet();
 

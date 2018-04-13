@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-08-08T16:02:22
+# Woke project file
 #
 #-------------------------------------------------
 
@@ -39,7 +39,8 @@ SOURCES += src/main.cpp \
     src/controller/pythonscriptcontroller.cpp \
     src/view/pythonsyntaxhighlighter.cpp \
     src/controller/currentdatacontroller.cpp \
-    src/view/kickpythonsyntaxhighlighter.cpp
+    src/view/kickpythonsyntaxhighlighter.cpp \
+    src/view/labelutil.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -66,7 +67,8 @@ HEADERS += \
     src/view/pythonsyntaxhighlighter.h \
     src/extension/pybind/qstring_typecaster.h \
     src/controller/currentdatacontroller.h \
-    src/view/kickpythonsyntaxhighlighter.h
+    src/view/kickpythonsyntaxhighlighter.h \
+    src/view/labelutil.h
 
 FORMS += mainwindow.ui \
     requestitem.ui \
@@ -80,16 +82,21 @@ win32: LIBS += "$$PWD/qdjango-db0.lib"
 win32: LIBS += "$$PWD/Python3.lib"
 win32: LIBS += "$$PWD/Python36.lib"
 
-unix: LIBS += -L/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu
-unix: LIBS += -lqdjango-db -lpython3.6 -L/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu
+unix: LIBS += -L/usr/lib/python3.6m/config-3.6m-x86_64-linux-gnu
+unix: LIBS += -lqdjango-db -lpython3.6m -L/usr/lib/python3.6m/config-3.6m-x86_64-linux-gnu -L/usr/local/lib
 
-INCLUDEPATH += /usr/local/include
-INCLUDEPATH += /usr/include/python3.6/
+unix: LIBS += -Wl,-rpath,'$ORIGIN'
+
+unix: INCLUDEPATH += /usr/local/include
+unix: INCLUDEPATH += /usr/include/python3.6m/
 
 win32: INCLUDEPATH += "C:/Program Files (x86)/pybind11/include/"
 win32: INCLUDEPATH += "C:/Python36/Include/"
 
 DEPENDPATH += /usr/local/include
+
+CONFIG += c++14
+QMAKE_CXXFLAGS += -fvisibility=hidden
 
 test {
     message(Test build)
@@ -141,6 +148,8 @@ unix {
     shortcutfiles.path = $$PREFIX/share/applications/
 
     INSTALLS += shortcutfiles
+
+    QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN\'"
 }
 
 INSTALLS += target

@@ -9,6 +9,7 @@
 #include "../model/project.h"
 #include "../model/requestlistmodel.h"
 #include "../urlutil.h"
+#include "labelutil.h"
 #include "jsonsyntaxhighlighter.h"
 #include "requestitem.h"
 #include "requesttabbededitor.h"
@@ -34,12 +35,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <cstdlib>
 
-static const QString DEFAULT_INFO_LABEL_COLOR = "#595b5d";
-static const QString BLUE_LABEL = "#445F68";
-static const QString RED_LABEL = "#68444D";
-static const QString YELLOW_LABEL = "#795C06";
-static const QString PURPLE_LABEL = "#412F79";
-static const QString GREEN_LABEL = "#3F684A";
 
 namespace Ui {
 class MainWindow;
