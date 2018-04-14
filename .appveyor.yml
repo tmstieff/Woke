@@ -24,9 +24,9 @@ install:
   - cd pybind11
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake -A x64 ..
   - dir
-  - cmake --build . --target install
+  - cmake -A x64 --build . --target install
   - cd ../../
 build_script:
   - qmake woke-qt.pro
