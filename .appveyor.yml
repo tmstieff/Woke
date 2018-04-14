@@ -26,7 +26,6 @@ install:
   - cd build
   - cmake -A x64 ..
   - dir
-  - cmake -A x64 --build . --target install
   - cd ../../
 build_script:
   - qmake woke-qt.pro
