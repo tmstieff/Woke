@@ -7,7 +7,7 @@ branches:
 
 install:
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-  - set QTDIR=C:\Qt\5.9.2\msvc2017_64
+  - set QTDIR=C:\Qt\5.10.1\msvc2017_64
   - choco install -y InnoSetup
   - choco install -y cmake
   - rmdir C:\Python27 /s /q
@@ -24,9 +24,10 @@ install:
   - cd pybind11
   - mkdir build
   - cd build
-  - cmake --build build64 ..
+  - cmake -A x64 ..
+  - cmake -A x64 --build . --config Release
+  - cmake -A x64 --build . --target install
   - dir
-  - cmake --build build64 . --target install
   - cd ../../
 build_script:
   - qmake woke-qt.pro
