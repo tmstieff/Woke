@@ -39,6 +39,14 @@ void setLocalVariable(std::string &name, std::string &value) {
     setVariable(name, value, scope, CurrentDataController::getCurrentRequestId());
 }
 
+/**
+ * @brief
+ *
+ * Search for a variable by name. Since this method is always called in a request script, the
+ * project and request IDs can be infurred from the current request.
+ *
+ * @param name - The variable name to search for
+ */
 std::string getVariable(std::string &name) {
     auto qtName = QString(name.c_str());
 
@@ -61,6 +69,7 @@ std::string getVariable(std::string &name) {
     if (localVar.data() != NULL) {
         return localVar.data()->getValue().toStdString();
     } else if (projectVar.data() != NULL) {
+
         return projectVar.data()->getValue().toStdString();
     } else if (globalVar.data() != NULL) {
         return globalVar.data()->getValue().toStdString();
@@ -73,8 +82,11 @@ std::string getVariable(std::string &name) {
 VariableController::VariableController(QObject *parent) : QObject(parent) {
 }
 
-QSharedPointer<Variable> VariableController::getVariable(const QString &name) {
+QSharedPointer<Variable> VariableController::getVariable(const QString &name, int projectId, int scopeId) {
     auto variable = this->variables.get(QDjangoWhere("name", QDjangoWhere::Equals, name));
+
+
+
 
     return QSharedPointer<Variable>(variable);
 }
@@ -83,7 +95,9 @@ void VariableController::replaceVariables(QString &string, int projectId, int re
     QSet<QString> variables = findVariables(string);
 
     auto variableModels = QList<QSharedPointer<Variable>>();
-    Q_FOREACH (const QString &varName, variables) { variableModels.push_back(getVariable(varName)); }
+    Q_FOREACH (const QString &varName, variables) {
+      variableModels.push_back(this->getVariable(varName, projectId, requestId));
+    }
 
     for (int i = 0; i < variableModels.length(); i++) {
         if (variableModels.at(i).data() != NULL) {
@@ -106,7 +120,11 @@ QSet<QString> VariableController::findVariables(QString &string) {
 
     QRegularExpressionMatchIterator iter = rx.globalMatch(string);
     while (iter.hasNext()) {
-        variables.insert(iter.next().captured(1));
+        auto captured = iter.next().captured(1);
+
+        qDebug() << "Found capture " << captured;
+
+        variables.insert(captured);
     }
 
     return variables;

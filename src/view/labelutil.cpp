@@ -5,6 +5,14 @@ LabelUtil::LabelUtil()
 
 }
 
+/**
+ * @brief LabelUtil::setStatusCodeLabel
+ *
+ * Set the color and text for the HTTP status code label
+ *
+ * @param statusCode
+ * @param statusCodeLabel
+ */
 void LabelUtil::setStatusCodeLabel(const QString statusCode, QLabel &statusCodeLabel)
 {
     statusCodeLabel.setText(statusCode);

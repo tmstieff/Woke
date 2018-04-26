@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     defaultProject = this->projectController->upsertDefaultProject();
     projects = this->projectController->getProjects();
 
-    this->currentRequest = QSharedPointer<Request>(new Request(this));
+    this->currentRequest = QSharedPointer<Request>(new Request());
     this->refreshRecentRequests();
 
     if (this->recentRequests.data()->length() > 0) {
@@ -161,34 +161,6 @@ void MainWindow::setStatusCodeLabel(ResponseInfo responseInfo) {
     LabelUtil::setStatusCodeLabel(statusCodeStr, *this->statusCodeLabel);
 }
 
-void MainWindow::setStatusCodeLabel(QString statusCode) {
-    this->statusCodeLabel->setText(statusCode);
-
-    int statusCodeInt = statusCode.toInt();
-
-    if (statusCodeInt >= 200 && statusCodeInt <= 299) {
-        QString property("background-color");
-        QString value(GREEN_LABEL);
-        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
-    } else if (statusCodeInt >= 300 && statusCodeInt <= 399) {
-        QString property("background-color");
-        QString value(DEFAULT_INFO_LABEL_COLOR);
-        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
-    } else if (statusCodeInt >= 400 && statusCodeInt <= 499) {
-        QString property("background-color");
-        QString value(YELLOW_LABEL);
-        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
-    } else if (statusCodeInt >= 500 && statusCodeInt <= 599) {
-        QString property("background-color");
-        QString value(RED_LABEL);
-        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
-    } else {
-        QString property("background-color");
-        QString value(DEFAULT_INFO_LABEL_COLOR);
-        this->setStylesheetProperty(*this->statusCodeLabel, property, value);
-    }
-}
-
 /**
  * Set the response body fields based on the content-type
  * @param responseInfo
@@ -248,15 +220,15 @@ void MainWindow::responseReceived(QNetworkReply *response) {
     this->historyController->addEntry(*this->currentRequest.data());
     this->refreshRecentRequests();
 }
-void MainWindow::setStylesheetProperty(QWidget &widget, const QString &property, const QString &value) {
-    auto stylesheet = widget.styleSheet();
 
-    const QString &newStylesheet =
-        stylesheet.replace(QRegularExpression(QString(property + ": .+;")), property + ": " + value + ";");
-
-    widget.setStyleSheet(newStylesheet);
-}
-
+/**
+ * @brief MainWindow::setUiFields
+ *
+ * Set the UI fields from a given request object
+ *
+ * @param request
+ * @param setCurrentRequest - Update the MainWindow::currentRequest from the given request?
+ */
 void MainWindow::setUiFields(QSharedPointer<Request> request, bool setCurrentRequest) {
     this->urlInput->setPlainText(request.data()->getProto() + request.data()->getHost() + request.data()->getUri());
 
@@ -281,7 +253,9 @@ void MainWindow::setUiFields(QSharedPointer<Request> request, bool setCurrentReq
     this->uriLabel->setText(request.data()->getUri());
     this->verbLabel->setText(request.data()->getVerb());
     this->verbInput->setText(request.data()->getVerb());
-    this->setStatusCodeLabel(request.data()->getStatusCode());
+
+    LabelUtil::setStatusCodeLabel(request.data()->getStatusCode(), *this->statusCodeLabel);
+
     this->setResponseInfo(*request.data());
 
     if (setCurrentRequest) {
@@ -289,6 +263,11 @@ void MainWindow::setUiFields(QSharedPointer<Request> request, bool setCurrentReq
     }
 }
 
+/**
+ * @brief MainWindow::refreshRecentRequests
+ *
+ * Refresh the recent requests list
+ */
 void MainWindow::refreshRecentRequests() {
     this->recentRequests = this->historyController->getLatest(10);
     this->recentRequestsListWidget->clear();
@@ -303,6 +282,11 @@ void MainWindow::refreshRecentRequests() {
     }
 }
 
+/**
+ * @brief MainWindow::refreshProjectRequests
+ *
+ * Refresh the project requests list
+ */
 void MainWindow::refreshProjectRequests() {
     auto selectedProjectId = this->ui->projectsListComboBox->currentData().toInt();
 
@@ -333,7 +317,7 @@ void MainWindow::resetResponseFields(const QString &host, const QString &uri, co
     this->timeLabel->setText("- ms");
     this->statusCodeLabel->setText("-");
     this->verbLabel->setText(HttpVerbStrings[UrlUtil::safeParseVerb(verb)]);
-    this->setStylesheetProperty(*this->statusCodeLabel, "background-color", DEFAULT_INFO_LABEL_COLOR);
+    LabelUtil::setStylesheetProperty(*this->statusCodeLabel, "background-color", DEFAULT_INFO_LABEL_COLOR);
     this->responseEditor->resetTabData();
 }
 
@@ -352,9 +336,6 @@ void MainWindow::showUrlEditor() {
 }
 
 void MainWindow::showSaveEditor() {
-
-    qDebug() << "Move save editor";
-
     this->saveEditor->move(0, 0);
 
     auto saveButtonPos = this->ui->saveButton->mapToGlobal(QPoint(0, 0));

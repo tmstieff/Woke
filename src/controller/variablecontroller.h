@@ -3,6 +3,7 @@
 
 #include "../model/variable.h"
 #include "currentdatacontroller.h"
+#include <QDebug>
 #include <QObject>
 #include <QRegularExpression>
 #include <QRegularExpressionMatchIterator>
@@ -25,7 +26,7 @@ class VariableController : public QObject {
   public:
     explicit VariableController(QObject *parent = nullptr);
 
-    QSharedPointer<Variable> getVariable(const QString &name);
+    QSharedPointer<Variable> getVariable(const QString &name, int projectId, int requestId);
     void replaceVariables(QString &string, int projectId, int requestId);
 
   private:

@@ -17,6 +17,7 @@ class VariableController_Test : public QObject {
     void test_replaceVariables();
     void test_replaceVariables_multipleSame();
     void test_replaceVariables_multipleDifferent();
+    void test_replaceVariables_multipleDifferentAndAsHeaderName();
 };
 
 #endif // VARIABLECONTROLLER_TEST_H

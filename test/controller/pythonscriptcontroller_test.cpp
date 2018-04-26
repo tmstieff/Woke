@@ -15,7 +15,7 @@ QSharedPointer<Request> PythonScriptController_Test::createRequest() {
 
     request->save();
 
-    auto *project = new Project(nullptr);
+    auto *project = new Project();
     project->setName("Test Project");
     project->save();
 
@@ -161,7 +161,7 @@ void PythonScriptController_Test::test_executeScript_withGetVariablesOrderedBySc
     auto result = this->pythonScriptController.executeScript(script, request);
 
     QCOMPARE(result, true);
-    auto newVariable = this->variableController->getVariable("test_getVariables_local");
+    auto newVariable = this->variableController->getVariable("test_getVariables_local", global, -1);
     if (newVariable.data() == NULL) {
         QFAIL("No variable found after script executed");
     }

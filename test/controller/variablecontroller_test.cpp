@@ -59,3 +59,38 @@ void VariableController_Test::test_replaceVariables_multipleDifferent() {
     QCOMPARE(string.indexOf("some_val"), 27);
     QCOMPARE(string.indexOf("some_other_val"), 52);
 }
+
+void VariableController_Test::test_replaceVariables_multipleDifferentAndAsHeaderName() {
+    auto string =
+        QString("Some text\n{{header_name}}: {{some_var}}\nAuthentication: {{some_other_var}}\nAnother-Header: text");
+
+    Variable headerNameVar;
+    headerNameVar.setName("header_name");
+    headerNameVar.setValue("Content-Type");
+    headerNameVar.setScope("global");
+    headerNameVar.setScopeId(0);
+    headerNameVar.save();
+
+    Variable someVar;
+    someVar.setName("some_var");
+    someVar.setValue("some_val");
+    someVar.setScope("global");
+    someVar.setScopeId(0);
+    someVar.save();
+
+    Variable someOtherVar;
+    someOtherVar.setName("some_other_var");
+    someOtherVar.setValue("some_other_val");
+    someOtherVar.setScope("global");
+    someOtherVar.setScopeId(0);
+    someOtherVar.save();
+
+    this->variableController->replaceVariables(string, 0, 0);
+
+    qDebug() << string;
+
+    QCOMPARE(string.indexOf("Content-Type"), 10);
+    QCOMPARE(string.indexOf("some_val"), 27);
+    QCOMPARE(string.indexOf("some_other_val"), 52);
+}
+
