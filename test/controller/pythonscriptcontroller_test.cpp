@@ -72,7 +72,7 @@ void PythonScriptController_Test::test_executeScript_withSetVariables() {
 
     QCOMPARE(result, true);
 
-    auto newVariable = this->variableController->getVariable(varName);
+    auto newVariable = this->variableController->getVariable(varName, CurrentDataController::getCurrentProjectId(), CurrentDataController::getCurrentRequestId());
     if (newVariable.data() == NULL) {
         QFAIL("No variable found after script executed");
     }
@@ -106,7 +106,7 @@ void PythonScriptController_Test::test_executeScript_withGetVariables() {
     auto result = this->pythonScriptController.executeScript(script, request);
 
     QCOMPARE(result, true);
-    auto newVariable = this->variableController->getVariable("test_getVariables");
+    auto newVariable = this->variableController->getVariable("test_getVariables", CurrentDataController::getCurrentProjectId(), CurrentDataController::getCurrentRequestId());
     if (newVariable.data() == NULL) {
         QFAIL("No variable found after script executed");
     }
@@ -161,7 +161,7 @@ void PythonScriptController_Test::test_executeScript_withGetVariablesOrderedBySc
     auto result = this->pythonScriptController.executeScript(script, request);
 
     QCOMPARE(result, true);
-    auto newVariable = this->variableController->getVariable("test_getVariables_local", global, -1);
+    auto newVariable = this->variableController->getVariable("test_getVariables_local", -1, -1);
     if (newVariable.data() == NULL) {
         QFAIL("No variable found after script executed");
     }

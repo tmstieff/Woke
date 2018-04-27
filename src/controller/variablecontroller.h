@@ -3,6 +3,7 @@
 
 #include "../model/variable.h"
 #include "currentdatacontroller.h"
+#include <optional>
 #include <QDebug>
 #include <QObject>
 #include <QRegularExpression>
@@ -19,6 +20,8 @@ void setVariable(std::string &name, std::string &value, QString &scope, int scop
 void setGlobalVariable(std::string &name, std::string &value);
 void setProjectVariable(std::string &name, std::string &value);
 void setLocalVariable(std::string &name, std::string &value);
+
+QSharedPointer<Variable> getVariableQt(const QString &name, int projectId, int requestId);
 std::string getVariable(std::string &name);
 
 class VariableController : public QObject {
