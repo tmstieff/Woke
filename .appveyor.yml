@@ -26,7 +26,7 @@ install:
   - cd build
   - cmake -A x64 ..
   - cmake -A x64 --build .
-  - cmake -A x64 --build . --target install
+  - cmake --build . --config Release --target INSTALL
   - dir
   - cd ../../
 build_script:
