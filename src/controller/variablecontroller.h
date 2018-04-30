@@ -3,7 +3,6 @@
 
 #include "../model/variable.h"
 #include "currentdatacontroller.h"
-#include <optional>
 #include <QDebug>
 #include <QObject>
 #include <QRegularExpression>
