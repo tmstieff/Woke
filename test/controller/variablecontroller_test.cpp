@@ -74,21 +74,23 @@ void VariableController_Test::test_replaceVariables_multipleDifferentAndAsHeader
     Variable someVar;
     someVar.setName("some_var");
     someVar.setValue("some_val");
-    someVar.setScope("global");
+    someVar.setScope("project");
     someVar.setScopeId(0);
     someVar.save();
 
     Variable someOtherVar;
     someOtherVar.setName("some_other_var");
     someOtherVar.setValue("some_other_val");
-    someOtherVar.setScope("global");
+    someOtherVar.setScope("local");
     someOtherVar.setScopeId(0);
     someOtherVar.save();
 
     this->variableController->replaceVariables(string, 0, 0);
 
+    qDebug() << string;
+
     QCOMPARE(string.indexOf("Content-Type"), 10);
-    QCOMPARE(string.indexOf("some_val"), 27);
-    QCOMPARE(string.indexOf("some_other_val"), 52);
+    QCOMPARE(string.indexOf("some_val"), 24);
+    QCOMPARE(string.indexOf("some_other_val"), 49);
 }
 
