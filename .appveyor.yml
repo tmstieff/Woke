@@ -11,7 +11,7 @@ install:
   - choco install -y InnoSetup
   - choco install -y cmake
   - rmdir C:\Python27 /s /q
-  - set PATH=%QTDIR%\bin;%QTDIR%\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";C:\Python36-x64;"C:\Program Files\CMake";"C:\Program Files\CMake\bin""
+  - set PATH=%QTDIR%\bin;%QTDIR%\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5";C:\Python36-x64;"C:\Program Files\CMake";"C:\Program Files\CMake\bin"
   - dir
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
@@ -30,7 +30,9 @@ install:
   - dir
   - cd ../../
 build_script:
-  - qmake woke-qt.pro
+  - mkdir build
+  - cd build
+  - qmake ..
   - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.lib C:/projects/woke"
   - cmd: cp C:\Python36-x64\libs\Python3.lib C:/projects/woke"
   - cmd: cp C:\Python36-x64\libs\Python36.lib C:/projects/woke"
