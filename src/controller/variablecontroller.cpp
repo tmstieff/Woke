@@ -39,6 +39,17 @@ void setLocalVariable(std::string &name, std::string &value) {
     setVariable(name, value, scope, CurrentDataController::getCurrentRequestId());
 }
 
+/**
+ * @brief
+ *
+ * Get an actual variable reference using a Qt string rather than a std::string
+ * If the projectId and requestId are null, the search will implicitly look
+ * only for global variables.
+ *
+ * @param name - Variable name to retrieve
+ * @param projectId - Possibly null project ID to scope on
+ * @param requestId - Possibly null request ID to scope one
+ */
 QSharedPointer<Variable> getVariableQt(const QString &name, int projectId, int requestId) {
     QDjangoQuerySet<Variable> variables;
 
