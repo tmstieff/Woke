@@ -87,8 +87,6 @@ void VariableController_Test::test_replaceVariables_multipleDifferentAndAsHeader
 
     this->variableController->replaceVariables(string, 0, 0);
 
-    qDebug() << string;
-
     QCOMPARE(string.indexOf("Content-Type"), 10);
     QCOMPARE(string.indexOf("some_val"), 27);
     QCOMPARE(string.indexOf("some_other_val"), 52);
