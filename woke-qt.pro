@@ -99,6 +99,8 @@ DEPENDPATH += /usr/local/include
 CONFIG += c++14
 QMAKE_CXXFLAGS += -fvisibility=hidden
 
+DEFINES += QDJANGO_SHARED
+
 test {
     message(Test build)
 
