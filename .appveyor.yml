@@ -45,7 +45,9 @@ after_build:
   - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.dll C:/projects/woke/release"
   - cmd: cp C:\Python36-x64\python3.dll C:\projects\woke\release"
   - cmd: cp C:\Python36-x64\python36.dll C:\projects\woke\release"
-  - cmd: cp -a C:\projects\woke\misc\win\. C:\projects\woke\release
+  - cmd: cp C:\projects\woke\misc\win\libeay32.dll C:\projects\woke\release
+  - cmd: cp C:\projects\woke\misc\win\libssl32.dll C:\projects\woke\release
+  - cmd: cp C:\projects\woke\misc\win\ssleay32.dll C:\projects\woke\release
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
