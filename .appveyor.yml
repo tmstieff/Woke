@@ -64,7 +64,7 @@ artifacts:
 
 deploy:
 - provider: GitHub
-  tag: continuous
+  tag: continuous-windows
   release: Continuous build
   auth_token:
     secure: o7PYXegVzIonvDl3/zriMzikHtRTU+pKbCC5eU7sSHc0DhCqtg2zjlhutmMKyFNK
