@@ -51,8 +51,8 @@ after_build:
   - dir
   - cd ..
   - iscc C:\projects\woke\innosetup.iss
-  - rm C:\projects\woke\build\release\*.obj
-  - rm C:\projects\woke\build\release\*.cpp
+  - del /S /Q C:\projects\woke\build\release\*.obj
+  - del /S /Q C:\projects\woke\build\release\*.cpp
   - dir
 
 artifacts:
