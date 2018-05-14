@@ -32,30 +32,30 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "release\woke.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\qdjango-db0.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libssl32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\woke.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\qdjango-db0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libssl32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "build\release\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 
 
