@@ -56,8 +56,8 @@ after_build:
   - dir
 
 artifacts:
-  - path: C:\projects\woke\Output\woke*.exe
-  - path: C:\projects\woke\build\release
+  - path: ..\Output\woke*.exe
+  - path: release\
     name: woke-windows_x86_64-portable
     type: zip
 
