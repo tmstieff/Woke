@@ -39,17 +39,17 @@ Source: "build\release\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\d3dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\python3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\python36.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\qdjango-db0.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\libssl32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "build\release\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\libssl32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "build\release\vc_redist.x64.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "build\release\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "build\release\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "build\release\bearer\*"; DestDir: "{app}\bearer"; Flags: ignoreversion recursesubdirs createallsubdirs
