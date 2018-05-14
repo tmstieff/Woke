@@ -39,7 +39,6 @@ build_script:
   - dir
   - nmake release
 after_build:
-  - dir
   - windeployqt release/woke.exe
   - cmd: cp C:\projects\woke\LICENSE C:/projects/woke/build/release/LICENSE.txt"
   - cmd: cp C:\projects\woke\qdjango\src\db\qdjango-db0.dll C:/projects/woke/build/release"
@@ -48,6 +47,9 @@ after_build:
   - cmd: cp C:\projects\woke\misc\win\libeay32.dll C:\projects\woke\build\release
   - cmd: cp C:\projects\woke\misc\win\libssl32.dll C:\projects\woke\build\release
   - cmd: cp C:\projects\woke\misc\win\ssleay32.dll C:\projects\woke\build\release
+  - cd release
+  - dir
+  - cd ..
   - iscc C:\projects\woke\innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
