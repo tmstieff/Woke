@@ -13,7 +13,7 @@ A native multiplatform REST client with grand ambitions and limited scope.
 ## Binaries
 Releases are currently provided for Linux as AppImages and for Windows as a portable ZIP or executable installer. Mac builds will come shortly.
 
-<a href="https://github.com/tmstieff/Woke/releases">Windows and Linux</a>
+<a href="https://woke.rest/download">Windows and Linux</a>
 
 ## Features
 * Supports most basic HTTP request types
