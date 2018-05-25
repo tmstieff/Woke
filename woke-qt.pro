@@ -40,7 +40,7 @@ SOURCES += src/main.cpp \
     src/view/pythonsyntaxhighlighter.cpp \
     src/controller/currentdatacontroller.cpp \
     src/view/kickpythonsyntaxhighlighter.cpp \
-    src/view/projecteditor.cpp
+    src/view/projecteditor.cpp \
     src/view/labelutil.cpp
 
 HEADERS += \
@@ -69,7 +69,7 @@ HEADERS += \
     src/extension/pybind/qstring_typecaster.h \
     src/controller/currentdatacontroller.h \
     src/view/kickpythonsyntaxhighlighter.h \
-    src/view/projecteditor.h
+    src/view/projecteditor.h \
     src/view/labelutil.h
 
 FORMS += mainwindow.ui \
