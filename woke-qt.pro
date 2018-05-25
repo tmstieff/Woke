@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-08-08T16:02:22
+# Woke project file
 #
 #-------------------------------------------------
 
@@ -41,6 +41,7 @@ SOURCES += src/main.cpp \
     src/controller/currentdatacontroller.cpp \
     src/view/kickpythonsyntaxhighlighter.cpp \
     src/view/projecteditor.cpp
+    src/view/labelutil.cpp
 
 HEADERS += \
     src/controller/historycontroller.h \
@@ -69,6 +70,7 @@ HEADERS += \
     src/controller/currentdatacontroller.h \
     src/view/kickpythonsyntaxhighlighter.h \
     src/view/projecteditor.h
+    src/view/labelutil.h
 
 FORMS += mainwindow.ui \
     requestitem.ui \
@@ -79,17 +81,28 @@ FORMS += mainwindow.ui \
 
 DISTFILES += misc/woke.desktop
 
-win32: LIBS += "$$PWD/qdjango-db0.dll"
-win32: LIBS += "$$PWD/python.dll"
-unix: LIBS += -lqdjango-db -lpython3.5m
+win32: LIBS += "$$PWD/qdjango-db0.lib"
+win32: LIBS += "$$PWD/Python3.lib"
+win32: LIBS += "$$PWD/Python36.lib"
 
-INCLUDEPATH += /usr/local/include
-INCLUDEPATH += /usr/include/python3.5m/
+unix: LIBS += -L/usr/lib/python3.6m/config-3.6m-x86_64-linux-gnu
+unix: LIBS += -lqdjango-db -lpython3.6m -L/usr/lib/python3.6m/config-3.6m-x86_64-linux-gnu -L/usr/local/lib
+
+unix: LIBS += -Wl,-rpath,'$ORIGIN'
+
+unix: INCLUDEPATH += /usr/local/include
+unix: INCLUDEPATH += /usr/include/python3.6m/
 
 win32: INCLUDEPATH += "C:/Program Files (x86)/pybind11/include/"
+win32: INCLUDEPATH += "C:/Program Files (x86)/qdjango/include/"
 win32: INCLUDEPATH += "C:/Python36/Include/"
 
 DEPENDPATH += /usr/local/include
+
+CONFIG += c++14
+QMAKE_CXXFLAGS += -fvisibility=hidden
+
+DEFINES += QDJANGO_SHARED
 
 test {
     message(Test build)
@@ -141,6 +154,8 @@ unix {
     shortcutfiles.path = $$PREFIX/share/applications/
 
     INSTALLS += shortcutfiles
+
+    QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN\'"
 }
 
 INSTALLS += target

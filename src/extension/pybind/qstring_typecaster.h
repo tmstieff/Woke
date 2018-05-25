@@ -6,8 +6,9 @@
 
 namespace py = pybind11;
 
-namespace pybind11 { namespace detail {
-    template <> struct type_caster<QString> {
+namespace pybind11 {
+namespace detail {
+  template <> struct type_caster<QString> {
     PYBIND11_TYPE_CASTER(QString, _("QString"));
     private:
         using qstr_caster_t = make_caster<std::string>;

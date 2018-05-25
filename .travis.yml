@@ -1,15 +1,18 @@
 language: cpp
 
 before_install:
-  - sudo add-apt-repository ppa:beineri/opt-qt592-trusty -y
+  - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
   - sudo add-apt-repository ppa:fkrull/deadsnakes -y
   - sudo apt-get update
+  - pyenv global $(pyenv whence 2to3)  # activate all python versions
+  - PY_CMD=python3
+  - $PY_CMD -m pip install --user --upgrade pip wheel
   
 install:
-  - sudo apt-get install python3.5
-  - sudo apt-get install python3.5-dev
-  - sudo apt-get install qt59base
-  - source /opt/qt59/bin/qt59-env.sh
+  - sudo apt-get install python3.6 --allow-unauthenticated
+  - sudo apt-get install python3.6-dev --allow-unauthenticated
+  - sudo apt-get install qt510base
+  - source /opt/qt510/bin/qt510-env.sh
   - git clone https://github.com/tmstieff/qdjango.git
   - cd qdjango
   - qmake
@@ -20,8 +23,9 @@ install:
   - cd pybind11
   - mkdir build
   - cd build
-  - pyenv global 3.5.4
-  - /opt/pyenv/shims/python3.5 -m pip install pytest
+  - python --version
+  - python3 --version
+  - python3 -m pip install pytest
   - cmake ..
   - sudo make install
   - sudo ldconfig
@@ -50,7 +54,6 @@ script:
 
 after_success:
   - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-  - # curl --upload-file ./APPNAME*.AppImage https://transfer.sh/APPNAME-git.$(git rev-parse --short HEAD)-x86_64.AppImage
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
   - bash upload.sh ./Woke*.AppImage*
   

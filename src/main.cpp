@@ -2,6 +2,7 @@
 #include "model/request.h"
 #include "model/variable.h"
 #include "view/mainwindow.h"
+#include <cmath>
 #include <QApplication>
 
 
