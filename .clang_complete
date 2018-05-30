@@ -6,9 +6,11 @@
 -DQT_NETWORK_LIB
 -DQT_SQL_LIB
 -DQT_CORE_LIB
+-I ./build-test/
 -I /usr/include/qt/
 -I /usr/include/qt/QtCore/
 -I /usr/include/qt/QtGui/
+-I /usr/include/qt/QtWidgets/
 -I /usr/include/qt/QtNetwork/
 -I /usr/include/qt/QtSql/
 -I /usr/include/qt/QtTest/
