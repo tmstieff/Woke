@@ -11,6 +11,7 @@
 #include "../urlutil.h"
 #include "labelutil.h"
 #include "jsonsyntaxhighlighter.h"
+#include "projecteditor.h"
 #include "requestitem.h"
 #include "requesttabbededitor.h"
 #include "responsetabbededitor.h"
@@ -65,6 +66,7 @@ class MainWindow : public QMainWindow {
     QListWidget *recentRequestsListWidget;
     QListWidget *projectRequestsListWidget;
     UrlEditor *urlEditor;
+    ProjectEditor *projectEditor;
     SaveEditor *saveEditor;
     RequestTabbedEditor *requestEditor;
     ResponseTabbedEditor *responseEditor;
@@ -100,7 +102,10 @@ class MainWindow : public QMainWindow {
     void on_projectsRequestsList_clicked(const QModelIndex &index);
     void on_projectsRequestsList_activated(const QModelIndex &index);
 
-  private:
+    void on_projectEditorButton_released();
+    void on_cancelProjectButton_released();
+
+private:
     Ui::MainWindow *ui;
 
     QSharedPointer<Project> defaultProject;
@@ -109,6 +114,7 @@ class MainWindow : public QMainWindow {
     JsonSyntaxHighlighter *responseBodyHighlighter;
     JsonSyntaxHighlighter *bodyHighlighter;
     UrlSyntaxHighlighter *urlHighlighter;
+    QPushButton *projectEditorButton;
 
     static int currentRequestId;
     static int currentProjectId;
@@ -123,6 +129,8 @@ class MainWindow : public QMainWindow {
     void setResponseInfo(Request &request);
     void showUrlEditor();
     void showSaveEditor();
+    void showProjectEditor();
+    void showPopup(QWidget &popup, QWidget &button, int offsetX, int offsetY);
     void setCurrentRequest(QSharedPointer<Request> newRequest);
 };
 

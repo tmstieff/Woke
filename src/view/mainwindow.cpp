@@ -32,14 +32,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     verbAutoComplete->setCompletionMode(QCompleter::CompletionMode::UnfilteredPopupCompletion);
     verbInput->setCompleter(verbAutoComplete);
 
-    statusCodeLabel = ui->statusCodeLabel;
-    uriLabel = ui->uriLabel;
-    timeLabel = ui->timeLabel;
-    hostLabel = ui->hostLabel;
-    verbLabel = ui->verbLabel;
-    recentRequestsListWidget = ui->recentRequestsListWidget;
-    projectRequestsListWidget = ui->projectsRequestsList;
-    urlInput = ui->urlTextMultilineInput;
+    this->statusCodeLabel = ui->statusCodeLabel;
+    this->uriLabel = ui->uriLabel;
+    this->timeLabel = ui->timeLabel;
+    this->hostLabel = ui->hostLabel;
+    this->verbLabel = ui->verbLabel;
+    this->recentRequestsListWidget = ui->recentRequestsListWidget;
+    this->projectRequestsListWidget = ui->projectsRequestsList;
+    this->urlInput = ui->urlTextMultilineInput;
+    this->projectEditorButton = ui->projectEditorButton;
 
     // Set the default font for all editors
     QFont defaultMonoFont;
@@ -75,6 +76,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->saveEditor = new SaveEditor(this);
     this->saveEditor->hide();
 
+    this->projectEditor = new ProjectEditor(*projects.data(), this);
+    this->projectEditor->hide();
+
     for (int i = 0; i < projects.data()->size(); i++) {
         auto project = projects.data()->at(i).data();
 
@@ -90,6 +94,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                      SLOT(on_cancelSaveButton_released()));
     QObject::connect(this->saveEditor->confirmSaveAsButton, SIGNAL(released()), this,
                      SLOT(on_confirmSaveAsButton_released()));
+
+    QObject::connect(this->projectEditor->cancelProjectButton, SIGNAL(released()), this,
+                     SLOT(on_cancelProjectButton_released()));
 }
 
 MainWindow::~MainWindow() {
@@ -322,30 +329,30 @@ void MainWindow::resetResponseFields(const QString &host, const QString &uri, co
 }
 
 void MainWindow::showUrlEditor() {
-    this->urlEditor->move(0, 0);
-
-    auto urlInputPos = this->urlInput->mapToGlobal(QPoint(0, 0));
-    this->urlEditor->resize(this->urlInput->width(), this->urlEditor->size().height());
-
-    auto editorPos = urlInputPos;
-    editorPos.setX(urlInputPos.x());
-    editorPos.setY(urlInputPos.y() + 45);
-    this->urlEditor->show();
-    auto newPos = this->urlEditor->mapFromGlobal(editorPos);
-    this->urlEditor->move(newPos);
+    this->showPopup(*this->urlEditor, *this->urlInput, 0, 45);
 }
 
 void MainWindow::showSaveEditor() {
-    this->saveEditor->move(0, 0);
+    this->showPopup(*this->saveEditor, *this->ui->saveButton, -this->saveEditor->width() + 50, 45);
+}
 
-    auto saveButtonPos = this->ui->saveButton->mapToGlobal(QPoint(0, 0));
+void MainWindow::showProjectEditor() {
+    this->showPopup(*this->projectEditor, *this->projectEditorButton, -45, 50);
+}
 
-    auto editorPos = saveButtonPos;
-    editorPos.setX(saveButtonPos.x() - this->saveEditor->width() + 50);
-    editorPos.setY(saveButtonPos.y() + 45);
-    this->saveEditor->show();
-    auto newPos = this->saveEditor->mapFromGlobal(editorPos);
-    this->saveEditor->move(newPos);
+void MainWindow::showPopup(QWidget &popup, QWidget &button, int offsetX, int offsetY) {
+    popup.move(0, 0);
+
+    auto buttonPos = button.mapToGlobal(QPoint(0, 0));
+    auto popupPos = buttonPos;
+
+    popupPos.setX(buttonPos.x() + offsetX);
+    popupPos.setY(buttonPos.y() + offsetY);
+
+    popup.show();
+
+    auto newPos = popup.mapFromGlobal(popupPos);
+    popup.move(newPos);
 }
 
 void MainWindow::setCurrentRequest(QSharedPointer<Request> newRequest) {
@@ -423,6 +430,10 @@ void MainWindow::on_cancelSaveButton_released() {
     this->saveEditor->clearFields();
 }
 
+void MainWindow::on_cancelProjectButton_released() {
+    this->projectEditor->hide();
+}
+
 void MainWindow::on_projectsListComboBox_currentIndexChanged(int index) {
     // Unused param
     (void)index;
@@ -440,4 +451,8 @@ void MainWindow::on_projectsRequestsList_activated(const QModelIndex &index) {
     auto selectedRequest = this->projectRequests.data()->at(index.row());
     selectedRequest = this->historyController->get(selectedRequest.data()->pk().toInt());
     this->setCurrentRequest(selectedRequest);
+}
+
+void MainWindow::on_projectEditorButton_released() {
+    this->showProjectEditor();
 }

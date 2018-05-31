@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>422</width>
-    <height>169</height>
+    <height>270</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,6 +32,12 @@ QPushButton {
 	border: none;
 	padding: 10px;
 	border-radius: 8px;
+}
+
+QTableView {
+	background-color: #3c3f41;
+	color: #6ABDDB;
+	padding: 5px;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -88,7 +94,7 @@ QPushButton {
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">#saveLabel {
+         <string notr="true">#projectsLabel {
 	color: #bbbbbb;
 }</string>
         </property>
@@ -98,7 +104,29 @@ QPushButton {
        </widget>
       </item>
       <item>
-       <widget class="QListView" name="projectsListView"/>
+       <widget class="QTableView" name="projectsTable">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>false</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="showGrid">
+         <bool>false</bool>
+        </property>
+        <property name="gridStyle">
+         <enum>Qt::NoPen</enum>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLineEdit" name="nameEdit">
@@ -122,7 +150,7 @@ QPushButton {
          <number>15</number>
         </property>
         <item>
-         <widget class="QPushButton" name="cancelSaveButton">
+         <widget class="QPushButton" name="cancelProjectButton">
           <property name="styleSheet">
            <string notr="true">QPushButton {
 	color: #bbbbbb;
