@@ -5,6 +5,10 @@
 #include <QPushButton>
 #include <QList>
 #include <QSharedPointer>
+#include <QTableView>
+#include <QStandardItemModel>
+#include <QStandardItem>
+#include <QPushButton>
 #include "../model/project.h"
 
 namespace Ui {
@@ -23,6 +27,8 @@ public:
 
 private:
     Ui::ProjectEditor *ui;
+
+    QTableView *projectsTableView;
 
     QList<QSharedPointer<Project>> projects;
 };

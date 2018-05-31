@@ -108,11 +108,17 @@ QTableView {
         <property name="styleSheet">
          <string notr="true"/>
         </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
         <property name="alternatingRowColors">
          <bool>false</bool>
         </property>
         <property name="selectionMode">
-         <enum>QAbstractItemView::SingleSelection</enum>
+         <enum>QAbstractItemView::ContiguousSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
         </property>
         <property name="iconSize">
          <size>
@@ -126,6 +132,12 @@ QTableView {
         <property name="gridStyle">
          <enum>Qt::NoPen</enum>
         </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
        </widget>
       </item>
       <item>
@@ -185,30 +197,7 @@ QPushButton:hover {
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="confirmSaveButton">
-          <property name="styleSheet">
-           <string notr="true">#confirmSaveButton {
-	/*background-color: #6ABDDB;*/
-	color: #000000;
-	border: none;
-	padding: 10px;
-	border-radius: 8px;
-	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
-                stop:0 #6dc7e8, stop:1 #589eb7)
-}
-
-#confirmSaveButton:hover {
-	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1
-                stop:0 #6ABDDB, stop:1 #589eb7)
-}</string>
-          </property>
-          <property name="text">
-           <string>Save</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="confirmSaveAsButton">
+         <widget class="QPushButton" name="newProjectButton">
           <property name="styleSheet">
            <string notr="true">#confirmSaveAsButton {
 	/*background-color: #6ABDDB;*/
@@ -226,7 +215,7 @@ QPushButton:hover {
 }</string>
           </property>
           <property name="text">
-           <string>Save As</string>
+           <string>New Project</string>
           </property>
          </widget>
         </item>
