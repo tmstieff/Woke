@@ -12,6 +12,12 @@
 class ProjectController : public QObject {
     Q_OBJECT
 
+  Q_SIGNALS:
+    void event_saveProjectSuccess(Project &project);
+
+  public Q_SLOTS:
+    void on_saveProject(Project &project);
+
   public:
     ProjectController(QObject *parent = 0);
 

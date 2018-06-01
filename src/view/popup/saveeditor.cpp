@@ -40,3 +40,16 @@ void SaveEditor::updateFields(Request &request) {
         this->projectComboBox->setCurrentIndex(index);
     }
 }
+
+void SaveEditor::refreshProjects(QList<QSharedPointer<Project>> &projects) {
+    this->projectComboBox->clear();
+    for (int i = 0; i < projects.size(); i++) {
+        auto project = projects.at(i).data();
+
+        this->projectComboBox->addItem(project->getName(), QVariant(project->pk()));
+    }
+}
+
+int SaveEditor::getSelectedProject() {
+    return this->projectComboBox->currentData().toInt();
+}

@@ -10,15 +10,15 @@
 #include "../model/requestlistmodel.h"
 #include "../urlutil.h"
 #include "labelutil.h"
-#include "jsonsyntaxhighlighter.h"
-#include "projecteditor.h"
+#include "syntax/jsonsyntaxhighlighter.h"
+#include "popup/projecteditor.h"
 #include "requestitem.h"
 #include "requesttabbededitor.h"
 #include "responsetabbededitor.h"
-#include "saveeditor.h"
-#include "urleditor.h"
+#include "popup/saveeditor.h"
+#include "popup/urleditor.h"
 #include "urlplaintextedit.h"
-#include "urlsyntaxhighlighter.h"
+#include "syntax/urlsyntaxhighlighter.h"
 #include <QCompleter>
 #include <QDebug>
 #include <QElapsedTimer>
@@ -105,6 +105,8 @@ class MainWindow : public QMainWindow {
     void on_projectEditorButton_released();
     void on_cancelProjectButton_released();
 
+    void on_saveProjectSuccess(Project &project);
+
 private:
     Ui::MainWindow *ui;
 
@@ -132,6 +134,7 @@ private:
     void showProjectEditor();
     void showPopup(QWidget &popup, QWidget &button, int offsetX, int offsetY);
     void setCurrentRequest(QSharedPointer<Request> newRequest);
+    void refreshProjects();
 };
 
 #endif // MAINWINDOW_H

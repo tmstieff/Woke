@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     QDjango::registerModel<Variable>();
     QDjango::createTables();
 
-    QDjango::setDebugEnabled(true);
+    QDjango::setDebugEnabled(false);
 
     MainWindow w;
     w.show();

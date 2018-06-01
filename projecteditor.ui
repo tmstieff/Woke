@@ -34,7 +34,7 @@ QPushButton {
 	border-radius: 8px;
 }
 
-QTableView {
+QListWidget {
 	background-color: #3c3f41;
 	color: #6ABDDB;
 	padding: 5px;
@@ -104,41 +104,7 @@ QTableView {
        </widget>
       </item>
       <item>
-       <widget class="QTableView" name="projectsTable">
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="alternatingRowColors">
-         <bool>false</bool>
-        </property>
-        <property name="selectionMode">
-         <enum>QAbstractItemView::ContiguousSelection</enum>
-        </property>
-        <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectRows</enum>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="showGrid">
-         <bool>false</bool>
-        </property>
-        <property name="gridStyle">
-         <enum>Qt::NoPen</enum>
-        </property>
-        <attribute name="horizontalHeaderVisible">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderVisible">
-         <bool>false</bool>
-        </attribute>
-       </widget>
+       <widget class="QListWidget" name="projectsList"/>
       </item>
       <item>
        <widget class="QLineEdit" name="nameEdit">

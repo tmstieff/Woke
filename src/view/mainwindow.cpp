@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     this->setWindowTitle("Woke");
@@ -8,9 +9,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     historyController = new HistoryController(this);
     projectController = new ProjectController(this);
     requestsController = new RequestsController(this);
-
-    connect(this->requestsController->networkManager.data(), SIGNAL(finished(QNetworkReply *)), this,
-            SLOT(responseReceived(QNetworkReply *)));
 
     bodyInput = ui->bodyInput;
     bodyInput = ui->bodyInput;
@@ -61,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->urlHighlighter = new UrlSyntaxHighlighter(this->urlInput->document());
 
     defaultProject = this->projectController->upsertDefaultProject();
-    projects = this->projectController->getProjects();
 
     this->currentRequest = QSharedPointer<Request>(new Request());
     this->refreshRecentRequests();
@@ -79,14 +76,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->projectEditor = new ProjectEditor(*projects.data(), this);
     this->projectEditor->hide();
 
-    for (int i = 0; i < projects.data()->size(); i++) {
-        auto project = projects.data()->at(i).data();
-
-        this->saveEditor->projectComboBox->addItem(project->getName(), QVariant(project->pk()));
-        this->ui->projectsListComboBox->addItem(project->getName(), QVariant(project->pk()));
-    }
+    refreshProjects();
 
     this->saveEditor->updateFields(*this->currentRequest.data());
+
+
+    QObject::connect(this->requestsController->networkManager.data(), SIGNAL(finished(QNetworkReply *)), this,
+            SLOT(responseReceived(QNetworkReply *)));
 
     QObject::connect(this->saveEditor->confirmSaveButton, SIGNAL(released()), this,
                      SLOT(on_confirmSaveButton_released()));
@@ -97,6 +93,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QObject::connect(this->projectEditor->cancelProjectButton, SIGNAL(released()), this,
                      SLOT(on_cancelProjectButton_released()));
+
+    QObject::connect(this->projectEditor, &ProjectEditor::event_saveProject,
+                     this->projectController, &ProjectController::on_saveProject);
+
+    QObject::connect(this->projectController, &ProjectController::event_saveProjectSuccess,
+                     this, &MainWindow::on_saveProjectSuccess);
 }
 
 MainWindow::~MainWindow() {
@@ -132,7 +134,7 @@ void MainWindow::sendRequest() {
 void MainWindow::saveCurrentRequestToProject() {
     this->updateCurrentRequestFromFields();
 
-    auto selectedProjectId = this->saveEditor->projectComboBox->currentData().toInt();
+    auto selectedProjectId = this->saveEditor->getSelectedProject();
     auto selectedProject = this->projectController->getProjectPointer(selectedProjectId, this->currentRequest.data());
 
     this->currentRequest->setProject(selectedProject);
@@ -302,9 +304,9 @@ void MainWindow::refreshProjectRequests() {
 
     for (const auto &i : *this->projectRequests.data()) {
         auto *item = new QListWidgetItem(this->projectRequestsListWidget);
-        item->setSizeHint(QSize(200, 67));
 
         auto *requestItem = new RequestItem(this);
+        item->setSizeHint(requestItem->sizeHint());
 
         requestItem->setInformation(i.data()->getVerb(), i.data()->getUri(), i.data()->getName());
         this->projectRequestsListWidget->setItemWidget(item, requestItem);
@@ -376,6 +378,20 @@ void MainWindow::setCurrentRequest(QSharedPointer<Request> newRequest) {
     }
 
     this->saveEditor->updateFields(*this->currentRequest.data());
+}
+
+void MainWindow::refreshProjects() {
+    this->ui->projectsListComboBox->clear();
+
+    projects = this->projectController->getProjects();
+    for (int i = 0; i < projects.data()->size(); i++) {
+        auto project = projects.data()->at(i).data();
+
+        this->ui->projectsListComboBox->addItem(project->getName(), QVariant(project->pk()));
+    }
+
+    this->saveEditor->refreshProjects(*projects.data());
+    this->projectEditor->refreshProjects(*projects.data());
 }
 
 /*
@@ -455,4 +471,8 @@ void MainWindow::on_projectsRequestsList_activated(const QModelIndex &index) {
 
 void MainWindow::on_projectEditorButton_released() {
     this->showProjectEditor();
+}
+
+void MainWindow::on_saveProjectSuccess(Project &project) {
+    this->refreshProjects();
 }
