@@ -12,6 +12,7 @@
 #include <QSyntaxHighlighter>
 #include <QWidget>
 #include <QStringListModel>
+#include <QRegularExpression>
 
 namespace Ui {
 class TabbedEditor;

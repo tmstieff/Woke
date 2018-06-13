@@ -19,8 +19,13 @@ QSharedPointer<QList<QSharedPointer<Project>>> ProjectController::getProjects() 
 QSharedPointer<Project> ProjectController::upsertDefaultProject() {
     QDjangoQuerySet<Project> resultSet = this->projects.orderBy(QStringList("id")).limit(0, 1);
     if (resultSet.size() == 1) {
-        if (QString::compare(resultSet.at(0)->getName(), "Default") == 0) {
-            return QSharedPointer<Project>(resultSet.at(0));
+        auto defaultName = "Default";
+        QSharedPointer<Project> projectTarget = QSharedPointer<Project>::create();
+        resultSet.at(0, projectTarget.data());
+        if (QString::compare(projectTarget.data()->getName(), defaultName) == 0) {
+            auto result = resultSet.at(0);
+
+            return QSharedPointer<Project>(result);
         }
     }
 

@@ -1,7 +1,7 @@
 #include "projecteditor.h"
 #include "ui_projecteditor.h"
 
-ProjectEditor::ProjectEditor(QList<QSharedPointer<Project>> &projects, QWidget *parent) : QWidget(parent),
+ProjectEditor::ProjectEditor(QSharedPointer<QList<QSharedPointer<Project>>> projects, QWidget *parent) : QWidget(parent),
     ui(new Ui::ProjectEditor) {
 
     ui->setupUi(this);
@@ -9,14 +9,16 @@ ProjectEditor::ProjectEditor(QList<QSharedPointer<Project>> &projects, QWidget *
     this->projectsListWidget = this->ui->projectsList;
     this->cancelProjectButton = ui->cancelProjectButton;
 
-    this->refreshProjects(projects);
+    if (projects.data() != NULL) {
+        this->refreshProjects(projects);
+    }
 }
 
 ProjectEditor::~ProjectEditor() {
     delete ui;
 }
 
-void ProjectEditor::refreshProjects(QList<QSharedPointer<Project> > &projects) {
+void ProjectEditor::refreshProjects(QSharedPointer<QList<QSharedPointer<Project>>> projects) {
     this->projects = projects;
     this->refreshProjectsList();
 }
@@ -24,7 +26,7 @@ void ProjectEditor::refreshProjects(QList<QSharedPointer<Project> > &projects) {
 void ProjectEditor::refreshProjectsList() {
     this->projectsListWidget->clear();
 
-    for (const auto &i : this->projects) {
+    for (const auto &i : *this->projects.data()) {
         auto *item = new QListWidgetItem(this->projectsListWidget);
 
         auto *projectItem = new ProjectItem(this);

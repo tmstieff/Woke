@@ -28,12 +28,12 @@ public Q_SLOTS:
     void on_saveProjectSuccess(Project &project);
 
 public:
-    explicit ProjectEditor(QList<QSharedPointer<Project>> &projects, QWidget *parent = 0);
+    explicit ProjectEditor(QSharedPointer<QList<QSharedPointer<Project>>> projects, QWidget *parent = 0);
     ~ProjectEditor();
 
     QPushButton *cancelProjectButton;
 
-    void refreshProjects(QList<QSharedPointer<Project>> &projects);
+    void refreshProjects(QSharedPointer<QList<QSharedPointer<Project>>> projects);
 
 private Q_SLOTS:
     void on_newProjectButton_released();
@@ -43,7 +43,7 @@ private:
 
     QListWidget *projectsListWidget;
 
-    QList<QSharedPointer<Project>> projects;
+    QSharedPointer<QList<QSharedPointer<Project>>> projects;
 
     void refreshProjectsList();
     void validateAndSave();

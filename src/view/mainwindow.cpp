@@ -73,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->saveEditor = new SaveEditor(this);
     this->saveEditor->hide();
 
-    this->projectEditor = new ProjectEditor(*projects.data(), this);
+    this->projectEditor = new ProjectEditor(projects, this);
     this->projectEditor->hide();
 
     refreshProjects();
@@ -391,7 +391,7 @@ void MainWindow::refreshProjects() {
     }
 
     this->saveEditor->refreshProjects(*projects.data());
-    this->projectEditor->refreshProjects(*projects.data());
+    this->projectEditor->refreshProjects(projects);
 }
 
 /*

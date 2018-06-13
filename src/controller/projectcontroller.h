@@ -5,6 +5,7 @@
 #include "../model/request.h"
 #include <QDebug>
 #include <QObject>
+#include <QString>
 #include <QSharedPointer>
 #include <qdjango/db/QDjangoModel.h>
 #include <qdjango/db/QDjangoQuerySet.h>
