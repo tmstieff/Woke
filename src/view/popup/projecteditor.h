@@ -9,6 +9,7 @@
 #include <QListWidgetItem>
 #include <QPushButton>
 #include <QDebug>
+#include <QMetaObject>
 #include "../projectitem.h"
 #include "../../model/project.h"
 #include "../../controller/projectcontroller.h"
@@ -23,6 +24,7 @@ class ProjectEditor : public QWidget
 
 Q_SIGNALS:
     void event_saveProject(Project &project);
+    void event_deleteProject(QString &name);
 
 public Q_SLOTS:
     void on_saveProjectSuccess(Project &project);
@@ -37,11 +39,13 @@ public:
 
 private Q_SLOTS:
     void on_newProjectButton_released();
+    void on_delete(QString &name);
 
 private:
     Ui::ProjectEditor *ui;
 
     QListWidget *projectsListWidget;
+    QSharedPointer<QList<QMetaObject::Connection>> connections;
 
     QSharedPointer<QList<QSharedPointer<Project>>> projects;
 

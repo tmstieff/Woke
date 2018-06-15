@@ -1,7 +1,7 @@
 #include "projectcontroller.h"
 
 ProjectController::ProjectController(QObject *parent) : QObject(parent) {
-    QObject::connect(this, SIGNAL(saveProject(Project&)), this, SLOT(on_saveProject(Project&)));
+    //QObject::connect(this, &ProjectController::saveProject, this, SLOT(on_saveProject(Project&)));
 }
 
 QSharedPointer<QList<QSharedPointer<Project>>> ProjectController::getProjects() {
@@ -70,6 +70,19 @@ Project *ProjectController::getProjectPointer(int id, QObject *parent = 0) {
 QSharedPointer<Project> ProjectController::getProject(const QString &name) {
     auto result = this->projects.get(QDjangoWhere("name", QDjangoWhere::Equals, name));
     return QSharedPointer<Project>(result);
+}
+
+bool ProjectController::deleteByName(QString &name) {
+    auto project = this->getProject(name);
+
+    if (!project.isNull()) {
+        project.data()->remove();
+        project.clear();
+
+        return true;
+    }
+
+    return false;
 }
 
 void ProjectController::on_saveProject(Project &project) {

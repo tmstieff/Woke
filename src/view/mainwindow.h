@@ -104,6 +104,7 @@ class MainWindow : public QMainWindow {
 
     void on_projectEditorButton_released();
     void on_cancelProjectButton_released();
+    void on_projectEditor_deleteProject(QString &name);
 
     void on_saveProjectSuccess(Project &project);
 

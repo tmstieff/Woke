@@ -12,33 +12,50 @@ ProjectEditor::ProjectEditor(QSharedPointer<QList<QSharedPointer<Project>>> proj
     if (projects.data() != NULL) {
         this->refreshProjects(projects);
     }
+
+    this->connections = QSharedPointer<QList<QMetaObject::Connection>>::create();
 }
 
 ProjectEditor::~ProjectEditor() {
     delete ui;
 }
 
+/**
+ * @brief ProjectEditor::refreshProjects
+ *
+ * Update the model containing the list of projects and then sync the UI with the new list
+ *
+ * @param projects - List of projects to display
+ */
 void ProjectEditor::refreshProjects(QSharedPointer<QList<QSharedPointer<Project>>> projects) {
     this->projects = projects;
     this->refreshProjectsList();
 }
 
-void ProjectEditor::refreshProjectsList() {
+void ProjectEditor::refreshProjectsList() { 
+    for (const auto &i : *this->connections.data()) {
+        QObject::disconnect(i);
+    }
+
+    this->connections.clear();
     this->projectsListWidget->clear();
 
     for (const auto &i : *this->projects.data()) {
         auto *item = new QListWidgetItem(this->projectsListWidget);
 
         auto *projectItem = new ProjectItem(this);
+        projectItem->setInformation(i.data()->getName());
+
         item->setSizeHint(projectItem->sizeHint());
 
-        projectItem->setInformation(i.data()->getName());
         this->projectsListWidget->setItemWidget(item, projectItem);
+
+        this->connections.data()->append(conn);
     }
 }
 
 void ProjectEditor::on_saveProjectSuccess(Project &project) {
-
+    (void) project;
 }
 
 void ProjectEditor::validateAndSave() {
@@ -55,4 +72,8 @@ void ProjectEditor::validateAndSave() {
 
 void ProjectEditor::on_newProjectButton_released() {
     this->validateAndSave();
+}
+
+void ProjectEditor::on_delete(QString &name) {
+    Q_EMIT event_deleteProject(name);
 }

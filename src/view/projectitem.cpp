@@ -12,9 +12,14 @@ ProjectItem::~ProjectItem() {
 }
 
 void ProjectItem::setInformation(QString name) {
+    this->name = name;
     this->nameLabel->setText(name);
 }
 
 QString ProjectItem::getName() {
-    return this->nameLabel->text();
+    return this->name;
+}
+
+void ProjectItem::on_deleteButton_released() {
+    Q_EMIT event_delete(this->name);
 }

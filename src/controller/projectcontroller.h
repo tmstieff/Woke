@@ -28,6 +28,7 @@ class ProjectController : public QObject {
     Project *getProjectPointer(int id, QObject *parent);
     QSharedPointer<Project> getProject(int id);
     QSharedPointer<Project> getProject(const QString &name);
+    bool deleteByName(QString &name);
 
   private:
     QDjangoQuerySet<Project> projects;

@@ -27,17 +27,16 @@ void SaveEditor::updateFields(Request &request) {
     if (request.project() != nullptr) {
         this->nameEdit->setText(request.getName());
 
-        auto index = 0;
         for (int i = 0; i < this->projectComboBox->count(); i++) {
             auto projectId = this->projectComboBox->itemData(i).toInt();
 
             if (projectId == request.project()->pk()) {
-                index = i;
+                this->projectComboBox->setCurrentIndex(i);
+
                 break;
             }
         }
 
-        this->projectComboBox->setCurrentIndex(index);
     }
 }
 

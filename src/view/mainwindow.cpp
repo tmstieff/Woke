@@ -450,9 +450,13 @@ void MainWindow::on_cancelProjectButton_released() {
     this->projectEditor->hide();
 }
 
+void MainWindow::on_projectEditor_deleteProject(QString &name) {
+    this->projectController->deleteByName(name);
+    this->refreshProjects();
+}
+
 void MainWindow::on_projectsListComboBox_currentIndexChanged(int index) {
-    // Unused param
-    (void)index;
+    (void) index;
 
     this->refreshProjectRequests();
 }
@@ -474,5 +478,7 @@ void MainWindow::on_projectEditorButton_released() {
 }
 
 void MainWindow::on_saveProjectSuccess(Project &project) {
+    (void) project;
+
     this->refreshProjects();
 }

@@ -6,6 +6,8 @@ UrlPlainTextEdit::UrlPlainTextEdit(QWidget *parent) : QPlainTextEdit(parent) {
 void UrlPlainTextEdit::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Return) {
         this->returnPressed();
+    } else if (event->key() == Qt::Key_Tab) {
+        this->tabPressed();
     } else {
         QPlainTextEdit::keyPressEvent(event);
     }
