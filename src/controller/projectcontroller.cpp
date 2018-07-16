@@ -90,3 +90,9 @@ void ProjectController::on_saveProject(Project &project) {
 
     Q_EMIT event_saveProjectSuccess(project);
 }
+
+void ProjectController::on_deleteProject(QString name)
+{
+   auto project = this->getProject(name);
+   project.data()->remove();
+}

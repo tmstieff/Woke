@@ -18,6 +18,7 @@ class ProjectController : public QObject {
 
   public Q_SLOTS:
     void on_saveProject(Project &project);
+    void on_deleteProject(QString name);
 
   public:
     ProjectController(QObject *parent = 0);

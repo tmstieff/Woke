@@ -39,7 +39,7 @@ public:
 
 private Q_SLOTS:
     void on_newProjectButton_released();
-    void on_delete(QString &name);
+    void on_delete(QString name);
 
 private:
     Ui::ProjectEditor *ui;

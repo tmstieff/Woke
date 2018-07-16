@@ -6,6 +6,7 @@
 -DQT_NETWORK_LIB
 -DQT_SQL_LIB
 -DQT_CORE_LIB
+-Wall
 -I ./build-test/
 -I /usr/include/qt/
 -I /usr/include/qt/QtCore/

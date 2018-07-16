@@ -33,9 +33,9 @@ void ProjectEditor::refreshProjects(QSharedPointer<QList<QSharedPointer<Project>
 }
 
 void ProjectEditor::refreshProjectsList() { 
-    for (const auto &i : *this->connections.data()) {
+    /*for (const auto &i : *this->connections.data()) {
         QObject::disconnect(i);
-    }
+    }*/
 
     this->connections.clear();
     this->projectsListWidget->clear();
@@ -50,7 +50,8 @@ void ProjectEditor::refreshProjectsList() {
 
         this->projectsListWidget->setItemWidget(item, projectItem);
 
-        this->connections.data()->append(conn);
+        QObject::connect(projectItem, &ProjectItem::event_delete,
+                         [=]() { this->on_delete(i.data()->getName()); });
     }
 }
 
@@ -74,6 +75,6 @@ void ProjectEditor::on_newProjectButton_released() {
     this->validateAndSave();
 }
 
-void ProjectEditor::on_delete(QString &name) {
+void ProjectEditor::on_delete(QString name) {
     Q_EMIT event_deleteProject(name);
 }

@@ -96,9 +96,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QObject::connect(this->projectEditor, &ProjectEditor::event_saveProject,
                      this->projectController, &ProjectController::on_saveProject);
-
     QObject::connect(this->projectController, &ProjectController::event_saveProjectSuccess,
                      this, &MainWindow::on_saveProjectSuccess);
+
+    QObject::connect(this->projectEditor, &ProjectEditor::event_deleteProject,
+                     this, &MainWindow::on_projectEditor_deleteProject);
+
 }
 
 MainWindow::~MainWindow() {

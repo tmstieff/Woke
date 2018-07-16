@@ -103,6 +103,8 @@ win32: INCLUDEPATH += "C:/Python36/Include/"
 DEPENDPATH += /usr/local/include
 
 CONFIG += c++14
+CONFIG += sanitizer address_sanitizer
+
 QMAKE_CXXFLAGS += -fvisibility=hidden
 
 DEFINES += QDJANGO_SHARED

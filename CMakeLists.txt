@@ -11,7 +11,13 @@ find_package(Qt5Test REQUIRED)
 find_library(qdjango-db REQUIRED
         NAMES qdjango-db libqdjango-db)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+find_package(PythonInterp 3.6 REQUIRED)
+find_package(PythonLibs 3.6 REQUIRED)
+
+find_library(pybind11 REQUIRED)
+
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DQT_NO_KEYWORDS")
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
@@ -36,10 +42,10 @@ set(SOURCE_FILES
         src/model/project.h
         src/model/variable.cpp
         src/model/variable.h
-        src/view/jsonsyntaxhighlighter.cpp
-        src/view/jsonsyntaxhighlighter.h
-        src/view/urlsyntaxhighlighter.cpp
-        src/view/urlsyntaxhighlighter.h
+        src/view/syntax/jsonsyntaxhighlighter.cpp
+        src/view/syntax/jsonsyntaxhighlighter.h
+        src/view/syntax/urlsyntaxhighlighter.cpp
+        src/view/syntax/urlsyntaxhighlighter.h
         src/view/mainwindow.cpp
         src/view/mainwindow.h
         src/view/requestitem.cpp
@@ -52,14 +58,14 @@ set(SOURCE_FILES
         src/view/requesttabbededitor.h
         src/view/responsetabbededitor.cpp
         src/view/responsetabbededitor.h
-        src/view/kickpythonsyntaxhighlighter.cpp
-        src/view/kickpythonsyntaxhighlighter.h
-        src/view/saveeditor.cpp
-        src/view/saveeditor.h
-        src/view/headersyntaxhighlighter.cpp
-        src/view/headersyntaxhighlighter.h
-        src/view/urleditor.cpp
-        src/view/urleditor.h
+        src/view/syntax/kickpythonsyntaxhighlighter.cpp
+        src/view/syntax/kickpythonsyntaxhighlighter.h
+        src/view/popup/saveeditor.cpp
+        src/view/popup/saveeditor.h
+        src/view/syntax/headersyntaxhighlighter.cpp
+        src/view/syntax/headersyntaxhighlighter.h
+        src/view/popup/urleditor.cpp
+        src/view/popup/urleditor.h
         src/main.cpp
         src/urlutil.cpp
         src/urlutil.h
@@ -83,8 +89,8 @@ set(SOURCE_FILES
         saveeditor.ui
         urleditor.ui)
 
-include_directories(build-debug/. build-test/.)
-include_directories(/usr/local/include /usr/include/python3.5m)
+include_directories(build/. build-test/.)
+include_directories(/usr/local/include /usr/include/python3.6m)
 
 add_custom_target(qtMakeFile COMMAND make all)
 
