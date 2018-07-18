@@ -47,6 +47,7 @@ private:
     QListWidget *projectsListWidget;
     QSharedPointer<QList<QMetaObject::Connection>> connections;
 
+    ProjectController *projectController;
     QSharedPointer<QList<QSharedPointer<Project>>> projects;
 
     void refreshProjectsList();

@@ -9,11 +9,15 @@ ProjectEditor::ProjectEditor(QSharedPointer<QList<QSharedPointer<Project>>> proj
     this->projectsListWidget = this->ui->projectsList;
     this->cancelProjectButton = ui->cancelProjectButton;
 
+    this->projectController = new ProjectController(this);
+
     if (projects.data() != NULL) {
         this->refreshProjects(projects);
     }
 
     this->connections = QSharedPointer<QList<QMetaObject::Connection>>::create();
+
+    this->ui->editMessage->hide();
 }
 
 ProjectEditor::~ProjectEditor() {
@@ -33,11 +37,13 @@ void ProjectEditor::refreshProjects(QSharedPointer<QList<QSharedPointer<Project>
 }
 
 void ProjectEditor::refreshProjectsList() { 
-    /*for (const auto &i : *this->connections.data()) {
-        QObject::disconnect(i);
-    }*/
+    if (!this->connections.isNull()) {
+        for (const auto &i : *this->connections.data()) {
+            QObject::disconnect(i);
+        }
+    }
 
-    this->connections.clear();
+    this->connections.data()->clear();
     this->projectsListWidget->clear();
 
     for (const auto &i : *this->projects.data()) {
@@ -50,8 +56,10 @@ void ProjectEditor::refreshProjectsList() {
 
         this->projectsListWidget->setItemWidget(item, projectItem);
 
-        QObject::connect(projectItem, &ProjectItem::event_delete,
+        auto conn = QObject::connect(projectItem, &ProjectItem::event_delete,
                          [=]() { this->on_delete(i.data()->getName()); });
+
+        this->connections.data()->append(conn);
     }
 }
 
@@ -62,13 +70,21 @@ void ProjectEditor::on_saveProjectSuccess(Project &project) {
 void ProjectEditor::validateAndSave() {
     QString name = this->ui->nameEdit->text();
     if (name.trimmed().length() == 0) {
-        return;
+        this->ui->editMessage->setText("Invalid project name.");
+        this->ui->editMessage->show();
+    } else {
+
+        Project project;
+        project.setName(name.trimmed());
+
+        auto existingProject = projectController->getProject(project.getName());
+        if (existingProject.isNull()) {
+            Q_EMIT event_saveProject(project);
+        } else {
+            this->ui->editMessage->setText("This project already exists.");
+            this->ui->editMessage->show();
+        }
     }
-
-    Project project;
-    project.setName(name.trimmed());
-
-    Q_EMIT event_saveProject(project);
 }
 
 void ProjectEditor::on_newProjectButton_released() {

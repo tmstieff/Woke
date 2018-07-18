@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>422</width>
-    <height>270</height>
+    <height>309</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -105,6 +105,13 @@ QListWidget {
       </item>
       <item>
        <widget class="QListWidget" name="projectsList"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="editMessage">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLineEdit" name="nameEdit">

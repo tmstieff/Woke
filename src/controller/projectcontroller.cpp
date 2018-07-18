@@ -86,9 +86,12 @@ bool ProjectController::deleteByName(QString &name) {
 }
 
 void ProjectController::on_saveProject(Project &project) {
-    project.save();
-
-    Q_EMIT event_saveProjectSuccess(project);
+    if (!project.getName().isNull()) {
+        if (this->getProject(project.getName()).isNull()) {
+            project.save();
+            Q_EMIT event_saveProjectSuccess(project);
+        }
+    }
 }
 
 void ProjectController::on_deleteProject(QString name)
