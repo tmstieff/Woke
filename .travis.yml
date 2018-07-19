@@ -47,7 +47,7 @@ script:
   - sed -i -e 's|^Icon=.*|Icon=woke|g' ./appdir/usr/share/applications/*.desktop ; mkdir -p appdir/usr/share/icons/hicolor/256x256/apps ; touch appdir/usr/share/icons/hicolor/256x256/apps/woke.png # Workaround for https://github.com/tmstieff/Woke/issues/2#issuecomment-343653712
   - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
   - chmod a+x linuxdeployqt*.AppImage
-  - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
+  - unset QTDIR ; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH ; unset PYTHONHOME ; unset PYTHONPATH
   - export VERSION=$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
   - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs
   - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -appimage
