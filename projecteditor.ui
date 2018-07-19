@@ -38,6 +38,10 @@ QListWidget {
 	background-color: #3c3f41;
 	color: #6ABDDB;
 	padding: 5px;
+}
+
+QLabel {
+	color: #d3431b;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">

@@ -1,7 +1,6 @@
 #include "projectcontroller.h"
 
 ProjectController::ProjectController(QObject *parent) : QObject(parent) {
-    //QObject::connect(this, &ProjectController::saveProject, this, SLOT(on_saveProject(Project&)));
 }
 
 QSharedPointer<QList<QSharedPointer<Project>>> ProjectController::getProjects() {
@@ -76,6 +75,15 @@ bool ProjectController::deleteByName(QString &name) {
     auto project = this->getProject(name);
 
     if (!project.isNull()) {
+        auto relatedRequests = this->getRequests(project.get()->pk().toInt());
+        if (!relatedRequests.isNull()) {
+            if (relatedRequests.get()->size() > 0) {
+                for (int i = 0; i < relatedRequests.get()->size(); i++) {
+                    relatedRequests.get()->at(i).get()->remove();
+                }
+            }
+        }
+
         project.data()->remove();
         project.clear();
 
@@ -94,8 +102,6 @@ void ProjectController::on_saveProject(Project &project) {
     }
 }
 
-void ProjectController::on_deleteProject(QString name)
-{
-   auto project = this->getProject(name);
-   project.data()->remove();
+void ProjectController::on_deleteProject(QString name) {
+    this->deleteByName(name);
 }
