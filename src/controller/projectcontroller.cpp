@@ -75,11 +75,11 @@ bool ProjectController::deleteByName(QString &name) {
     auto project = this->getProject(name);
 
     if (!project.isNull()) {
-        auto relatedRequests = this->getRequests(project.get()->pk().toInt());
+        QSharedPointer<QList<QSharedPointer<Request>>> relatedRequests = this->getRequests(project.data()->pk().toInt());
         if (!relatedRequests.isNull()) {
-            if (relatedRequests.get()->size() > 0) {
-                for (int i = 0; i < relatedRequests.get()->size(); i++) {
-                    relatedRequests.get()->at(i).get()->remove();
+            if (relatedRequests.data()->size() > 0) {
+                for (int i = 0; i < relatedRequests.data()->size(); i++) {
+                    relatedRequests.data()->at(i).data()->remove();
                 }
             }
         }
