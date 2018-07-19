@@ -30,10 +30,11 @@ class SaveEditor : public QWidget {
     QLineEdit *nameEdit;
     int getSelectedProject();
 
+    QComboBox *projectComboBox;
+
   private:
     Ui::SaveEditor *ui;
 
-    QComboBox *projectComboBox;
 };
 
 #endif // SAVEEDITOR_H
