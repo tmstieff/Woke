@@ -1,8 +1,8 @@
 #ifndef REQUESTTABBEDEDITOR_H
 #define REQUESTTABBEDEDITOR_H
 
-#include "headersyntaxhighlighter.h"
-#include "kickpythonsyntaxhighlighter.h"
+#include "syntax/headersyntaxhighlighter.h"
+#include "syntax/kickpythonsyntaxhighlighter.h"
 #include "tabbededitor.h"
 #include <QCompleter>
 #include <QObject>

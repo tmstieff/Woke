@@ -1,11 +1,12 @@
 #ifndef SAVEEDITOR_H
 #define SAVEEDITOR_H
 
-#include "../model/request.h"
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QSharedPointer>
 #include <QWidget>
+#include "../../model/request.h"
 
 namespace Ui {
 class SaveEditor;
@@ -20,16 +21,19 @@ class SaveEditor : public QWidget {
 
     void clearFields();
     void updateFields(Request &request);
+    void refreshProjects(QList<QSharedPointer<Project>> &projects);
 
     QPushButton *confirmSaveButton;
     QPushButton *cancelSaveButton;
     QPushButton *confirmSaveAsButton;
 
-    QComboBox *projectComboBox;
     QLineEdit *nameEdit;
+    int getSelectedProject();
 
   private:
     Ui::SaveEditor *ui;
+
+    QComboBox *projectComboBox;
 };
 
 #endif // SAVEEDITOR_H

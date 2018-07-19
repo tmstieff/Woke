@@ -1,4 +1,4 @@
-#include "src/view/labelutil.h"
+#include "labelutil.h"
 
 LabelUtil::LabelUtil()
 {

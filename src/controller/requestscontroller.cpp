@@ -21,10 +21,10 @@ QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &
                                                         QSharedPointer<Project> defaultProject, QString &responseScript,
                                                         QSharedPointer<Request> existingRequest) {
     QSharedPointer<Request> currentRequest;
-    if (existingRequest.data() != NULL) {
+    if (!existingRequest.isNull()) {
         currentRequest = existingRequest;
     } else {
-        currentRequest = QSharedPointer<Request>(new Request);
+        currentRequest = QSharedPointer<Request>::create();
     }
 
     UrlSegments segments = UrlUtil::safeSplitUrl(url);

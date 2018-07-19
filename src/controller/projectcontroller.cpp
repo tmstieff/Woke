@@ -18,8 +18,13 @@ QSharedPointer<QList<QSharedPointer<Project>>> ProjectController::getProjects() 
 QSharedPointer<Project> ProjectController::upsertDefaultProject() {
     QDjangoQuerySet<Project> resultSet = this->projects.orderBy(QStringList("id")).limit(0, 1);
     if (resultSet.size() == 1) {
-        if (QString::compare(resultSet.at(0)->getName(), "Default") == 0) {
-            return QSharedPointer<Project>(resultSet.at(0));
+        auto defaultName = "Default";
+        QSharedPointer<Project> projectTarget = QSharedPointer<Project>::create();
+        resultSet.at(0, projectTarget.data());
+        if (QString::compare(projectTarget.data()->getName(), defaultName) == 0) {
+            auto result = resultSet.at(0);
+
+            return QSharedPointer<Project>(result);
         }
     }
 
@@ -64,4 +69,39 @@ Project *ProjectController::getProjectPointer(int id, QObject *parent = 0) {
 QSharedPointer<Project> ProjectController::getProject(const QString &name) {
     auto result = this->projects.get(QDjangoWhere("name", QDjangoWhere::Equals, name));
     return QSharedPointer<Project>(result);
+}
+
+bool ProjectController::deleteByName(QString &name) {
+    auto project = this->getProject(name);
+
+    if (!project.isNull()) {
+        auto relatedRequests = this->getRequests(project.get()->pk().toInt());
+        if (!relatedRequests.isNull()) {
+            if (relatedRequests.get()->size() > 0) {
+                for (int i = 0; i < relatedRequests.get()->size(); i++) {
+                    relatedRequests.get()->at(i).get()->remove();
+                }
+            }
+        }
+
+        project.data()->remove();
+        project.clear();
+
+        return true;
+    }
+
+    return false;
+}
+
+void ProjectController::on_saveProject(Project &project) {
+    if (!project.getName().isNull()) {
+        if (this->getProject(project.getName()).isNull()) {
+            project.save();
+            Q_EMIT event_saveProjectSuccess(project);
+        }
+    }
+}
+
+void ProjectController::on_deleteProject(QString name) {
+    this->deleteByName(name);
 }

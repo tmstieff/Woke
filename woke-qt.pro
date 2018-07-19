@@ -21,25 +21,27 @@ SOURCES += src/main.cpp \
     src/model/request.cpp \
     src/model/requestlistmodel.cpp \
     src/view/mainwindow.cpp \
-    src/view/jsonsyntaxhighlighter.cpp \
-    src/view/urlsyntaxhighlighter.cpp \
+    src/view/syntax/jsonsyntaxhighlighter.cpp \
+    src/view/syntax/urlsyntaxhighlighter.cpp \
     src/view/requestitem.cpp \
+    src/view/projectitem.cpp \
     src/controller/requestscontroller.cpp \
     src/view/urlplaintextedit.cpp \
-    src/view/urleditor.cpp \
+    src/view/popup/urleditor.cpp \
     src/view/tabbededitor.cpp \
     src/view/requesttabbededitor.cpp \
     src/view/responsetabbededitor.cpp \
-    src/view/headersyntaxhighlighter.cpp \
-    src/view/saveeditor.cpp \
+    src/view/syntax/headersyntaxhighlighter.cpp \
+    src/view/popup/saveeditor.cpp \
     src/model/project.cpp \
     src/controller/projectcontroller.cpp \
     src/model/variable.cpp \
     src/controller/variablecontroller.cpp \
     src/controller/pythonscriptcontroller.cpp \
-    src/view/pythonsyntaxhighlighter.cpp \
+    src/view/syntax/pythonsyntaxhighlighter.cpp \
     src/controller/currentdatacontroller.cpp \
-    src/view/kickpythonsyntaxhighlighter.cpp \
+    src/view/syntax/kickpythonsyntaxhighlighter.cpp \
+    src/view/popup/projecteditor.cpp \
     src/view/labelutil.cpp
 
 HEADERS += \
@@ -48,33 +50,37 @@ HEADERS += \
     src/model/request.h \
     src/model/requestlistmodel.h \
     src/view/mainwindow.h \
-    src/view/jsonsyntaxhighlighter.h \
-    src/view/urlsyntaxhighlighter.h \
+    src/view/syntax/jsonsyntaxhighlighter.h \
+    src/view/syntax/urlsyntaxhighlighter.h \
     src/view/requestitem.h \
+    src/view/projectitem.h \
     src/controller/requestscontroller.h \
     src/view/urlplaintextedit.h \
-    src/view/urleditor.h \
+    src/view/popup/urleditor.h \
     src/view/tabbededitor.h \
     src/view/requesttabbededitor.h \
     src/view/responsetabbededitor.h \
-    src/view/headersyntaxhighlighter.h \
-    src/view/saveeditor.h \
+    src/view/syntax/headersyntaxhighlighter.h \
+    src/view/popup/saveeditor.h \
     src/model/project.h \
     src/controller/projectcontroller.h \
     src/model/variable.h \
     src/controller/variablecontroller.h \
     src/controller/pythonscriptcontroller.h \
-    src/view/pythonsyntaxhighlighter.h \
+    src/view/syntax/pythonsyntaxhighlighter.h \
     src/extension/pybind/qstring_typecaster.h \
     src/controller/currentdatacontroller.h \
-    src/view/kickpythonsyntaxhighlighter.h \
+    src/view/syntax/kickpythonsyntaxhighlighter.h \
+    src/view/popup/projecteditor.h \
     src/view/labelutil.h
 
 FORMS += mainwindow.ui \
     requestitem.ui \
     urleditor.ui \
     tabbededitor.ui \
-    saveeditor.ui
+    saveeditor.ui \
+    projecteditor.ui \
+    projectitem.ui
 
 DISTFILES += misc/woke.desktop
 
@@ -97,6 +103,8 @@ win32: INCLUDEPATH += "C:/Python36/Include/"
 DEPENDPATH += /usr/local/include
 
 CONFIG += c++14
+CONFIG += sanitizer address_sanitizer
+
 QMAKE_CXXFLAGS += -fvisibility=hidden
 
 DEFINES += QDJANGO_SHARED

@@ -1,9 +1,9 @@
 #ifndef RESPONSETABBEDEDITOR_H
 #define RESPONSETABBEDEDITOR_H
 
-#include "headersyntaxhighlighter.h"
-#include "jsonsyntaxhighlighter.h"
-#include "kickpythonsyntaxhighlighter.h"
+#include "syntax/headersyntaxhighlighter.h"
+#include "syntax/jsonsyntaxhighlighter.h"
+#include "syntax/kickpythonsyntaxhighlighter.h"
 #include "tabbededitor.h"
 
 #include <QObject>

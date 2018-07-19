@@ -17,6 +17,7 @@ class UrlPlainTextEdit : public QPlainTextEdit {
   public Q_SLOTS:
   Q_SIGNALS:
     void returnPressed();
+    void tabPressed();
     void focusIn();
     void focusOut();
 };

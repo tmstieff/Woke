@@ -35,6 +35,10 @@ PythonScriptController::PythonScriptController() {
  * @return result of execution
  */
 bool PythonScriptController::executeScript(QString &script, QSharedPointer<Request> request) {
+    if (script.isNull()) {
+        return true;
+    }
+
     // Append the import to the top of every script so the user
     // doesn't have to import the woke module themselves
     script.prepend(QString("from woke import setGlobalVar, setProjectVar, setLocalVar, getVar, Request, Project\n\n"));

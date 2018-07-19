@@ -5,12 +5,20 @@
 #include "../model/request.h"
 #include <QDebug>
 #include <QObject>
+#include <QString>
 #include <QSharedPointer>
 #include <qdjango/db/QDjangoModel.h>
 #include <qdjango/db/QDjangoQuerySet.h>
 
 class ProjectController : public QObject {
     Q_OBJECT
+
+  Q_SIGNALS:
+    void event_saveProjectSuccess(Project &project);
+
+  public Q_SLOTS:
+    void on_saveProject(Project &project);
+    void on_deleteProject(QString name);
 
   public:
     ProjectController(QObject *parent = 0);
@@ -21,6 +29,7 @@ class ProjectController : public QObject {
     Project *getProjectPointer(int id, QObject *parent);
     QSharedPointer<Project> getProject(int id);
     QSharedPointer<Project> getProject(const QString &name);
+    bool deleteByName(QString &name);
 
   private:
     QDjangoQuerySet<Project> projects;

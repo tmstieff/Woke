@@ -12,8 +12,6 @@ class Project : public QDjangoModel {
     Q_OBJECT
     Q_PROPERTY(QString name READ getName WRITE setName)
 
-    Q_CLASSINFO("name", "null=false")
-
   public:
     explicit Project(QObject *parent = nullptr);
 
