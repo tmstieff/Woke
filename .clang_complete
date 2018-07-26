@@ -7,7 +7,7 @@
 -DQT_SQL_LIB
 -DQT_CORE_LIB
 -Wall
--I ./build-test/
+-I ./build/
 -I /usr/include/qt/
 -I /usr/include/qt/QtCore/
 -I /usr/include/qt/QtGui/

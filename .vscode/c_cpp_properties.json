@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/usr/include/qt/",
+                "/usr/include/qt/QtCore/",
+                "/usr/include/qt/QtGui/",
+                "/usr/include/qt/QtWidgets/",
+                "/usr/include/qt/QtNetwork/",
+                "/usr/include/qt/QtSql/",
+                "/usr/include/qt/QtTest/",
+                "/usr/include/python3.6m/",
+                "/usr/local/include/pybind11/",
+                "/usr/local/include/qdjango/",
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/build/**"
+            ],
+            "defines": ["DQT_NO_KEYWORDS", "DQT_WIDGETS_LIB", "DQT_GUI_LIB", "DQT_NETWORK_LIB", "DQT_SQL_LIB", "DQT_CORE_LIB"],
+            "compilerPath": "/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

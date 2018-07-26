@@ -73,7 +73,6 @@ void ProjectEditor::validateAndSave() {
         this->ui->editMessage->setText("Invalid project name.");
         this->ui->editMessage->show();
     } else {
-
         Project project;
         project.setName(name.trimmed());
 
