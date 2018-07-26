@@ -29,19 +29,16 @@ Releases are currently provided for Linux as AppImages and for Windows as a port
 The pre and post tabs can be used to retrieve and set variables for your project. For instance, you may wish to login, capture the authentication token from the response body / headers, and declare it as a project variable to be used in the headers of another request. The script tabs run a full python interpreter, so any standard Python libraries are available to be imported. The following additional functions are used to set and retrieve variables. The get is scoped from most to least specific.
 
 ```
-getVar("")
-setLocalVar("", *)
-setProjectVar("", *)
-setGlobalVar("", *)
+get_var("var_name")
+set_local_var("var_name", "local_value")
+set_project_var("var_name", "project_value")
+set_global_var("var_name", "global_value")
 ```
 
 Because the additional methods are evaluated with Python, any valid Python statement can be evaluted, and the result of the evaluation will be assigned as the value of the variable. However, for now, everything needs to be evaluated as string. As an example, you can add the following to a "Post-Request Script" for a login request.
 
 ```
-import json
-
-body = json.loads(request.responseBody)
-setProjectVar('token', body['token'])
+set_project_var('token', body['token'])
 ```
 
 In another request, in the request headers you can add:
