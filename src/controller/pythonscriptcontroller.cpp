@@ -53,8 +53,6 @@ bool PythonScriptController::executeScript(QString &script, QSharedPointer<Reque
 
     script.prepend(scriptHeader);
 
-    qDebug() << script;
-
     // Need this line so the types get registered with pybind
     auto jsonModule = py::module::import("json");
     auto wokeModule = py::module::import("woke");

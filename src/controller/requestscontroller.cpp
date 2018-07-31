@@ -29,7 +29,11 @@ QSharedPointer<Request> RequestsController::sendRequest(QString &verb, QString &
 
     UrlSegments segments = UrlUtil::safeSplitUrl(url);
 
-    QNetworkRequest request(url);
+    QString urlCopy = QString(url);
+    this->variableController.data()->replaceVariables(urlCopy, CurrentDataController::getCurrentProjectId(),
+                                                      CurrentDataController::getCurrentRequestId());
+    
+    QNetworkRequest request(urlCopy);
     HttpVerb verbEnum = UrlUtil::safeParseVerb(verb);
 
     currentRequest.data()->setProto(segments.proto);
