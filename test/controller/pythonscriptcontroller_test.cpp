@@ -50,7 +50,7 @@ void PythonScriptController_Test::test_executeScript_basic() {
 }
 
 /**
- * Given: A script that calls setGlobalVariable
+ * Given: A script that calls set_global_var
  * When: The script is executed
  * Then: The new variable is set in the database
  */
@@ -58,7 +58,7 @@ void PythonScriptController_Test::test_executeScript_withSetVariables() {
     QString varName = QUuid::createUuid().toString();
 
     auto script = QString();
-    script.append("setGlobalVar('");
+    script.append("set_global_var('");
     script.append(varName);
     script.append("', '12GHJghj')");
 
@@ -91,11 +91,11 @@ void PythonScriptController_Test::test_executeScript_withGetVariables() {
     var.data()->save();
 
     auto script = QString();
-    script.append("get_var =  getVar('");
+    script.append("got_var =  get_var('");
     script.append(varName);
     script.append("')");
     script.append("\n");
-    script.append("setGlobalVar('test_getVariables', get_var)");
+    script.append("set_global_var('test_getVariables', got_var)");
 
     auto request = this->createRequest();
     request.data()->setRequestScript(script);
@@ -150,11 +150,11 @@ void PythonScriptController_Test::test_executeScript_withGetVariablesOrderedBySc
     auto localVar = createVariable(varName, local, localVarVal, request.data()->pk().toInt());
 
     auto script = QString();
-    script.append("get_var =  getVar('");
+    script.append("got_var =  get_var('");
     script.append(varName);
     script.append("')");
     script.append("\n");
-    script.append("setGlobalVar('test_getVariables_local', get_var)");
+    script.append("set_global_var('test_getVariables_local', got_var)");
 
     request.data()->setRequestScript(script);
 

@@ -42,16 +42,28 @@ bool PythonScriptController::executeScript(QString &script, QSharedPointer<Reque
 
     // Append the import to the top of every script so the user
     // doesn't have to import the woke module themselves
-    script.prepend(QString("import json\n"));
-    script.prepend(QString("from woke import setGlobalVar, setProjectVar, setLocalVar, getVar, Request, Project\n\n"));
-    script.prepend(QString("body = json.loads(request.response_body)\n\n"));
+    auto scriptHeader = QString();
+    scriptHeader.append(QString("import json\n"));
+    scriptHeader.append(QString("from woke import set_global_var, set_project_var, set_local_var, get_var, get, Request, Project\n\n"));
+    scriptHeader.append(QString("body = ''\n"));
+    scriptHeader.append(QString("try:\n"));
+    scriptHeader.append(QString("\tbody = json.loads(request.response_body)\n"));
+    scriptHeader.append(QString("except:\n"));
+    scriptHeader.append(QString("\tpass\n\n"));
+
+    script.prepend(scriptHeader);
+
+    qDebug() << script;
 
     // Need this line so the types get registered with pybind
+    auto jsonModule = py::module::import("json");
     auto wokeModule = py::module::import("woke");
 
     py::object scope = py::module::import("__main__").attr("__dict__");
+    scope["json"] = jsonModule;
+
     py::object locals = py::dict();
-    if (request.data() != NULL) {
+    if (!request.isNull()) {
         py::object pythonRequest = py::cast(request.data());
         locals["request"] = pythonRequest;
     }
