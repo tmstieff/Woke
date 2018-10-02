@@ -70,6 +70,7 @@ class MainWindow : public QMainWindow {
     SaveEditor *saveEditor;
     RequestTabbedEditor *requestEditor;
     ResponseTabbedEditor *responseEditor;
+    RequestItem *selectedRequest;
 
     QSharedPointer<Request> currentRequest;
     QSharedPointer<QList<QSharedPointer<Request>>> recentRequests;

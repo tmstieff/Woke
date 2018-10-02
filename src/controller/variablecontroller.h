@@ -2,6 +2,7 @@
 #define VARIABLECONTROLLER_H
 
 #include "../model/variable.h"
+#include "../model/request.h"
 #include "currentdatacontroller.h"
 #include <QDebug>
 #include <QObject>
@@ -22,6 +23,8 @@ void setLocalVariable(std::string &name, std::string &value);
 
 QSharedPointer<Variable> getVariableQt(const QString &name, int projectId, int requestId);
 std::string getVariable(std::string &name);
+
+void callRequest(std::string &name);
 
 class VariableController : public QObject {
     Q_OBJECT

@@ -40,6 +40,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->urlInput = ui->urlTextMultilineInput;
     this->projectEditorButton = ui->projectEditorButton;
 
+    // Selected request in title bar
+    this->selectedRequest = new RequestItem(this);
+    this->selectedRequest->setInformation("GET", "", "Name");
+
     // Set the default font for all editors
     QFont defaultMonoFont;
     defaultMonoFont.setFamily("Courier");
@@ -80,6 +84,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     this->saveEditor->updateFields(*this->currentRequest.data());
 
+
+    QLayoutItem *mainVerticalLayout = ui->recReqsLayout->itemAt(0);
+    QLayoutItem *sidebarLayout = mainVerticalLayout->layout()->itemAt(0);
+    sidebarLayout->layout()->addWidget(this->selectedRequest);
 
     QObject::connect(this->requestsController->networkManager.data(), SIGNAL(finished(QNetworkReply *)), this,
             SLOT(responseReceived(QNetworkReply *)));
@@ -270,6 +278,8 @@ void MainWindow::setUiFields(QSharedPointer<Request> request, bool setCurrentReq
 
     this->setResponseInfo(*request.data());
 
+    this->selectedRequest->setInformation(request.data()->getVerb(), request.data()->getName(), "");
+
     if (setCurrentRequest) {
         this->currentRequest = request;
     }
@@ -286,9 +296,10 @@ void MainWindow::refreshRecentRequests() {
 
     for (const auto &i : *this->recentRequests.data()) {
         auto *item = new QListWidgetItem(recentRequestsListWidget);
-        item->setSizeHint(QSize(200, 67));
 
         auto *requestItem = new RequestItem(this);
+        item->setSizeHint(requestItem->sizeHint());
+
         requestItem->setInformation(i.data()->getVerb(), i.data()->getUri(), i.data()->getHost());
         recentRequestsListWidget->setItemWidget(item, requestItem);
     }
@@ -311,7 +322,7 @@ void MainWindow::refreshProjectRequests() {
         auto *requestItem = new RequestItem(this);
         item->setSizeHint(requestItem->sizeHint());
 
-        requestItem->setInformation(i.data()->getVerb(), i.data()->getUri(), i.data()->getName());
+        requestItem->setInformation(i.data()->getVerb(), i.data()->getName(), i.data()->getName());
         this->projectRequestsListWidget->setItemWidget(item, requestItem);
     }
 }

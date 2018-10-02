@@ -5,7 +5,7 @@ RequestItem::RequestItem(QWidget *parent) : QWidget(parent), ui(new Ui::RequestI
     ui->setupUi(this);
 
     uriLabel = ui->uriLabel;
-    urlLabel = ui->urlLabel;
+    // urlLabel = ui->urlLabel;
     verbLabel = ui->verbLabel;
 }
 
@@ -15,7 +15,7 @@ RequestItem::~RequestItem() {
 
 void RequestItem::setInformation(QString verb, QString uri, QString url) {
     this->uriLabel->setText(uri);
-    this->urlLabel->setText(url);
+    // this->urlLabel->setText(url);
     this->verbLabel->setText(verb);
 }
 
@@ -28,5 +28,6 @@ QString RequestItem::getUri() {
 }
 
 QString RequestItem::getUrl() {
-    return this->urlLabel->text();
+    return "";
+    // return this->urlLabel->text();
 }

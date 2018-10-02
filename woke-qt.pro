@@ -88,13 +88,13 @@ win32: LIBS += "$$PWD/qdjango-db0.lib"
 win32: LIBS += "$$PWD/Python3.lib"
 win32: LIBS += "$$PWD/Python36.lib"
 
-unix: LIBS += -L/usr/lib/python3.6m/config-3.6m-x86_64-linux-gnu
-unix: LIBS += -lqdjango-db -lpython3.6m -L/usr/lib/python3.6m/config-3.6m-x86_64-linux-gnu -L/usr/local/lib
+unix: LIBS += -L/usr/lib/python3.7m/config-3.7m-x86_64-linux-gnu
+unix: LIBS += -lqdjango-db -lpython3.7m -L/usr/lib/python3.6m/config-3.7m-x86_64-linux-gnu -L/usr/local/lib
 
 unix: LIBS += -Wl,-rpath,'$ORIGIN'
 
 unix: INCLUDEPATH += /usr/local/include
-unix: INCLUDEPATH += /usr/include/python3.6m/
+unix: INCLUDEPATH += /usr/include/python3.7m/
 
 win32: INCLUDEPATH += "C:/Program Files (x86)/pybind11/include/"
 win32: INCLUDEPATH += "C:/Program Files (x86)/qdjango/include/"

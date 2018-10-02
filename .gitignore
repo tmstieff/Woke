@@ -8,3 +8,4 @@ build-debug
 build-test
 cmake-build-debug
 *.sqlite
+build/

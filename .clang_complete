@@ -15,6 +15,6 @@
 -I /usr/include/qt/QtNetwork/
 -I /usr/include/qt/QtSql/
 -I /usr/include/qt/QtTest/
--I /usr/include/python3.6m/
+-I /usr/include/python3.7m/
 -I /usr/local/include/pybind11/
 -I /usr/local/include/qdjango/

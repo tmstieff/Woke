@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>67</height>
+    <height>38</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -63,34 +63,39 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="text">
-        <string>GET</string>
+        <string>DELETE</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="urlLabel">
+      <widget class="QLabel" name="uriLabel">
+       <property name="styleSheet">
+        <string notr="true">#uriLabel {
+	background-color: #445F68;
+}</string>
+       </property>
        <property name="text">
-        <string>URL</string>
+        <string>URI</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QLabel" name="uriLabel">
-     <property name="styleSheet">
-      <string notr="true">#uriLabel {
-	background-color: #445F68;
-}</string>
-     </property>
-     <property name="text">
-      <string>URI</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

@@ -39,6 +39,16 @@ void setLocalVariable(std::string &name, std::string &value) {
     setVariable(name, value, scope, CurrentDataController::getCurrentRequestId());
 }
 
+void callRequest(std::string &name) {
+    QDjangoQuerySet<Request> requests;
+
+    auto qtName = QString(name.c_str());
+    auto request = requests.get(QDjangoWhere("name", QDjangoWhere::Equals, qtName));
+    if (request != NULL) {
+        
+    }
+}
+
 /**
  * @brief
  *
