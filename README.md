@@ -24,6 +24,18 @@ Releases are currently provided for Linux as AppImages and for Windows as a port
 * Simple request history
 * Simple request saving
 
+The memory footprint is also quite low compared with the Electorn based alternatives.
+
+```
+➜ ~ ps_mem -S -p $(pgrep woke)
+ Private  +   Shared  =  RAM used   Swap used   Program
+
+ 30.9 MiB +  10.6 MiB =  41.5 MiB     0.0 KiB   woke
+---------------------------------------------
+                         41.5 MiB     0.0 KiB
+=============================================
+```
+
 ## Scripting
 
 The pre and post tabs can be used to retrieve and set variables for your project. For instance, you may wish to login, capture the authentication token from the response body / headers, and declare it as a project variable to be used in the headers of another request. The script tabs run a full python interpreter, so any standard Python libraries are available to be imported. The following additional functions are used to set and retrieve variables. The get is scoped from most to least specific.
