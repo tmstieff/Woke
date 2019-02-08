@@ -6,5 +6,4 @@ void RequestItem_Test::test_setInformation_valid() {
 
     QCOMPARE(requestItem.getVerb(), QString("GET"));
     QCOMPARE(requestItem.getUri(), QString("/user"));
-    QCOMPARE(requestItem.getUrl(), QString("http://api.github.com"));
 }
