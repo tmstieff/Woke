@@ -11,7 +11,7 @@ A native multiplatform REST client with grand ambitions and limited scope.
 </p>
 
 ## Binaries
-Releases are currently provided for Linux as AppImages and for Windows as a portable ZIP or executable installer. Mac builds will come shortly.
+Releases are currently provided for Linux as AppImages and for Windows as a portable ZIP or executable installer. Currently there are no binaries available for Mac.
 
 <a href="https://woke.rest/download">Windows and Linux</a>
 
@@ -61,12 +61,11 @@ Authorization: Bearer {{token}}
 
 ## Ambitions
 * NeoVim editor built in
-* Project management options
 * Parsing of Swagger, JSON Schema, and other applicable REST specifications
 * Support for various authentication protocols
 
 ## Building From Source
-You will need QT 5.9 and the QDjango (https://github.com/jlaine/qdjango) library to build from source. Instructions are provided for Ubuntu, but the steps should apply for most Linux distributions. Just substitute aptitude for your package manager of choice.
+You will need QT 5.X and the fork of the QDjango (https://github.com/tmstieff/qdjango) library to build from source. Instructions are provided for Ubuntu and Arch, but the steps should apply for most Linux distributions. Just substitute aptitude for your package manager of choice.
 
 ### Ubuntu
 
@@ -120,7 +119,7 @@ make install
 
 ### Arch
 
-Arch users will need Python3, Qt 5.10, and possibly CMake and GCC.
+Arch users will need Python3, Qt 5, and possibly CMake and GCC.
 ```
 sudo pacman -S python qt5-base cmake gcc
 ```
