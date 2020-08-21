@@ -88,13 +88,12 @@ win32: LIBS += "$$PWD/qdjango-db0.lib"
 win32: LIBS += "$$PWD/Python3.lib"
 win32: LIBS += "$$PWD/Python36.lib"
 
-unix: LIBS += -L/usr/lib/python3.6m/config-3.6m-x86_64-linux-gnu
-unix: LIBS += -lqdjango-db -lpython3.6m -L/usr/lib/python3.6m/config-3.6m-x86_64-linux-gnu -L/usr/local/lib
-
 unix: LIBS += -Wl,-rpath,'$ORIGIN'
+unix: LIBS += -L/usr/lib/python3.8/config-3.7-x86_64-linux-gnu
+unix: LIBS += -lqdjango-db -lpython3.7 -L/usr/lib/python3.7/config-3.7-x86_64-linux-gnu -L/usr/local/lib
 
 unix: INCLUDEPATH += /usr/local/include
-unix: INCLUDEPATH += /usr/include/python3.6m/
+unix: INCLUDEPATH += /usr/include/python3.7/
 
 win32: INCLUDEPATH += "C:/Program Files (x86)/pybind11/include/"
 win32: INCLUDEPATH += "C:/Program Files (x86)/qdjango/include/"
@@ -105,7 +104,7 @@ DEPENDPATH += /usr/local/include
 CONFIG += c++14
 CONFIG += sanitizer address_sanitizer
 
-QMAKE_CXXFLAGS += -fvisibility=hidden
+QMAKE_CXXFLAGS += -fvisibility=hidden -pthread
 
 DEFINES += QDJANGO_SHARED
 

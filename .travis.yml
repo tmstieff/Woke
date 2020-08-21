@@ -9,8 +9,8 @@ before_install:
   - $PY_CMD -m pip install --user --upgrade pip wheel
   
 install:
-  - sudo apt-get install python3.6 --allow-unauthenticated
-  - sudo apt-get install python3.6-dev --allow-unauthenticated
+  - sudo apt-get install python3.7 --allow-unauthenticated
+  - sudo apt-get install python3.7-dev --allow-unauthenticated
   - sudo apt-get install qt510base
   - sudo apt install libgl1-mesa-dev
   - source /opt/qt510/bin/qt510-env.sh
